@@ -1,0 +1,22 @@
+{
+    "name": "chripbook-api",
+    "version": "1.0.0",
+    "description": "A social network API.",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "main": "app.js",
+    "scripts": {
+        "start": "PORT=8080 supervisor ./src/app.js",
+        "test": "echo 'Tests not implemented'"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "npm": "^6.5.0",
+        "reload": "^2.4.0",
+        "start": "^5.1.0",
+        "supervisor": "^0.12.0"
+    }
+}
