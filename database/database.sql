@@ -16,6 +16,8 @@ WITH (
     OIDS = FALSE
 );
 
+
+
 ALTER TABLE public."User"
     OWNER to postgres;
 
@@ -40,7 +42,7 @@ ALTER TABLE public."Post"
 
 CREATE TABLE public."Comment"
 (
-    commentid bigint NOT NULL DEFAULT nextval('"Comment_commentid_seq"'::regclass),
+    commentid bigserial NOT NULL,
     postid bigint NOT NULL,
     parent_comment bigint,
     userid bigint NOT NULL,
