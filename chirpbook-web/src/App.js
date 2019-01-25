@@ -1,28 +1,75 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { GoogleLogin } from 'react-google-login';
+import config from './config.json';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+
+    constructor() {
+        super();
+        this.state = { isAuthenticated: false, user: null, token: ''};
+    }
+
+    logout = () => {
+        this.setState({isAuthenticated: false, token: '', user: null})
+    };
+
+    onFailure = (error) => {
+        alert(error);
+        console.log('fail')
+    };
+
+    googleResponse = (response) => {
+        const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
+        
+        const options = {
+            method: 'POST',
+            body: tokenBlob,
+            mode: 'cors',
+            cache: 'default'
+        };
+        fetch('http://localhost:80/api/v1/auth/google', options).then(r => {
+            const token = r.headers.get('x-auth-token');
+            r.json().then(user => {
+                if (token) {
+                    this.setState({isAuthenticated: true, user, token})
+                }
+            });
+        })
+    };
+
+    render() {
+    let content = !!this.state.isAuthenticated ?
+            (
+                <div>
+                    <p>Authenticated</p>
+                    <div>
+                        {this.state.user.email}
+                    </div>
+                    <div>
+                        <button onClick={this.logout} className="button">
+                            Log out
+                        </button>
+                    </div>
+                </div>
+            ) :
+            (
+                <div>
+                    <GoogleLogin
+                        clientId={config.GOOGLE_CLIENT_ID}
+                        buttonText="Login"
+                        scope="https://www.googleapis.com/auth/userinfo.email"
+                        onSuccess={this.googleResponse}
+                        onFailure={this.onFailure}
+                    />
+                </div>
+            );
+
+        return (
+            <div className="App">
+                {content}
+            </div>
+        );
+    }
 }
 
 export default App;
