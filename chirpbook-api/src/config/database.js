@@ -6,7 +6,7 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 
-app.set('db_host', process.env.DB_HOST || 'localhost');
+app.set('db_host', process.env.DB_HOST || 'cbook_database');
 app.set('db_user', process.env.DB_USER ||'postgres');
 app.set('db', process.env.DB || 'cbook');
 app.set('db_pw', process.env.DB_PW || 'password');
