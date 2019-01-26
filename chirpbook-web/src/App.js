@@ -14,20 +14,25 @@ class App extends Component {
     };
 
     onFailure = (error) => {
-        alert(error);
-        console.log('fail')
+        alert('error');
+        console.log(this.state)
+        console.log(error)
+        console.log(config)
     };
 
+
     googleResponse = (response) => {
-        const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
-        
+        const tokenBlob = JSON.stringify({access_token: response.accessToken})
+        //{type : 'application/json'});
+        console.log('sucess')
+        console.log(tokenBlob)
         const options = {
             method: 'POST',
             body: tokenBlob,
             mode: 'cors',
             cache: 'default'
         };
-        fetch('http://localhost:80/api/v1/auth/google', options).then(r => {
+        fetch('http://localhost:8080/api/v1/auth/google', options).then(r => {
             const token = r.headers.get('x-auth-token');
             r.json().then(user => {
                 if (token) {
@@ -54,10 +59,11 @@ class App extends Component {
             ) :
             (
                 <div>
+                    <p>HI</p>
                     <GoogleLogin
                         clientId={config.GOOGLE_CLIENT_ID}
                         buttonText="Login"
-                        scope="https://www.googleapis.com/auth/userinfo.email"
+                        
                         onSuccess={this.googleResponse}
                         onFailure={this.onFailure}
                     />

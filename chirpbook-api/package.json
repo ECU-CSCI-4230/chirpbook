@@ -9,14 +9,20 @@
     "main": "app.js",
     "scripts": {
         "start": "PORT=8080 supervisor ./src/app.js",
-        "test": "echo 'Tests not implemented'"
+        "test": "./node_modules/mocha/bin/mocha --exit"
     },
     "dependencies": {
+        "console-log-level": "^1.4.0",
         "cors": "^2.8.5",
         "express": "^4.16.4",
+        "mocha": "^5.2.0",
         "npm": "^6.5.0",
+        "passport": "^0.4.0",
+        "pg": "^7.8.0",
+        "pg-pool": "^2.0.6",
         "reload": "^2.4.0",
         "start": "^5.1.0",
-        "supervisor": "^0.12.0"
+        "supervisor": "^0.12.0",
+        "test": "^0.6.0"
     }
 }

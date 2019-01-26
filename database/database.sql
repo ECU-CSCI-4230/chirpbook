@@ -1,4 +1,4 @@
-CREATE DATABASE chirpbook
+CREATE DATABASE cbook
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
