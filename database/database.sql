@@ -47,7 +47,7 @@ CREATE TABLE public."Comment"
     parent_comment bigint,
     userid bigint NOT NULL,
     comment_text character varying(512) COLLATE pg_catalog."default" NOT NULL,
-    time_posted timestamp with time zone NOT NULL,
+    time_posted timestamp with time zone NOT NULL DEFAULT now(),
     deleted boolean NOT NULL,
     CONSTRAINT "Comment_pkey" PRIMARY KEY (commentid),
     CONSTRAINT postid FOREIGN KEY (postid)
