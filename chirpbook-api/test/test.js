@@ -20,6 +20,7 @@ describe("Database", function()
     });
 
     importTest("UserManagement", './database/test-usermanagement');
+    importTest("FriendRequestManagement", './database/test-friendrequestmanagement');
     
     after(function()
     {

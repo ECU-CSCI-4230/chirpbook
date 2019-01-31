@@ -2,14 +2,14 @@ const db = require('./config/database')
 
 var log = require('console-log-level')({level: 'warn'})
 
-class UserManagement
+class FriendRequestManagement
 {
-    static createUser(gmail, cb)
+    static createFriendRequest(initiator, receiver, cb)
     {
         db.connect(function(client)
         {
-            client.query(`INSERT INTO public."User" (gmail, display_name, profile_picture)
-								VALUES ($1, $2, $3) RETURNING userid`, [gmail, gmail, 'TEST'],
+            client.query(`INSERT INTO public."Friend_Request" (sender, receiver)
+								VALUES ($1, $2)`, [initiator, receiver],
                 function(err, result)
                 {
                     client.release()
@@ -30,11 +30,13 @@ class UserManagement
                 });
         });
     }
-    static getUser(gmail, cb)
+
+    static deleteFriendRequest(init, reci, cb)
     {
         db.connect(function(client)
         {
-            client.query(`SELECT userid FROM public."User" WHERE gmail=$1`, [gmail],
+            client.query(`DELETE FROM public."Friend_Request" WHERE sender = $1 AND 
+                            receiver = $2`, [init, reci],
                 function(err, result)
                 {
                     client.release()
@@ -45,16 +47,16 @@ class UserManagement
                     if(result)
                     {
                         log.info(result)
-                        cb(result.rows)
+                        cb(result)
                     }
                     else
                     {
                         log.info(`no results`)
-                        cb([])
+                        cb({rowCount: 0})
                     }
                 });
         });
     }
 }
 
-module.exports = UserManagement
+module.exports = FriendRequestManagement
