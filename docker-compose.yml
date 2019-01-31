@@ -41,7 +41,7 @@ services:
     image: postgres:latest
     volumes:
       - ./database/database.sql:/docker-entrypoint-initdb.d/database.sql
-      - ./database/postgresql_db_persistent:/var/lib/postgresql/data
+      # - ./database/postgresql_db_persistent:/var/lib/postgresql/data
     expose:
       - "5432"
     environment:
