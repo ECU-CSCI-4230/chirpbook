@@ -93,7 +93,7 @@ CREATE TABLE public."Like_Dislike"
 (
     postid bigint NOT NULL,
     userid bigint NOT NULL,
-    liketype smallint,
+    liketype smallint NOT NULL,
     PRIMARY KEY (postid, userid),
     CONSTRAINT postid FOREIGN KEY (postid)
         REFERENCES public."Post" (postid) MATCH SIMPLE
