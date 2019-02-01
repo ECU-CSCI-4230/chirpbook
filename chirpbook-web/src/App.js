@@ -7,6 +7,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = { isAuthenticated: false, user: null, token: ''};
+        //this.fetch = this.fetch.bind(this)
     }
 
     logout = () => {
@@ -22,24 +23,21 @@ class App extends Component {
 
 
     googleResponse = (response) => {
-        const tokenBlob = JSON.stringify({access_token: response.accessToken})
+        const token = JSON.stringify({idToken: response.accessToken})
         //{type : 'application/json'});
         console.log('sucess')
-        console.log(tokenBlob)
+        console.log(token)
         const options = {
+            headers: {'Content-Type': 'application/json'},
             method: 'POST',
-            body: tokenBlob,
-            mode: 'cors',
-            cache: 'default'
+            body: token,
         };
-        fetch('http://localhost:8080/api/v1/auth/google', options).then(r => {
-            const token = r.headers.get('x-auth-token');
-            r.json().then(user => {
-                if (token) {
-                    this.setState({isAuthenticated: true, user, token})
-                }
-            });
-        })
+        //const tokenH = r.headers.get('x-auth-token');
+        fetch('http://localhost/api/v1/google/auth', options).then(r => r.json())
+        .then(data =>{
+            console.log(data)
+        });
+
     };
 
     render() {
