@@ -6,6 +6,7 @@ const TIMEOUT_TIME = 3000;
 const UserManagement = require('../src/usermanagement');
 const FriendRequestManagement = require('../src/friendrequestmanagement');
 const LikeManagement = require('../src/likemanagement');
+const PostManagement = require('../src/postmanagement');
 
 module.exports = {
     db,
@@ -15,4 +16,5 @@ module.exports = {
     UserManagement,
     FriendRequestManagement,
     LikeManagement,
+    PostManagement,
 };
