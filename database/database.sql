@@ -89,65 +89,28 @@ TABLESPACE pg_default;
         ALTER TABLE public."Comment"
     OWNER to postgres;
 
-        CREATE TABLE public."Like"
-        (
-            postid bigint NOT NULL,
-            userid bigint NOT NULL,
-            PRIMARY KEY (postid, userid),
-            CONSTRAINT postid FOREIGN KEY (postid)
-        REFERENCES public."Post" (postid)
-            MATCH SIMPLE
-        ON
-            UPDATE NO ACTION
-        ON
-            DELETE NO ACTION,
-    CONSTRAINT userid
-            FOREIGN KEY
-            (userid)
-        REFERENCES public."User"
-            (userid) MATCH SIMPLE
-        ON
-            UPDATE NO ACTION
-        ON
-            DELETE NO ACTION
+CREATE TABLE public."Like_Dislike"
+(
+    postid bigint NOT NULL,
+    userid bigint NOT NULL,
+    liketype smallint,
+    PRIMARY KEY (postid, userid),
+    CONSTRAINT postid FOREIGN KEY (postid)
+        REFERENCES public."Post" (postid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT userid FOREIGN KEY (userid)
+        REFERENCES public."User" (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
-            WITH
-            (
+WITH (
     OIDS = FALSE
 );
 
-            ALTER TABLE public."Like"
+ALTER TABLE public."Like_Dislike"
     OWNER to postgres;
 
-            CREATE TABLE public."Dislike"
-            (
-                postid bigint NOT NULL,
-                userid bigint NOT NULL,
-                PRIMARY KEY (postid, userid),
-                CONSTRAINT postid FOREIGN KEY (postid)
-        REFERENCES public."Post" (postid)
-                MATCH SIMPLE
-        ON
-                UPDATE NO ACTION
-        ON
-                DELETE NO ACTION,
-    CONSTRAINT userid
-                FOREIGN KEY
-                (userid)
-        REFERENCES public."User"
-                (userid) MATCH SIMPLE
-        ON
-                UPDATE NO ACTION
-        ON
-                DELETE NO ACTION
-)
-                WITH
-                (
-    OIDS = FALSE
-);
-
-                ALTER TABLE public."Dislike"
-    OWNER to postgres;
 
                 CREATE TABLE public."Friend"
                 (
