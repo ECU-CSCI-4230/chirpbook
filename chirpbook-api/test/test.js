@@ -21,7 +21,8 @@ describe("Database", function()
 
     importTest("UserManagement", './database/test-usermanagement');
     importTest("FriendRequestManagement", './database/test-friendrequestmanagement');
-    
+    importTest("LikeManagement", './database/test-likemanagement');
+
     after(function()
     {
 

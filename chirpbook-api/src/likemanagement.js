@@ -30,7 +30,7 @@ class LikeManagement
     {
         db.connect(function(client)
         {
-            client.query(`DELETE FROM public."Like_Dislike" WHERE postid == $1 AND userid == $2)`,
+            client.query(`DELETE FROM public."Like_Dislike" WHERE postid = $1 AND userid = $2`,
                          [postid, userid],
                 function(err, result)
                 {

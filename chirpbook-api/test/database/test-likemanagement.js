@@ -12,7 +12,7 @@ it('test add like', function(done)
 
 it('test remove like', function(done)
 {
-    LikeManagement.removeLike(0,0, function(result)
+    LikeManagement.removeLike(0,0,function(result)
     {
         console.log(result)
         assert.strictEqual(result.rowCount, 1)

@@ -171,3 +171,6 @@ ALTER TABLE public."Like_Dislike"
 
                         ALTER TABLE public."Friend_Request"
     OWNER to postgres;
+
+INSERT INTO public."User" (userid, gmail) VALUES (0, 'TEST@gmail.com');
+INSERT INTO public."Post" (postid, userid, post_text) VALUES (0, 0, 'Hello World');
