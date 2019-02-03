@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import config from './config.json';
 
 class App extends Component {
@@ -7,6 +7,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = { isAuthenticated: false, user: null, token: ''};
+        //this.fetch = this.fetch.bind(this)
     }
 
     logout = () => {
@@ -22,38 +23,35 @@ class App extends Component {
 
 
     googleResponse = (response) => {
-        const tokenBlob = JSON.stringify({access_token: response.accessToken})
+        const token = JSON.stringify({'idToken': response.tokenId})
         //{type : 'application/json'});
         console.log('sucess')
-        console.log(tokenBlob)
+        console.log(response)
         const options = {
+            headers: {'Content-Type': 'application/json'},
             method: 'POST',
-            body: tokenBlob,
-            mode: 'cors',
-            cache: 'default'
+            body: token,
         };
-        fetch('http://localhost:8080/api/v1/auth/google', options).then(r => {
-            const token = r.headers.get('x-auth-token');
-            r.json().then(user => {
-                if (token) {
-                    this.setState({isAuthenticated: true, user, token})
-                }
-            });
-        })
+        //const tokenH = r.headers.get('x-auth-token');
+        fetch('http://localhost/api/v1/auth/google', options).then(r => r.json())
+        .then(data =>{
+            console.log(data.email)
+            this.setState({isAuthenticated: true, user: data.email})
+        });
+
     };
 
     render() {
     let content = !!this.state.isAuthenticated ?
             (
                 <div>
-                    <p>Authenticated</p>
+                    <p>Authenticated {this.state.user.email}</p>
                     <div>
-                        {this.state.user.email}
-                    </div>
-                    <div>
-                        <button onClick={this.logout} className="button">
-                            Log out
-                        </button>
+                        <GoogleLogout
+                            buttonText="Logout"
+                            onLogoutSuccess={this.logout}
+                        >
+                        </GoogleLogout>
                     </div>
                 </div>
             ) :
