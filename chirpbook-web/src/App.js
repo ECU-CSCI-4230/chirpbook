@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import config from './config.json';
 
 class App extends Component {
@@ -23,19 +23,20 @@ class App extends Component {
 
 
     googleResponse = (response) => {
-        const token = JSON.stringify({idToken: response.accessToken})
+        const token = JSON.stringify({'idToken': response.tokenId})
         //{type : 'application/json'});
         console.log('sucess')
-        console.log(token)
+        console.log(response)
         const options = {
             headers: {'Content-Type': 'application/json'},
             method: 'POST',
             body: token,
         };
         //const tokenH = r.headers.get('x-auth-token');
-        fetch('http://localhost/api/v1/google/auth', options).then(r => r.json())
+        fetch('http://localhost/api/v1/auth/google', options).then(r => r.json())
         .then(data =>{
-            console.log(data)
+            console.log(data.email)
+            this.setState({isAuthenticated: true, user: data.email})
         });
 
     };
@@ -44,14 +45,13 @@ class App extends Component {
     let content = !!this.state.isAuthenticated ?
             (
                 <div>
-                    <p>Authenticated</p>
+                    <p>Authenticated {this.state.user.email}</p>
                     <div>
-                        {this.state.user.email}
-                    </div>
-                    <div>
-                        <button onClick={this.logout} className="button">
-                            Log out
-                        </button>
+                        <GoogleLogout
+                            buttonText="Logout"
+                            onLogoutSuccess={this.logout}
+                        >
+                        </GoogleLogout>
                     </div>
                 </div>
             ) :
