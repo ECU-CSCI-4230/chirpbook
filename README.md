@@ -1,4 +1,4 @@
-# The next best thing since MySpace... sorry Tom
+# Chirpbook™: The next best thing since MySpace... sorry Tom
 
 ### How to spin up Docker
 You may have to run these commands with sudo.
