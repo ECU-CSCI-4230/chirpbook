@@ -11,6 +11,9 @@ app.use(cors());
 app.use(passport.initialize());
 
 const base_url = '/api/v1';
+
+app.use(base_url, require('./routes/accounts'));
+
 // This is the main function, essentially.
 app.listen(app.get('port'), function()
 {

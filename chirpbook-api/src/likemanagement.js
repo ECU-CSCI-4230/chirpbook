@@ -2,14 +2,14 @@ const db = require('./config/database')
 
 var log = require('console-log-level')({level: 'warn'})
 
-class UserManagement
+class LikeManagement
 {
-    static createUser(gmail, cb)
+    static addLike(postid, userid, liketype, callback)
     {
-        db.connect(function(client)
+	db.connect(function(client)
         {
-            client.query(`INSERT INTO public."User" (gmail, display_name, profile_picture)
-								VALUES ($1, $2, $3) RETURNING userid`, [gmail, gmail, 'TEST'],
+            client.query(`INSERT INTO public."Like_Dislike" (postid, userid, liketype)
+								VALUES ($1, $2, $3)`, [postid, userid, liketype],
                 function(err, result)
                 {
                     client.release()
@@ -20,21 +20,18 @@ class UserManagement
                     if(result)
                     {
                         log.info(result)
-                        cb(result)
-                    }
-                    else
-                    {
-                        log.info(`no results`)
-                        cb({rowCount: 0})
+                        callback(result)
                     }
                 });
         });
     }
-    static getUser(gmail, cb)
+
+    static removeLike(postid, userid, callback)
     {
         db.connect(function(client)
         {
-            client.query(`SELECT userid FROM public."User" WHERE gmail=$1`, [gmail],
+            client.query(`DELETE FROM public."Like_Dislike" WHERE postid = $1 AND userid = $2`,
+                         [postid, userid],
                 function(err, result)
                 {
                     client.release()
@@ -45,16 +42,12 @@ class UserManagement
                     if(result)
                     {
                         log.info(result)
-                        cb(result.rows)
-                    }
-                    else
-                    {
-                        log.info(`no results`)
-                        cb([])
+                        callback(result)
                     }
                 });
         });
     }
+
 }
 
-module.exports = UserManagement
+module.exports = LikeManagement

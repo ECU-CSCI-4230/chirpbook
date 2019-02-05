@@ -4,7 +4,9 @@ const assert = require('assert');
 const TIMEOUT_TIME = 3000;
 
 const UserManagement = require('../src/usermanagement');
-const commentmanagement = require('../src/commentmanagement');
+const FriendRequestManagement = require('../src/friendrequestmanagement');
+const LikeManagement = require('../src/likemanagement');
+const PostManagement = require('../src/postmanagement');
 
 module.exports = {
     db,
@@ -12,5 +14,7 @@ module.exports = {
     assert,
     TIMEOUT_TIME,
     UserManagement,
-    commentmanagement
+    FriendRequestManagement,
+    LikeManagement,
+    PostManagement,
 };

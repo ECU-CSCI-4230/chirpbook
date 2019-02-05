@@ -1,79 +1,30 @@
-import React, { Component } from 'react';
-import { GoogleLogin } from 'react-google-login';
-import config from './config.json';
+import React from "react";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
-class App extends Component {
+import NavBar from './Components/Navbar';
+import Homepage from './Components/Homepage';
 
-    constructor() {
-        super();
-        this.state = { isAuthenticated: false, user: null, token: ''};
-    }
+// import Loadable from "react-loadable";
 
-    logout = () => {
-        this.setState({isAuthenticated: false, token: '', user: null})
-    };
+// function Loading()
+// {
+//     return <h3>Loading...</h3>;
+// }
 
-    onFailure = (error) => {
-        alert('error');
-        console.log(this.state)
-        console.log(error)
-        console.log(config)
-    };
-
-
-    googleResponse = (response) => {
-        const tokenBlob = JSON.stringify({access_token: response.accessToken})
-        //{type : 'application/json'});
-        console.log('sucess')
-        console.log(tokenBlob)
-        const options = {
-            method: 'POST',
-            body: tokenBlob,
-            mode: 'cors',
-            cache: 'default'
-        };
-        fetch('http://localhost:8080/api/v1/auth/google', options).then(r => {
-            const token = r.headers.get('x-auth-token');
-            r.json().then(user => {
-                if (token) {
-                    this.setState({isAuthenticated: true, user, token})
-                }
-            });
-        })
-    };
-
-    render() {
-    let content = !!this.state.isAuthenticated ?
-            (
-                <div>
-                    <p>Authenticated</p>
-                    <div>
-                        {this.state.user.email}
-                    </div>
-                    <div>
-                        <button onClick={this.logout} className="button">
-                            Log out
-                        </button>
-                    </div>
-                </div>
-            ) :
-            (
-                <div>
-                    <p>HI</p>
-                    <GoogleLogin
-                        clientId={config.GOOGLE_CLIENT_ID}
-                        buttonText="Login"
-                        
-                        onSuccess={this.googleResponse}
-                        onFailure={this.onFailure}
-                    />
-                </div>
-            );
-
+class App extends React.Component
+{
+    render()
+    {
         return (
-            <div className="App">
-                {content}
-            </div>
+            <Router>
+                <React.Fragment>
+
+                    <Route component={NavBar} />
+                    <Switch >
+                        <Route exact path="/" component={Homepage} />
+                    </Switch>
+                </React.Fragment >
+            </Router>
         );
     }
 }
