@@ -3,6 +3,6 @@
 ### How to spin up Docker
 
 ```
-docker compose up
+docker-compose up
 docker exec -it cbook_api npm test
 ```
