@@ -20,6 +20,7 @@ describe("Database", function()
     });
 
     importTest("UserManagement", './database/test-usermanagement');
+    importTest("commentmanagement", './database/test-commentmanagement');
     
     after(function()
     {
