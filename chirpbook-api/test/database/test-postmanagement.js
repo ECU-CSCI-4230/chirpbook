@@ -1,19 +1,20 @@
 const {PostManagement, UserManagement, assert} = require("../common");
 
 // should use the created user after the functionality is added
-var user = 1;
+var userid = null;
 it('create a test user', function(done)
 {
-    UserManagement.createUser('potato@gmail.com', function(result)
+    UserManagement.createUser('potato@gmail.com', '', function(result)
     {
-        assert.strictEqual(result.rowCount, 1)
+        assert.strictEqual(result.rowCount, 1);
+        userid = result.rows[0].userid
         done();
     });
 });
 
 it('create post', function(done)
 {
-    PostManagement.createPost(1, 'a fake post', function(result)
+    PostManagement.createPost(userid, 'a fake post', function(result)
     {
         assert.strictEqual(result, 1)
         done();
@@ -22,7 +23,7 @@ it('create post', function(done)
 
 it('create another post', function(done)
 {
-    PostManagement.createPost(1, 'a different fake post for the second test', function(result)
+    PostManagement.createPost(userid, 'a different fake post for the second test', function(result)
     {
         assert.strictEqual(result, 1)
         done();
@@ -31,7 +32,7 @@ it('create another post', function(done)
 
 it('create a post to edit', function(done)
 {
-    PostManagement.createPost(1, 'we will edit this post', function(result)
+    PostManagement.createPost(userid, 'we will edit this post', function(result)
     {
         assert.strictEqual(result, 1)
         done();
@@ -42,7 +43,7 @@ var userPosts = [];
 
 it('get user\'s recent post', function(done)
 {
-    PostManagement.getUserPosts(1, function(result)
+    PostManagement.getUserPosts(userid, function(result)
     {
         userPosts = result.rows;
         assert.strictEqual(result.rowCount, 3)
@@ -86,4 +87,14 @@ it('remove all user posts', function(done)
             }
         });
     });
+});
+
+it('delete user', function(done)
+{
+    UserManagement.deleteUser(userid, function(result)
+    {
+        assert.strictEqual(result.rowCount, 1)
+        done()
+    })
+
 });
