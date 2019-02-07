@@ -12,10 +12,11 @@ it('test create comment', function(done) {
 });
 
 // test editing a comment
+var comid = 1;
 it('test edit comment', function(done) {
-  CommentManagement.editComment(0, 0, "modified", function(result) {
+  CommentManagement.editComment(comid, "modified", function(result) {
     console.log(result)
-    assert.strictEqual(result, 1) // might to change this assert
+    assert.strictEqual(result, 1) // might need to change this assert
     done();
   });
 });

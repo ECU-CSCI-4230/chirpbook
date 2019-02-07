@@ -13,6 +13,7 @@ class commentmanagement {
       VALUES ($1, $2, $3, $4, $5)
       RETURNING commentid`,
         [postid, parent_comment, userid, comment_text, false],
+
         function(err, result) {
           client.release()
           if (err) {
@@ -31,13 +32,14 @@ class commentmanagement {
     });
   }
 
-  static editComment(postid, userid, comment_text, cb) {
+  static editComment(commentid, comment_text, cb) {
     db.connect(function(client) {
       client.query(
         `UPDATE public."Comment"
-        SET comment_text = $3
-        WHERE postid = $1 AND userid = $2`,
-        [postid, userid, comment_text],
+        SET comment_text = $2
+        WHERE commentid = $1`,
+        [commentid, comment_text],
+        
         function(err, result) {
           client.release()
           if (err)
@@ -46,6 +48,7 @@ class commentmanagement {
           }
           if (result)
           {
+            console.log(result)
             log.info(result)
             cb(result.rowCount);
           }
