@@ -4,7 +4,8 @@ var log = require('console-log-level')({
   level: 'warn'
 })
 
-class commentmanagement {
+class commentmanagement 
+{
   static createComment(postid, parent_comment, userid, comment_text, cb) {
     db.connect(function(client) {
       client.query(
@@ -32,7 +33,9 @@ class commentmanagement {
     });
   }
 
-  static editComment(commentid, comment_text, cb) {
+  static editComment(commentid, comment_text, cb) 
+  {
+    
     db.connect(function(client) {
       client.query(
         `UPDATE public."Comment"
