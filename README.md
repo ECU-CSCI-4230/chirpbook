@@ -1,5 +1,4 @@
 # Chirpbook™: The next best thing since MySpace... sorry Tom
-![image] (../Desktop/tom.jpg)
 
 
 ### How to spin up Docker
