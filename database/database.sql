@@ -54,8 +54,7 @@ CREATE TABLE public."Post"
         postid bigint NOT NULL,
         parent_comment bigint,
         userid bigint NOT NULL,
-        comment_text character varying(512) COLLATE pg_catalog
-        ."default" NOT NULL,
+        comment_text character varying(512) COLLATE pg_catalog."default" NOT NULL,
     time_posted timestamp
         with time zone NOT NULL DEFAULT now
         (),
