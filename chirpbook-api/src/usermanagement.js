@@ -4,12 +4,12 @@ var log = require('console-log-level')({level: 'warn'})
 
 class UserManagement
 {
-    static createUser(gmail, cb)
+    static createUser(gmail, link, cb)
     {
         db.connect(function(client)
         {
             client.query(`INSERT INTO public."User" (gmail, display_name, profile_picture)
-								VALUES ($1, $2, $3) RETURNING userid`, [gmail, gmail, 'TEST'],
+								VALUES ($1, $2, $3) RETURNING userid`, [gmail, gmail, link],
                 function(err, result)
                 {
                     client.release()
@@ -30,11 +30,12 @@ class UserManagement
                 });
         });
     }
+
     static getUser(gmail, cb)
     {
         db.connect(function(client)
         {
-            client.query(`SELECT userid FROM public."User" WHERE gmail=$1`, [gmail],
+            client.query(`SELECT * FROM public."User" WHERE gmail = $1`, [gmail],
                 function(err, result)
                 {
                     client.release()
@@ -52,6 +53,42 @@ class UserManagement
                         log.info(`no results`)
                         cb([])
                     }
+                });
+        });
+    }
+
+    static deleteUser(userid, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`delete FROM public."User" WHERE userid=$1`, [userid],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                        cb({rowCount: 0})
+                    }
+                    cb({rowCount: result.rowCount})
+                });
+        });
+    }
+
+    static updateProfilePicture(userid, link, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`update public."User" set profile_picture = $2 WHERE userid = $1`, [userid, link],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                        cb({rowCount: 0})
+                    }
+                    cb({rowCount: result.rowCount})
                 });
         });
     }
