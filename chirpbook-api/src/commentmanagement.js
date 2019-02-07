@@ -39,7 +39,7 @@ class commentmanagement {
         SET comment_text = $2
         WHERE commentid = $1`,
         [commentid, comment_text],
-        
+
         function(err, result) {
           client.release()
           if (err)
@@ -60,6 +60,39 @@ class commentmanagement {
         });
     });
   }
+
+  static deleteComment(commentid, cb) 
+  {
+    db.connect(function(client) {
+      client.query(
+        `UPDATE public."Comment"
+        SET deleted = true, comment_text = '[Redacted]', userid = 0
+        WHERE commentid = $1`,
+        [commentid],
+  
+        function(err, result) {
+          client.release()
+          if (err)
+          {
+            log.error(err)
+          }
+          if (result)
+          {
+            console.log(result)
+            log.info(result)
+            cb(result.rowCount);
+          }
+          else
+          {
+            // log.info(`no results`)
+            cb(0);
+          }
+        });
+    });
+  }
+
 }
+
+
 
 module.exports = commentmanagement
