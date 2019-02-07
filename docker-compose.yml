@@ -44,6 +44,8 @@ services:
       # - ./database/postgresql_db_persistent:/var/lib/postgresql/data
     expose:
       - "5432"
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: cbook
       POSTGRES_USER : postgres
