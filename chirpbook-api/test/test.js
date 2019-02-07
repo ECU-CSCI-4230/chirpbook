@@ -23,6 +23,7 @@ describe("Database", function()
     importTest("FriendRequestManagement", './database/test-friendrequestmanagement');
     importTest("LikeManagement", './database/test-likemanagement');
     importTest("PostManagement", './database/test-postmanagement');
+    importTest("CommentManagement", './database/test-commentmanagement.js');
 
     after(function()
     {
