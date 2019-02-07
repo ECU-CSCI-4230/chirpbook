@@ -7,14 +7,16 @@ const UserManagement = require('../src/usermanagement');
 const FriendRequestManagement = require('../src/friendrequestmanagement');
 const LikeManagement = require('../src/likemanagement');
 const PostManagement = require('../src/postmanagement');
+const CommentManagement = require('../src/commentmanagement.js');
 
 module.exports = {
-    db,
-    fs,
-    assert,
-    TIMEOUT_TIME,
-    UserManagement,
-    FriendRequestManagement,
-    LikeManagement,
-    PostManagement,
+  db,
+  fs,
+  assert,
+  TIMEOUT_TIME,
+  UserManagement,
+  FriendRequestManagement,
+  LikeManagement,
+  PostManagement,
+  CommentManagement
 };
