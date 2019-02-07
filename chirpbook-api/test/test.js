@@ -24,6 +24,7 @@ describe("Database", function()
     importTest("LikeManagement", './database/test-likemanagement');
     importTest("PostManagement", './database/test-postmanagement');
     importTest("CommentManagement", './database/test-commentmanagement.js');
+    importTest("FriendManagement", './database/test-friendmanagement.js');
 
     after(function()
     {

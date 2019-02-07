@@ -8,6 +8,7 @@ const FriendRequestManagement = require('../src/friendrequestmanagement');
 const LikeManagement = require('../src/likemanagement');
 const PostManagement = require('../src/postmanagement');
 const CommentManagement = require('../src/commentmanagement.js');
+const FriendManagement = require('../src/friendmanagement.js');
 
 module.exports = {
   db,
@@ -18,5 +19,6 @@ module.exports = {
   FriendRequestManagement,
   LikeManagement,
   PostManagement,
-  CommentManagement
+  CommentManagement,
+  FriendManagement
 };
