@@ -57,6 +57,58 @@ class FriendRequestManagement
                 });
         });
     }
+
+    static getIncomingFriendRequests(userid, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`SELECT * FROM public."Friend_Request" WHERE receiver = $1`, [userid],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        cb(result)
+                    }
+                    else
+                    {
+                        log.info(`no results`)
+                        cb({rowCount: 0})
+                    }
+                });
+        });
+    }
+
+    static getOutgoingFriendRequests(userid, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`SELECT * FROM public."Friend_Request" WHERE sender = $1`, [userid],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        cb(result)
+                    }
+                    else
+                    {
+                        log.info(`no results`)
+                        cb({rowCount: 0})
+                    }
+                });
+        });
+    }
 }
 
 module.exports = FriendRequestManagement

@@ -1,9 +1,31 @@
 const {FriendRequestManagement, UserManagement, assert} = require("../common");
 
+var userid;
+var userid2;
+
+it('test create user', function(done)
+{
+    UserManagement.createUser('test@gmail.com','http://hasthelargehadroncolliderdestroyedtheworldyet.com/', function(result)
+    {
+        userid = result.rows[0].userid
+        console.log(userid)
+        done();
+    });
+});
+
+it('test create user2', function(done)
+{
+    UserManagement.createUser('test2@gmail.com','http://hasthelargehadroncolliderdestroyedtheworldyet.com/', function(result)
+    {
+        userid2 = result.rows[0].userid
+        console.log(userid2)
+        done();
+    });
+});
+
 it('test create friend request', function(done)
 {
-   
-    FriendRequestManagement.createFriendRequest(1, 2, function(result)
+    FriendRequestManagement.createFriendRequest(userid, userid2, function(result)
         {
             console.log(result)
             assert.strictEqual(result.rowCount, 1)
@@ -11,12 +33,44 @@ it('test create friend request', function(done)
         });
     });
 
-it('test delete friend request', function(done)
+it('test get incoming friend requests', function(done)
 {
-    FriendRequestManagement.deleteFriendRequest(1, 2, function(result)
+    FriendRequestManagement.getIncomingFriendRequests(userid2, function(result)
     {
         console.log(result)
         assert.strictEqual(result.rowCount, 1)
         done();
     });
 });
+
+it('test get outgoing friend requests', function(done)
+{
+    FriendRequestManagement.getOutgoingFriendRequests(userid, function(result)
+    {
+        console.log(result)
+        assert.strictEqual(result.rowCount, 1)
+        done();
+    });
+});
+
+it('test delete friend request', function(done)
+{
+    FriendRequestManagement.deleteFriendRequest(userid, userid2, function(result)
+    {
+        console.log(result)
+        assert.strictEqual(result.rowCount, 1)
+        done();
+    });
+});
+
+it('delete user', function(done){
+    UserManagement.deleteUser(userid, function(result){
+        done()
+    })  
+})
+
+it('delete user2', function(done){
+    UserManagement.deleteUser(userid2, function(result){
+        done()
+    })  
+})
