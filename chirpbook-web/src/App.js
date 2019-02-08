@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import NavBar from './Components/Navbar';
 import Homepage from './Components/Homepage';
+import LoginPage from './Components/LoginPage'
 
 // import Loadable from "react-loadable";
 
@@ -22,6 +23,7 @@ class App extends React.Component
                     <Route component={NavBar} />
                     <Switch >
                         <Route exact path="/" component={Homepage} />
+                        <Route path="/login" component={LoginPage} />
                     </Switch>
                 </React.Fragment >
             </Router>
