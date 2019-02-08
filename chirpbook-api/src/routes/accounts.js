@@ -21,15 +21,17 @@ router.use(bodyParser.urlencoded({extended: true}));
 // 				Google Login
 //-------------------------------------------------
 
-var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+//var passport = require('passport');
+//var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
 
-router.use(passport.initialize());
+//router.use(passport.initialize());
 
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(config.client_id);
 
 
+
+//creates or updates user and validates google token
 router.post('/auth/google', function(req, res){
     console.log('============================================')
     console.log(req.body)
@@ -42,11 +44,37 @@ router.post('/auth/google', function(req, res){
         const payload = ticket.getPayload();
         const userid = payload['sub'];
         console.log(payload)
-        //console.log(userid)
-        res.status(201).json({
-            sucess: true,
-            err: null,
-            email: payload.email,
+
+        //console.log(use  rid)
+
+        var gmail = payload.email
+        var pictureLink = payload.picture
+
+        UserManagement.getUser(payload.email, function(user_row){
+            console.log('hi')
+            if(user_row.length == 1){
+                
+                UserManagement.updateProfilePicture(user_row[0].userid, pictureLink, function(picture_row){
+                    res.status(201).json({
+                        sucess: true,
+                        err: null,
+                        gmail: gmail,
+                        userid: userid,
+                        picture: pictureLink
+                    })
+                })
+                
+            }else{
+                UserManagement.createUser(gmail, pictureLink, function(newUser){
+                    res.status(201).json({
+                        sucess: true,
+                        err: null,
+                        gmail: gmail,
+                        userid: userid,
+                        picture: pictureLink
+                    })
+                })
+            }
         })
     }
     verify().catch(console.error);

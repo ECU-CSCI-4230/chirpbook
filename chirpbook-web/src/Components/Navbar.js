@@ -35,8 +35,8 @@ class NavBar extends Component
     {
         const token = JSON.stringify({'idToken': response.tokenId})
         //{type : 'application/json'});
-        console.log('sucess')
-        console.log(response)
+        //console.log('sucess')
+        //console.log(response)
         const options = {
             headers: {'Content-Type': 'application/json'},
             method: 'POST',
@@ -46,8 +46,8 @@ class NavBar extends Component
         fetch('http://localhost/api/v1/auth/google', options).then(r => r.json())
             .then(data =>
             {
-                console.log(data.email)
-                this.setState({isAuthenticated: true, user: data.email})
+                console.log(data)
+                this.setState({isAuthenticated: true, user: data.email, pictureLink: data.pictureLink})
             });
 
     };
