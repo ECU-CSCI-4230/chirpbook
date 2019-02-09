@@ -10,6 +10,8 @@ const PostManagement = require('../src/postmanagement');
 const CommentManagement = require('../src/commentmanagement.js');
 const FriendManagement = require('../src/friendmanagement.js');
 
+const basepath = process.env.API_BASE || 'localhost:8080/api/v1';
+
 module.exports = {
   db,
   fs,
@@ -20,5 +22,5 @@ module.exports = {
   LikeManagement,
   PostManagement,
   CommentManagement,
-  FriendManagement
+  basepath
 };

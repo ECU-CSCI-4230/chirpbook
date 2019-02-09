@@ -51,7 +51,7 @@ class commentmanagement
           }
           if (result)
           {
-            console.log(result)
+            //console.log(result)
             log.info(result)
             cb(result.rowCount);
           }
@@ -81,7 +81,7 @@ class commentmanagement
           }
           if (result)
           {
-            console.log(result)
+            //console.log(result)
             log.info(result)
             cb(result.rowCount);
           }

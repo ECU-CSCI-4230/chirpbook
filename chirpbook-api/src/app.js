@@ -8,7 +8,7 @@ app.set('port', process.env.PORT || 80);
 
 app.use(cors());
 
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
 const base_url = '/api/v1';
 

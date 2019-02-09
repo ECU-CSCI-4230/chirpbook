@@ -92,6 +92,26 @@ class UserManagement
                 });
         });
     }
+
+    static setDisplayName(userid, name, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`update public."User" set display_name = $2 WHERE userid = $1`, [userid, name],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                        cb({rowCount: 0})
+                    }
+                    cb({rowCount: result.rowCount})
+                });
+        });
+    }
+
+
 }
 
 module.exports = UserManagement

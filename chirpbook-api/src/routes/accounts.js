@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: true}));
 
+var log = require('console-log-level')({level: 'info'});
 
 //var GoogleTokenStrategy = require('passport-google-id-token');
 
@@ -30,6 +31,13 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(config.client_id);
 
 
+router.post('users/setdisplayname', function(req, res){
+    log('hi')
+    res.status(201).json({
+        sucess: true,
+        err: null
+    })
+})
 
 //creates or updates user and validates google token
 router.post('/auth/google', function(req, res){
@@ -51,7 +59,6 @@ router.post('/auth/google', function(req, res){
         var pictureLink = payload.picture
 
         UserManagement.getUser(payload.email, function(user_row){
-            console.log('hi')
             if(user_row.length == 1){
                 
                 UserManagement.updateProfilePicture(user_row[0].userid, pictureLink, function(picture_row){
@@ -82,5 +89,6 @@ router.post('/auth/google', function(req, res){
     verify().catch(console.error);
     
 });
+
 
 module.exports = router;
