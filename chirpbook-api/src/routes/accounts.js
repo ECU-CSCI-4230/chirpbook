@@ -60,7 +60,8 @@ router.post('/auth/google', function(req, res){
                         err: null,
                         gmail: gmail,
                         userid: userid,
-                        picture: pictureLink
+                        picture: pictureLink,
+                        token: req.body.idToken
                     })
                 })
                 
@@ -71,7 +72,8 @@ router.post('/auth/google', function(req, res){
                         err: null,
                         gmail: gmail,
                         userid: userid,
-                        picture: pictureLink
+                        picture: pictureLink,
+                        token: req.body.idToken
                     })
                 })
             }

@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
 import config from '../config.json';
-import {AppBar, withStyles, Toolbar} from '@material-ui/core';
+import {AppBar, withStyles, Toolbar, Button} from '@material-ui/core';
+import AuthHelpers from '../Auth/AuthHelpers.js'
+
+const Auth = new AuthHelpers();
 
 const styles = theme => ({
 
@@ -13,15 +16,18 @@ class NavBar extends Component
     constructor()
     {
         super();
-        this.state = {isAuthenticated: false, user: null, token: ''};
-        //this.fetch = this.fetch.bind(this)
+        this.state = {isAuthenticated: Auth.isLoggedIn(), user: null, token: ''};
     }
+    withStyles
+
 
     logout = () =>
     {
+        Auth.logout()
         this.setState({isAuthenticated: false, token: '', user: null})
+        this.props.history.replace('/login')
     };
-    withStyles
+    
     onFailure = (error) =>
     {
         alert('error');
@@ -34,9 +40,6 @@ class NavBar extends Component
     googleResponse = (response) =>
     {
         const token = JSON.stringify({'idToken': response.tokenId})
-        //{type : 'application/json'});
-        //console.log('sucess')
-        //console.log(response)
         const options = {
             headers: {'Content-Type': 'application/json'},
             method: 'POST',
@@ -46,12 +49,13 @@ class NavBar extends Component
         fetch('http://localhost/api/v1/auth/google', options).then(r => r.json())
             .then(data =>
             {
-                console.log(data)
+                Auth.login(data.token, data.userid)
                 this.setState({isAuthenticated: true, user: data.email, pictureLink: data.pictureLink})
+                this.props.history.replace('/home')
             });
 
     };
-
+    
     render()
     {
         const {classes} = this.props;
@@ -62,11 +66,9 @@ class NavBar extends Component
                     {
                         !!this.state.isAuthenticated ?
 
-                            <GoogleLogout
-                                buttonText="Logout"
-                                onLogoutSuccess={this.logout}
-                            >
-                            </GoogleLogout>
+                            <Button variant="contained" color="secondary" onClick={this.logout}>
+                            Logout
+                            </Button>
                             :
                             <GoogleLogin
                                 clientId={config.GOOGLE_CLIENT_ID}

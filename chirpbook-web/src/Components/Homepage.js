@@ -5,6 +5,11 @@ import Divider from '@material-ui/core/Divider';
 import SendChirpItem from './SendChirpItem';
 import ChirpItem from './ChirpItem';
 
+import AuthHelpers from '../Auth/AuthHelpers.js'
+import withAuth from '../Auth/withAuth';
+
+const Auth = new AuthHelpers();
+
 const styles = theme => ({
     root: {
         width: '100%',
@@ -59,6 +64,7 @@ class Homepage extends Component
 
     render()
     {
+        console.log(this.props.userid)
         const {classes} = this.props;
 
         return (
@@ -80,4 +86,4 @@ class Homepage extends Component
     }
 }
 
-export default withStyles(styles)(Homepage);
+export default withStyles(styles)(withAuth(Homepage));
