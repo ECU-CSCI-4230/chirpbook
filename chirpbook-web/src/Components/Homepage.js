@@ -59,12 +59,10 @@ class Homepage extends Component
     constructor()
     {
         super();
-        console.log();
     }
 
     render()
     {
-        console.log(this.props.userid)
         const {classes} = this.props;
 
         return (

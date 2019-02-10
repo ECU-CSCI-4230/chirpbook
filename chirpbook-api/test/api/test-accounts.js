@@ -6,15 +6,14 @@ const {basepath} = require('../common');
 console.log(basepath)
 
 it('change displayname', function(done){
-    const path = 'http://localhost:8080/api/v1/users/setdisplayname';
+    const path = 'http://localhost:8080/api/v1/users/setdisplayname/test';
 
     var reqBody = { "display_name": "Johnny Test" }
-
-    request(path, {
-        headers: {'Content-Type': 'application/json'},
+    
+    request.post(path, {
         url: path,
-        method: 'POST',
-        json: JSON.stringify(reqBody),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        json: reqBody,
     }, function(err, res)
         {
 

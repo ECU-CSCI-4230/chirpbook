@@ -1,4 +1,6 @@
 const config = require('../config/config.json');
+const utils = require('../config/utils');
+
 
 const express = require('express');
 const app = express();
@@ -31,42 +33,49 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(config.client_id);
 
 
-router.post('users/setdisplayname', function(req, res){
-    log('hi')
-    res.status(201).json({
-        sucess: true,
-        err: null
+router.post('/users/set_displayname/:userid', function(req, res){
+    var userid = req.params.userid
+    var displayName = req.body.display_name
+
+    UserManagement.setDisplayName(userid, displayName, function(result){
+        if(result.rowCount == 1){
+            res.status(201).json({
+                sucess: true,
+                err: null
+            })
+        }else{
+            res.status(404).json({
+                sucess: false,
+                err: 'User not found'
+            })
+        }
     })
+    
 })
 
 //creates or updates user and validates google token
 router.post('/auth/google', function(req, res){
-    console.log('============================================')
-    console.log(req.body)
-    //console.log(res)
     async function verify() {
         const ticket = await client.verifyIdToken({
             idToken: req.body.idToken,
             audience: config.client_id,
         });
-        const payload = ticket.getPayload();
-        const userid = payload['sub'];
-        console.log(payload)
 
-        //console.log(use  rid)
+        const payload = ticket.getPayload();
+
+        const userid = payload['sub'];
 
         var gmail = payload.email
         var pictureLink = payload.picture
 
         UserManagement.getUser(payload.email, function(user_row){
             if(user_row.length == 1){
-                
                 UserManagement.updateProfilePicture(user_row[0].userid, pictureLink, function(picture_row){
                     res.status(201).json({
                         sucess: true,
                         err: null,
                         gmail: gmail,
-                        userid: userid,
+                        userid: user_row[0].userid,
                         picture: pictureLink,
                         token: req.body.idToken
                     })
@@ -78,7 +87,7 @@ router.post('/auth/google', function(req, res){
                         sucess: true,
                         err: null,
                         gmail: gmail,
-                        userid: userid,
+                        userid: newUser.rows[0].userid,
                         picture: pictureLink,
                         token: req.body.idToken
                     })

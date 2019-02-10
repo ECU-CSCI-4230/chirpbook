@@ -30,7 +30,6 @@ export default function withAuth(AuthComponent)
                 {
                     const token = Auth.getToken();
                     const user = Auth.getUser()
-                    console.log(user)
                     this.setState({
                         userid: user,
                         token,

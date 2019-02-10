@@ -55,6 +55,10 @@ class NavBar extends Component
             });
 
     };
+
+    openTestPage = () => {
+        this.props.history.replace('/test')
+    }
     
     render()
     {
@@ -77,6 +81,9 @@ class NavBar extends Component
                                 onFailure={this.onFailure}
                             />
                     }
+                    <Button variant="contained" color="primary" onClick={this.openTestPage}>
+                            Open Test page
+                            </Button>
 
                 </Toolbar>
             </AppBar>
