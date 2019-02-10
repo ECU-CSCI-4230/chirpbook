@@ -1,5 +1,4 @@
 const config = require('../config/config.json');
-const utils = require('../config/utils');
 
 
 const express = require('express');

@@ -22,5 +22,6 @@ module.exports = {
   LikeManagement,
   PostManagement,
   CommentManagement,
+  FriendManagement,
   basepath
 };

@@ -10,7 +10,7 @@ function importTest(name, path)
     });
 }
 
-describe.skip("Database", function()
+describe("Database", function()
 {
     this.timeout(TIMEOUT_TIME);
 
