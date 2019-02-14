@@ -190,7 +190,7 @@ class PostManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT display_name, gmail, public."Post".userid, public."Post".postid, post_text, time_posted, COALESCE(likes, 0) as likes, COALESCE(dislikes,0) as dislikes, gmail,
+            client.query(`SELECT display_name, public."Post".userid, public."Post".postid, post_text, time_posted, COALESCE(likes, 0) as likes, COALESCE(dislikes,0) as dislikes, gmail,
             COALESCE(isLiked, false) as isLiked,COALESCE(isDisliked, false) as isDisliked
                 FROM public."Post" NATURAL LEFT JOIN
                 (SELECT count(liketype) as likes, postid FROM public."Like_Dislike"
