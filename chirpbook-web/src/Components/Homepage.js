@@ -26,39 +26,27 @@ const styles = theme => ({
     },
 });
 
-const testChirps = [
-    {
-        user: "Zac Catalano",
-        userName: 'zaccatalano',
-        timeSent: 'idk today',
-        chripText: 'Here is a test CHIRP! #ChirpOn',
-        likes: 2323,
-        dislikes: 82,
-        comments: [],
-        isLiked: true,
-        isDisliked: false,
-    },
-    {
-        user: "John Doe",
-        userName: 'johnDoe29',
-        timeSent: 'sometime',
-        chripText: 'Chrip sucks! #ChirpOff',
-        likes: 1,
-        dislikes: 934,
-        comments: [],
-        isLiked: false,
-        isDisliked: true,
-    }
-
-];
-
-
 class Homepage extends Component
 {
-
-    constructor()
+    constructor(props)
     {
-        super();
+        super(props);
+        this.state = {posts: []};
+
+    }
+
+    componentWillMount()
+    {
+        let path = `/posts/get_homepage`
+        Auth.fetch(path, {method: 'GET'}).then((res) =>
+        {
+            if(res.posts)
+            {
+                this.setState({
+                    posts: res.posts
+                });
+            }
+        }).catch((error) => console.log(error));
     }
 
     render()
@@ -68,7 +56,7 @@ class Homepage extends Component
         return (
             <List className={classes.root}>
                 <SendChirpItem />
-                {testChirps.map((currChirp, key) =>
+                {this.state.posts.map((currChirp, key) =>
                     <React.Fragment key={'chirpfrag' + key}>
                         <li>
                             <Divider variant="inset" />
@@ -84,4 +72,4 @@ class Homepage extends Component
     }
 }
 
-export default withStyles(styles)(withAuth(Homepage));
+export default withAuth(withStyles(styles)(Homepage));
