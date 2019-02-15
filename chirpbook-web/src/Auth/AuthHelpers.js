@@ -5,7 +5,7 @@ export default class AuthHelpers
 {
     constructor(domain)
     {
-        this.domain = domain || process.env.API_HOST || `http://localhost/api/v1`
+        this.domain = domain || process.env.API_HOST || `http://localhost/api/v1`;
         this.fetch = this.fetch.bind(this);
         this.login = this.login.bind(this);
         this.isLoggedIn = this.isLoggedIn.bind(this);
@@ -76,10 +76,11 @@ export default class AuthHelpers
             'Content-Type': 'application/json'
         }
 
-        if(this.loggedIn())
+        if(this.isLoggedIn())
         {
             headers['Authorization'] = 'Bearer ' + this.getToken();
-            return fetch(url, {headers, ...options}).then(this._checkStatus).then(response => response.json());
+            let path = this.domain + url
+            return fetch(path, {headers, ...options}).then(this._checkStatus).then(response => response.json());
         }
     }
 
