@@ -18,9 +18,11 @@ router.post('/comments/add', function(req, res){
     var postid = req.body.postid
     var parentCommentid = req.body.parent_commentid
     
-    commentmanagement.createComment(postid, parentCommentid, userid, commentText, function(comment_rows_c){
-        if(comment_rows_c.rowCount == 1){
+    commentmanagement.createComment(postid, parentCommentid, userid, commentText, function(comment_rows){
+        if(comment_rows.rowCount == 1){
+            
             res.status(201).json({
+                commentid: comment_rows.rows[0].commentid,
                 success: true,
                 err: null
             })
