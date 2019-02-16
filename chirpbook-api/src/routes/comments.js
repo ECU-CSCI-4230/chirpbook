@@ -35,6 +35,23 @@ router.post('/comments/add', function(req, res){
     })
 })
 
+router.delete('/comments/delete/:commentid', function(req, res){
+    var commentid = req.params.commentid
+    
+    commentmanagement.deleteComment(commentid, function(delete_comment_rows){
+        if(delete_comment_rows == 1){
+            res.status(201).json({
+                success: true,
+                err: null
+            })
+        }else{
+            res.status(404).json({
+                success: false,
+                err: "Cannot delete comment"
+            })
+        }
+    })
+})
 
 
 
