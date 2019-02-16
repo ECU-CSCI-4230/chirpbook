@@ -16,6 +16,7 @@ app.use(base_url, require('./routes/accounts'));
 app.use(base_url, require('./routes/likes-dislikes'))
 app.use(base_url, require('./routes/friendrequests'));
 app.use(base_url, require('./routes/posts'));
+app.use(base_url, require('./routes/comments'));
 
 // This is the main function, essentially.
 app.listen(app.get('port'), function()

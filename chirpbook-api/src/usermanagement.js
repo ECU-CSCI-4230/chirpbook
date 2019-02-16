@@ -100,7 +100,7 @@ class UserManagement
             client.query(`update public."User" set display_name = $2 WHERE userid = $1`, [userid, name],
                 function(err, result)
                 {
-                    console.log(result)
+                    //console.log(result)
                     client.release()
                     if(err)
                     {
