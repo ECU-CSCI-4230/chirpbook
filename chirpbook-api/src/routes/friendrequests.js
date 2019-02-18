@@ -30,4 +30,26 @@ router.post('/friends_requests/:userid', function(req, res){
     
 });
 
+router.post('/friends_requests/send/:sender/:receiver', function(req, res){
+    var sender = req.params.sender
+    var receiver = req.params.receiver
+    FriendRequestManagement.createFriendRequest(sender, receiver, function(newFriendRequest){
+        res.status(201).json({
+            success : true,
+            error : null,
+        })
+    })
+});
+
+router.post('/friends_requests/reject/:sender/:receiver', function(req, res){
+    var sender = req.params.sender
+    var receiver = req.params.receiver
+    FriendRequestManagement.deleteFriendRequest(sender, receiver, function(removedRequest){
+        res.status(201).json({
+            success : true,
+            error : null,
+        })
+    })
+});
+
 module.exports = router;
