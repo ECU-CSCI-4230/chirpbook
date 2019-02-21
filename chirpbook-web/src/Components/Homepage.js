@@ -32,10 +32,10 @@ class Homepage extends Component
     {
         super(props);
         this.state = {posts: []};
-
+        this.updateHomepage = this.updateHomepage.bind(this);
     }
 
-    componentWillMount()
+    updateHomepage()
     {
         let path = `/posts/get_homepage`
         Auth.fetch(path, {method: 'GET'}).then((res) =>
@@ -49,13 +49,18 @@ class Homepage extends Component
         }).catch((error) => console.log(error));
     }
 
+    componentWillMount()
+    {
+        this.updateHomepage();
+    }
+
     render()
     {
         const {classes} = this.props;
 
         return (
             <List className={classes.root}>
-                <SendChirpItem />
+                <SendChirpItem updateHomepage={this.updateHomepage} />
                 {this.state.posts.map((currChirp, key) =>
                     <React.Fragment key={'chirpfrag' + key}>
                         <li>

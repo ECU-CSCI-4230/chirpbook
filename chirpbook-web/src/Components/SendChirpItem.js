@@ -3,6 +3,9 @@ import React, {Component} from 'react';
 import {withStyles, Grid, TextField, Button, ListItem, IconButton} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import {AccountCircle} from '@material-ui/icons';
+import AuthHelpers from '../Auth/AuthHelpers.js'
+
+const Auth = new AuthHelpers();
 
 const styles = theme => ({
     chirpSend: {
@@ -23,6 +26,40 @@ const styles = theme => ({
 
 class SendChirpItem extends Component
 {
+    constructor(props)
+    {
+        super(props);
+        this.state = {post_text: ''};
+        this.post = this.post.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+    }
+
+    handleKeyPress(event)
+    {
+        if(event.key === 'Enter')
+        {
+            this.post();
+        }
+    }
+
+    handleChange(event, newValue)
+    {
+        event.persist();
+        this.setState({post_text: event.target.value});
+    }
+
+    post()
+    {
+        Auth.fetch('/posts/add', {
+            method: 'post',
+            body: JSON.stringify({post_text: this.state.post_text})
+        }).then((res) =>
+        {
+            this.props.updateHomepage();
+            this.setState({post_text: ''})
+        }).catch(err => console.log(err));
+    }
 
     render()
     {
@@ -39,8 +76,12 @@ class SendChirpItem extends Component
                 <Grid container>
                     <Grid item xs={12}>
                         <TextField
+                            ref='PostText'
                             id="outlined-textarea"
                             placeholder="Chirp here!"
+                            onKeyPress={this.handleKeyPress}
+                            value={this.state.post_text}
+                            onChange={this.handleChange}
                             multiline
                             fullWidth
                             rows="2"
@@ -51,15 +92,17 @@ class SendChirpItem extends Component
                         />
                     </Grid>
                     <Grid item xs={12} >
-                        <Button variant="outlined" size="medium" color="primary" className={classes.chirpSendButton}>
+                        <Button variant="outlined" size="medium"
+                            color="primary"
+                            className={classes.chirpSendButton}
+                            onClick={this.post}
+                        >
                             Chirp
                         </Button>
                     </Grid>
                 </Grid>
-
             </ListItem >
         );
-
     }
 }
 
