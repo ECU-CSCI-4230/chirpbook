@@ -20,7 +20,6 @@ app.use(base_url, require('./routes/comments'));
 app.use(base_url, require('./routes/friends'));
 
 // This is the main function, essentially.
-app.listen(app.get('port'), function()
-{
+app.listen(app.get('port'), function () {
     console.log('listening on port ' + app.get('port'));
 });
