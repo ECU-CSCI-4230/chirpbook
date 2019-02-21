@@ -11,9 +11,9 @@ const jwt = require('jsonwebtoken');
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({extended: true}));
+router.use(bodyParser.urlencoded({ extended: true }));
 
-var log = require('console-log-level')({level: 'info'});
+var log = require('console-log-level')({ level: 'info' });
 
 //var GoogleTokenStrategy = require('passport-google-id-token');
 
@@ -28,16 +28,16 @@ var log = require('console-log-level')({level: 'info'});
 
 //router.use(passport.initialize());
 
-const {OAuth2Client} = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(config.client_id);
 
 
-router.post('/users/set_displayname/:userid', function(req, res){
+router.post('/users/set_displayname/:userid', function (req, res) {
     var userid = req.params.userid
     var displayName = req.body.display_name
 
-    UserManagement.setDisplayName(userid, displayName, function(result){
-        if(result.rowCount == 1){
+    UserManagement.setDisplayName(userid, displayName, function (result) {
+        if (result.rowCount == 1) {
             res.status(201).json({
                 sucess: true,
                 err: null
@@ -49,11 +49,11 @@ router.post('/users/set_displayname/:userid', function(req, res){
             })
         }
     })
-    
+
 })
 
 //creates or updates user and validates google token
-router.post('/auth/google', function(req, res){
+router.post('/auth/google', function (req, res) {
     async function verify() {
         const ticket = await client.verifyIdToken({
             idToken: req.body.idToken,
@@ -67,9 +67,9 @@ router.post('/auth/google', function(req, res){
         var gmail = payload.email
         var pictureLink = payload.picture
 
-        UserManagement.getUser(payload.email, function(user_row){
-            if(user_row.length == 1){
-                UserManagement.updateProfilePicture(user_row[0].userid, pictureLink, function(picture_row){
+        UserManagement.getUser(payload.email, function (user_row) {
+            if (user_row.length == 1) {
+                UserManagement.updateProfilePicture(user_row[0].userid, pictureLink, function (picture_row) {
                     res.status(201).json({
                         sucess: true,
                         err: null,
@@ -79,9 +79,9 @@ router.post('/auth/google', function(req, res){
                         token: req.body.idToken
                     })
                 })
-                
-            }else{
-                UserManagement.createUser(gmail, pictureLink, function(newUser){
+
+            } else {
+                UserManagement.createUser(gmail, pictureLink, function (newUser) {
                     res.status(201).json({
                         sucess: true,
                         err: null,
@@ -95,7 +95,7 @@ router.post('/auth/google', function(req, res){
         })
     }
     verify().catch(console.error);
-    
+
 });
 
 

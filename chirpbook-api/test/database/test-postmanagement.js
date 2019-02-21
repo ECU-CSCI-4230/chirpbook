@@ -99,7 +99,7 @@ it('test add like', function(done)
 {
     LikeManagement.addLike(userPosts[userPosts.length - 1].postid, userid3, 1, function(result)
     {
-        assert.strictEqual(result.rowCount, 1)
+        assert.strictEqual(result, 1)
         done();
     });
 });
@@ -109,7 +109,7 @@ it('test add dislike', function(done)
 {
     LikeManagement.addLike(userPosts[userPosts.length - 1].postid, userid, 0, function(result)
     {
-        assert.strictEqual(result.rowCount, 1)
+        assert.strictEqual(result, 1)
         done();
     });
 });
@@ -118,7 +118,7 @@ it('test add dislike', function(done)
 {
     LikeManagement.addLike(userPosts[userPosts.length - 1].postid, userid2, 0, function(result)
     {
-        assert.strictEqual(result.rowCount, 1)
+        assert.strictEqual(result, 1)
         done();
     });
 });
@@ -205,7 +205,7 @@ it('test remove like', function(done)
 {
     LikeManagement.removeLike(userPosts[userPosts.length - 1].postid, userid3, function(result)
     {
-        assert.strictEqual(result.rowCount, 1)
+        assert.strictEqual(result, 1)
         done();
     });
 });
@@ -214,7 +214,7 @@ it('test remove dislike', function(done)
 {
     LikeManagement.removeLike(userPosts[userPosts.length - 1].postid, userid, function(result)
     {
-        assert.strictEqual(result.rowCount, 1)
+        assert.strictEqual(result, 1)
         done();
     });
 });
@@ -223,7 +223,7 @@ it('test remove dislike', function(done)
 {
     LikeManagement.removeLike(userPosts[userPosts.length - 1].postid, userid2, function(result)
     {
-        assert.strictEqual(result.rowCount, 1)
+        assert.strictEqual(result, 1)
         done();
     });
 });
