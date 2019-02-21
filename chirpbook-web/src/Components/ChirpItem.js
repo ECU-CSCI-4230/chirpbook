@@ -50,10 +50,10 @@ class ChirpItem extends Component
     {
         super(props);
         this.state = {
-            isLiked: props.chirp.isLiked,
-            isDisliked: props.chirp.isDisliked,
-            likes: props.chirp.likes,
-            dislikes: props.chirp.dislikes,
+            isLiked: props.chirp.isliked,
+            isDisliked: props.chirp.isdisliked,
+            likes: parseInt(props.chirp.likes),
+            dislikes: parseInt(props.chirp.dislikes),
 
         }
         this.like = this.like.bind(this);
@@ -93,6 +93,7 @@ class ChirpItem extends Component
                 <ListItem alignItems="flex-start">
                     <ListItemAvatar className={classes.chirpIcon} children={IconButton} >
                         <Avatar>
+                            {/* TODO make this the user's profile picture  */}
                             <AccountCircle />
                         </Avatar>
                     </ListItemAvatar>
@@ -101,10 +102,11 @@ class ChirpItem extends Component
                         primary={
                             <React.Fragment>
                                 <Typography component="span" inline className={classes.user} color="textPrimary" >
-                                    {this.props.chirp.user}
+                                    {this.props.chirp.display_name}
                                 </Typography>
                                 <Typography component="span" inline color="textSecondary">
-                                    @{this.props.chirp.userName}
+                                    {this.props.chirp.gmail}
+                                    {' · ' + parseInt(((new Date().getTime() - new Date(this.props.chirp.time_posted).getTime()) / (1000 * 60))) + 'min ago'}
                                 </Typography>
 
                             </React.Fragment>
@@ -112,7 +114,7 @@ class ChirpItem extends Component
                         secondary={
                             <React.Fragment>
                                 <Typography component="span" color="textPrimary">
-                                    {this.props.chirp.chripText}
+                                    {this.props.chirp.post_text}
                                 </Typography>
                                 <div className={classes.interactions}>
 

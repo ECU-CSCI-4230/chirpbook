@@ -48,6 +48,30 @@ class LikeManagement
         });
     }
 
+    static editLike(postid, userid, liketype, callback)
+    {
+        db.connect(function(client)
+        {
+            client.query(`UPDATE public."Like_Dislike" 
+            SET liketype = $3
+            WHERE postid = $1 and userid = $2`,
+                         [postid, userid, liketype],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        callback(result)
+                    }
+                });
+        });
+    }
+
 }
 
 module.exports = LikeManagement

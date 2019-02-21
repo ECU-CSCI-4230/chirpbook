@@ -42,7 +42,7 @@ router.post('/users/set_displayname/:userid', function(req, res){
                 sucess: true,
                 err: null
             })
-        }else{
+        } else {
             res.status(404).json({
                 sucess: false,
                 err: 'User not found'

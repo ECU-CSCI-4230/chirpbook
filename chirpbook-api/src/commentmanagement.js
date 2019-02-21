@@ -25,9 +25,7 @@ class commentmanagement
             cb(result)
           } else {
             log.info(`no results`)
-            cb({
-              rowCount: 0
-            })
+            cb(result)
           }
         });
     });

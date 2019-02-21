@@ -185,7 +185,7 @@ it('test create friend', function(done)
 
 it('get user1\'s friend\'s posts', function(done)
 {
-    PostManagement.getFriendPosts(userid, function(result)
+    PostManagement.getFriendPosts('potato@gmail.com', function(result)
     {
         assert.strictEqual(result.rowCount, 3);
         done();
