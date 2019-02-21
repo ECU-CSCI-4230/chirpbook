@@ -38,7 +38,7 @@ it('create post from user 1', function(done)
 {
     PostManagement.createPost(userid, 'a fake post', function(result)
     {
-        assert.strictEqual(result, 1)
+        assert.strictEqual(result.rowCount, 1)
         done();
     });
 });
@@ -47,7 +47,7 @@ it('create post from user 2', function(done)
 {
     PostManagement.createPost(userid2, 'a different fake post for the second test', function(result)
     {
-        assert.strictEqual(result, 1)
+        assert.strictEqual(result.rowCount, 1)
         done();
     });
 });
@@ -56,7 +56,7 @@ it('create a post to edit from user 1', function(done)
 {
     PostManagement.createPost(userid, 'we will edit this post', function(result)
     {
-        assert.strictEqual(result, 1)
+        assert.strictEqual(result.rowCount, 1)
         done();
     });
 });

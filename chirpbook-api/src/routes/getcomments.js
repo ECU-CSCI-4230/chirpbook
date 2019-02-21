@@ -17,6 +17,7 @@ var log = require('console-log-level')({level: 'info'});
 
 router.post('/post/comments/:postid', function(req, res){
     var postid = req.params.postid
+    log.info(postid)
 
     PostManagement.getPostComments(postid, function(result){
         if(result.rowCount >= 0){
