@@ -4,12 +4,12 @@ var log = require('console-log-level')({level: 'warn'})
 
 class UserManagement
 {
-    static createUser(gmail, link, cb)
+    static createUser(gmail, link, display_name, cb)
     {
         db.connect(function(client)
         {
             client.query(`INSERT INTO public."User" (gmail, display_name, profile_picture)
-								VALUES ($1, $2, $3) RETURNING userid`, [gmail, gmail, link],
+								VALUES ($1, $2, $3) RETURNING userid`, [gmail, display_name, link],
                 function(err, result)
                 {
                     client.release()
