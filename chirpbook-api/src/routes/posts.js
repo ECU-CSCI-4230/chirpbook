@@ -49,9 +49,9 @@ router.post('/posts/add', function(req, res)
         {
             if(userRows.length == 1)
             {
-                PostManagement.createPost(userRows[0].userid, postText, function(post_count)
+                PostManagement.createPost(userRows[0].userid, postText, function(post_res)
                 {
-                    if(post_count == 1)
+                    if(post_res.rowCount == 1)
                     {
                         res.status(201).json({
                             success: true,
