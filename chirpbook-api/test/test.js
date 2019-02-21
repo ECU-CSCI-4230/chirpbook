@@ -40,6 +40,7 @@ describe("API", function(){
     })
 
     importTest("accounts", './api/test-accounts')
+    importTest("posts", './api/test-getcomments')
 
     after(function(){
 
