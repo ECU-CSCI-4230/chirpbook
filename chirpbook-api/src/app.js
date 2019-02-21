@@ -13,6 +13,7 @@ app.use(cors());
 const base_url = '/api/v1';
 
 app.use(base_url, require('./routes/accounts'));
+app.use(base_url, require('./routes/getcomments'));
 app.use(base_url, require('./routes/likes-dislikes'))
 app.use(base_url, require('./routes/friendrequests'));
 app.use(base_url, require('./routes/posts'));

@@ -10,7 +10,7 @@ class PostManagement
         db.connect(function(client)
         {
             client.query(`INSERT INTO public."Post" (userid, post_text)
-                            VALUES ($1, $2)`, [userid, post_text],
+                            VALUES ($1, $2) returning postid`, [userid, post_text],
                 function(err, result)
                 {
                     client.release();
@@ -21,10 +21,10 @@ class PostManagement
                     if(result)
                     {
                         log.info(result);
-                        cb(result.rowCount);
+                        cb(result);
                     } else
                     {
-                        cb(0);
+                        cb(result);
                     }
                 });
         });
@@ -131,7 +131,7 @@ class PostManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT commentid, postid, userid, comment_text, time_posted FROM public."Comment" WHERE postid = $1`, [postid],
+            client.query(`SELECT * FROM public."Comment" NATURAL JOIN public."User" WHERE postid = $1`, [postid],
                 function(err, result)
                 {
                     client.release();
