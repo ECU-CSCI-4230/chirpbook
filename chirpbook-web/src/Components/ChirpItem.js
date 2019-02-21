@@ -68,7 +68,12 @@ class ChirpItem extends Component
 
         } else
         {
+            if(this.state.isLiked)
+            {
+                this.setState({isLiked: false, likes: this.state.likes - 1})
+            }
             this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
+
         }
     }
 
@@ -80,6 +85,10 @@ class ChirpItem extends Component
 
         } else
         {
+            if(this.state.isDisliked)
+            {
+                this.setState({isDisliked: false, dislikes: this.state.dislikes - 1})
+            }
             this.setState({isLiked: true, likes: this.state.likes + 1});
         }
     }
