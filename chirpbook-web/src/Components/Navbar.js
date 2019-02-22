@@ -59,6 +59,10 @@ class NavBar extends Component
     openTestPage = () => {
         this.props.history.replace('/test')
     }
+
+    openFriendsPage = () => {
+        this.props.history.replace('/friends')
+    }
     
     render()
     {
@@ -83,7 +87,11 @@ class NavBar extends Component
                     }
                     <Button variant="contained" color="primary" onClick={this.openTestPage}>
                             Open Test page
-                            </Button>
+                    </Button>
+
+                    <Button variant="contained" color="primary" onClick={this.openFriendsPage}>
+                        Friends
+                    </Button>
 
                 </Toolbar>
             </AppBar>

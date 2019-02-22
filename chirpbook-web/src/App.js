@@ -5,6 +5,7 @@ import NavBar from './Components/Navbar';
 import Homepage from './Components/Homepage';
 import LoginPage from './Components/LoginPage'
 import TestApi from './Components/TestAPI'
+import FriendsPage from "./Components/FriendsPage";
 
 // import Loadable from "react-loadable";
 
@@ -25,6 +26,7 @@ class App extends React.Component
                     <Switch >
                         <Route exact path="/home" component={Homepage} />
                         <Route path="/login" component={LoginPage} />
+                        <Route path="/friends" component={FriendsPage}/>
                         <Route path="/test" component={TestApi} />
                     </Switch>
                 </React.Fragment >

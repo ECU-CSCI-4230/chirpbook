@@ -22,7 +22,7 @@ it('add new friend', function(done){
 it('get all friends', function(done){
     const path = 'http://localhost:8080/api/v1/friends/0';
 
-    request.post(path, {
+    request.get(path, {
         url: path,
         headers: {'Content-Type': 'application/json'},
     }, function(err, res)
@@ -51,7 +51,7 @@ it('remove friend', function(done){
 it('get all friends', function(done){
     const path = 'http://localhost:8080/api/v1/friends/0';
 
-    request.post(path, {
+    request.get(path, {
         url: path,
         headers: {'Content-Type': 'application/json'},
     }, function(err, res)

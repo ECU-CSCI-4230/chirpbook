@@ -41,7 +41,7 @@ router.post('/friends/remove/:userid/:userid2', function(req, res){
 });
 
 // Request for getting all current friends for the given user id.
-router.post('/friends/:userid', function(req, res){
+router.get('/friends/:userid', function(req, res){
     var userid = req.params.userid
     
     FriendManagement.getAllFriends(userid, function(currentFriends){
