@@ -8,7 +8,7 @@ console.log(basepath)
 it('search user', function (done) {
     const path = 'http://localhost:8080/api/v1//user';
 
-    var reqBody = {} // add some parameters
+    var reqBody = { gmail: 'TEST@gmail.com' } // add some required parameters
 
     request.get(path, {
         url: path,
