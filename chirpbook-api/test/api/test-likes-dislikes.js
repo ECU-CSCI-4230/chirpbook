@@ -3,7 +3,7 @@ const assert = require('assert');
 const request = require('request');
 const { basepath } = require('../common');
 
-console.log(basepath)
+//console.log(basepath)
 
 it('add like', function (done) {
     const path = 'http://localhost:8080/api/v1//like';
@@ -15,7 +15,7 @@ it('add like', function (done) {
         body: JSON.stringify(reqBody),
     }, function (err, res) {
         var body = JSON.parse(res.body)
-        console.log(body)
+        //console.log(body)
         assert.strictEqual(true, body.success);
         done();
     })
@@ -32,7 +32,7 @@ it('edit like', function (done) {
         body: JSON.stringify(reqBody),
     }, function (err, res) {
         var body = JSON.parse(res.body)
-        console.log(body)
+        //console.log(body)
         assert.strictEqual(true, body.success);
         done();
     });
@@ -49,7 +49,7 @@ it('remove like', function (done) {
         body: JSON.stringify(reqBody),
     }, function (err, res) {
         var body = JSON.parse(res.body)
-        console.log(body)
+        //console.log(body)
         assert.strictEqual(true, body.success);
         done();
     });
