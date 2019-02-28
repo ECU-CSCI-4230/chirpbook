@@ -3,7 +3,7 @@ const {PostManagement, UserManagement, LikeManagement, FriendManagement, Comment
 var userid = null;
 it('create a test user', function(done)
 {
-    UserManagement.createUser('potato@gmail.com', '', function(result)
+    UserManagement.createUser('potato@gmail.com', '', 'potato', function(result)
     {
         assert.strictEqual(result.rowCount, 1);
         userid = result.rows[0].userid
@@ -14,7 +14,7 @@ it('create a test user', function(done)
 var userid2 = null;
 it('create another test user', function(done)
 {
-    UserManagement.createUser('test@gmail.com', '', function(result)
+    UserManagement.createUser('test@gmail.com', '', '', function(result)
     {
         assert.strictEqual(result.rowCount, 1);
         userid2 = result.rows[0].userid
@@ -25,7 +25,7 @@ it('create another test user', function(done)
 var userid3 = null;
 it('create another test user', function(done)
 {
-    UserManagement.createUser('test2@gmail.com', '', function(result)
+    UserManagement.createUser('test2@gmail.com', '', '', function(result)
     {
         assert.strictEqual(result.rowCount, 1);
         userid3 = result.rows[0].userid

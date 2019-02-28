@@ -4,7 +4,7 @@ var userid;
 
 it('test create user', function(done)
 {
-    UserManagement.createUser('test47@gmail.com','http://hasthelargehadroncolliderdestroyedtheworldyet.com/', function(result)
+    UserManagement.createUser('test47@gmail.com','http://hasthelargehadroncolliderdestroyedtheworldyet.com/', 'test47@gmail.com', function(result)
     {
         assert.strictEqual(result.rowCount, 1)
         userid = result.rows[0].userid
