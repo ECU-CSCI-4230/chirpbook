@@ -57,6 +57,33 @@ class UserManagement
         });
     }
 
+    static searchUser(gmail, cb)
+    {
+        db.connect(function(client)
+        {
+            var mail = '%' + gmail + '%'
+            client.query(`SELECT * FROM public."User" WHERE gmail ILIKE $1`, [mail],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        cb(result.rows)
+                    }
+                    else
+                    {
+                        log.info(`no results`)
+                        cb([])
+                    }
+                });
+        });
+    }
+
     static deleteUser(userid, cb)
     {
         db.connect(function(client)
