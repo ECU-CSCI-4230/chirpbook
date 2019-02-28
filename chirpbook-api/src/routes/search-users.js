@@ -14,17 +14,18 @@ var log = require('console-log-level')({ level: 'info' });
 
 // ISSUE: API call for searching users by username or gmail
 
-router.get('/user', function(req, res) { // might need to change '/user'
+router.get('/user/search', function(req, res) { // might need to change '/user'
 
     // Need some variables here
     var gmail = req.body.gmail
 
-    UserManagement.getUser(gmail, function(result) {
+    UserManagement.searchUser(gmail, function(result) {
 
-        if (result == 1) {
+        if (result.length > 0) {
             res.status(201).json({
                 success: true,
-                err: null
+                err: null,
+                users: result
             })
         } else {
             res.status(400).json({
@@ -34,6 +35,8 @@ router.get('/user', function(req, res) { // might need to change '/user'
         }
 
     })
+
+
 })
 
 module.exports = router
