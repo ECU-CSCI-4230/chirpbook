@@ -19,7 +19,18 @@ router.post('/friends/add/:userid/:userid2', function(req, res){
     var userid = req.params.userid
     var userid2 = req.params.userid2
     
-    FriendManagement.createFriend(userid, userid2, function(addFriendship){
+    var u1
+    var u2
+
+    if(userid < userid2){
+        u1 = userid
+        u2 = userid2
+    }else{
+        u1 = userid2
+        u2 = userid
+    }
+
+    FriendManagement.createFriend(u1, u2, function(addFriendship){
         res.status(201).json({
             success: true,
             error : null
