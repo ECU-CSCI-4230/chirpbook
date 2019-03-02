@@ -134,17 +134,20 @@ class FriendsPage extends Component
                 {this.state.friends.map((curFriend, key) =>
                     <React.Fragment key={'friend' + key}>
                         <ListItem alignItems="flex-start">
-                        <ListItemAvatar className={classes.icon} children={IconButton} >
-                            <Avatar>
-                                {/* TODO make this the user's profile picture  */}
-                                <AccountCircle />
-                            </Avatar>
-                        </ListItemAvatar>
+                            <ListItemAvatar className={classes.icon} children={IconButton} >
+                                <Avatar>
+                                    {/* TODO make this the user's profile picture  */}
+                                    <AccountCircle />
+                                </Avatar>
+                            </ListItemAvatar>
                         <ListItemText
                             disableTypography
                             primary={
                                 <React.Fragment>
                                     <Typography inline className={classes.user} color="textPrimary" >
+                                        {curFriend.display_name2}
+                                    </Typography>
+                                    <Typography component="span" inline color="textSecondary">
                                         {curFriend.gmail2}
                                     </Typography>
     
