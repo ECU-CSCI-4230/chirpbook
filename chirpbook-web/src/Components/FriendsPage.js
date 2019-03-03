@@ -57,7 +57,6 @@ class FriendsPage extends Component
     {
         // TODO have loggedin user always be user 1 
         let path = `/friends/${this.state.userid}`
-        console.log(path)
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {
             //ensure that loggedin user is user 1
@@ -98,9 +97,6 @@ class FriendsPage extends Component
 
     deleteFriend(event)
     {
-        console.log('delete')
-        console.log(event.target.value)
-        console.log(this.state.userid)
         var curUser = this.state.userid
         var userToDelete = this.state.friends[event.target.value].user2
         
@@ -111,7 +107,6 @@ class FriendsPage extends Component
             path = `/friends/remove/${curUser}/${userToDelete}`
         }
 
-        console.log(path)
         var newFriends = [...this.state.friends]
 
         newFriends.splice(event.target.value, 1)
