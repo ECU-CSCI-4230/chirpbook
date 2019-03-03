@@ -26,14 +26,14 @@ it('create new friend request', function(done){
 it('get all friend requests', function(done){
     const path = 'http://localhost:8080/api/v1/friends_requests/0';
     
-    request.post(path, {
+    request.get(path, {
         url: path,
         headers: {'Content-Type': 'application/json'},
     }, function(err, res)
         {
             var body = JSON.parse(res.body)
             assert.strictEqual(true, body.success);
-            assert.strictEqual(true, body.all_requests.length == 2);
+            assert.strictEqual(true, body.outgoing_requests.length == 2);
             done();
     });
 })
@@ -55,14 +55,16 @@ it('reject friend request', function(done){
 it('get all friend requests', function(done){
     const path = 'http://localhost:8080/api/v1/friends_requests/0';
     
-    request.post(path, {
+    request.get(path, {
         url: path,
         headers: {'Content-Type': 'application/json'},
     }, function(err, res)
         {
             var body = JSON.parse(res.body)
+
             assert.strictEqual(true, body.success);
-            assert.strictEqual(true, body.all_requests.length == 1);
+            assert.strictEqual(true, body.incoming_requests.length == 0);
+            assert.strictEqual(true, body.outgoing_requests.length == 1);
             done();
     });
 })

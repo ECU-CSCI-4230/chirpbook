@@ -15,15 +15,18 @@ router.use(bodyParser.urlencoded({extended: true}));
 var log = require('console-log-level')({level: 'info'});
 
 
-router.post('/friends_requests/:userid', function(req, res){
+router.get('/friends_requests/:userid', function(req, res){
     var userid = req.params.userid
     FriendRequestManagement.getIncomingFriendRequests(userid, function(IncomingRequests){
         FriendRequestManagement.getOutgoingFriendRequests(userid, function(OutgoingRequests){
+            //console.log(IncomingRequests)
+            //console.log(OutgoingRequests)
             var friend_requests = IncomingRequests.rows.concat(OutgoingRequests.rows)
             res.status(201).json({
                 success : true,
                 errror : null,
-                all_requests: friend_requests
+                incoming_requests: IncomingRequests.rows,
+                outgoing_requests: OutgoingRequests.rows
             })
         })
     })
