@@ -5,6 +5,9 @@ import Avatar from '@material-ui/core/Avatar';
 import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined} from '@material-ui/icons';
 
 import SendChirpCommentItem from './SendCommentItem';
+import AuthHelpers from '../Auth/AuthHelpers.js'
+
+const Auth = new AuthHelpers();
 
 const styles = theme => ({
     chirpSend: {
@@ -66,16 +69,32 @@ class ChirpItem extends Component
     {
         if(this.state.isDisliked)
         {
-            this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
-
+            Auth.fetch('/like', {
+                method: 'delete',
+                body: JSON.stringify({
+                    postid: this.props.chirp.postid,
+                })
+            }).then((res) =>
+            {
+                this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
+            }).catch(err => console.log(err));
         } else
         {
             if(this.state.isLiked)
             {
                 this.setState({isLiked: false, likes: this.state.likes - 1})
             }
-            this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
 
+            Auth.fetch('/like', {
+                method: 'post',
+                body: JSON.stringify({
+                    postid: this.props.chirp.postid,
+                    like_type: 0,
+                })
+            }).then((res) =>
+            {
+                this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
+            }).catch(err => console.log(err));
         }
     }
 
@@ -83,7 +102,15 @@ class ChirpItem extends Component
     {
         if(this.state.isLiked)
         {
-            this.setState({isLiked: false, likes: this.state.likes - 1});
+            Auth.fetch('/like', {
+                method: 'delete',
+                body: JSON.stringify({
+                    postid: this.props.chirp.postid,
+                })
+            }).then((res) =>
+            {
+                this.setState({isLiked: false, likes: this.state.likes - 1});
+            }).catch(err => console.log(err));
 
         } else
         {
@@ -91,7 +118,17 @@ class ChirpItem extends Component
             {
                 this.setState({isDisliked: false, dislikes: this.state.dislikes - 1})
             }
-            this.setState({isLiked: true, likes: this.state.likes + 1});
+            Auth.fetch('/like', {
+                method: 'post',
+                body: JSON.stringify({
+                    postid: this.props.chirp.postid,
+                    like_type: 1,
+                })
+            }).then((res) =>
+            {
+                this.setState({isLiked: true, likes: this.state.likes + 1});
+            }).catch(err => console.log(err));
+
         }
     }
 
