@@ -4,7 +4,10 @@ const app = express();
 const router = express.Router();
 
 const commentmanagement = require('../commentmanagement');
+const UserManagement = require('../usermanagement');
+
 const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
@@ -15,28 +18,36 @@ var log = require('console-log-level')({level: 'info'});
 router.post('/comments/add', function(req, res)
 {
     var commentText = req.body.comment_text
-    var userid = req.body.userid
     var postid = req.body.postid
     var parentCommentid = req.body.parent_commentid
+    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).email;
 
-    commentmanagement.createComment(postid, parentCommentid, userid, commentText, function(comment_rows)
+    if(gmail && commentText)
     {
-        if(comment_rows.rowCount == 1)
+        UserManagement.getUser(gmail, userRows =>
         {
-
-            res.status(201).json({
-                commentid: comment_rows.rows[0].commentid,
-                success: true,
-                err: null
-            })
-        } else
-        {
-            res.status(404).json({
-                success: false,
-                err: "Cannot add comment"
-            })
-        }
-    })
+            if(userRows.length == 1)
+            {
+                commentmanagement.createComment(postid, parentCommentid, userRows[0].userid, commentText, function(comment_rows)
+                {
+                    if(comment_rows.rowCount == 1)
+                    {
+                        res.status(201).json({
+                            commentid: comment_rows.rows[0].commentid,
+                            success: true,
+                            err: null
+                        });
+                    } else
+                    {
+                        res.status(404).json({
+                            success: false,
+                            err: "Cannot add comment"
+                        });
+                    }
+                });
+            }
+        });
+    }
 })
 
 router.get('/comments/get/:postid', function(req, res)

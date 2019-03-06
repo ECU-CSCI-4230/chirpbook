@@ -67,7 +67,13 @@ class Homepage extends Component
                             <Divider variant="inset" />
                         </li>
 
-                        <ChirpItem chirp={currChirp} key={'chirp' + key} />
+                        <ChirpItem
+                            chirp={currChirp}
+                            updateHomepage={this.updateHomepage}
+                            showComment={false}
+                            history={this.props.history}
+                            ey={'chirp' + key}
+                        />
 
                     </React.Fragment>
                 )}

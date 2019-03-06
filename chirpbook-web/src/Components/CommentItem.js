@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 
 import {withStyles, ListItem, ListItemAvatar, ListItemText, Typography, IconButton} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import {AccountCircle, ThumbUp, ThumbDown, ThumbUpOutlined, ThumbDownOutlined} from '@material-ui/icons';
-
+import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined} from '@material-ui/icons';
+import {Grid, TextField, Button} from '@material-ui/core';
+import SendChirpCommentItem from './SendCommentItem';
 const indent_len = 75;
 const styles = theme => ({
     chirpSend: {
@@ -50,49 +51,60 @@ class CommentItem extends Component
     constructor(props)
     {
         super(props);
-        // this.state = {
-        //     isLiked: props.chirp.isliked,
-        //     isDisliked: props.chirp.isdisliked,
-        //     likes: parseInt(props.chirp.likes),
-        //     dislikes: parseInt(props.chirp.dislikes),
-
-        // }
-        // this.like = this.like.bind(this);
-        // this.dislike = this.dislike.bind(this);
+        this.state = {
+            // isLiked: props.chirp.isliked,
+            // isDisliked: props.chirp.isdisliked,
+            // likes: parseInt(props.chirp.likes),
+            // dislikes: parseInt(props.chirp.dislikes),
+            indent: (props.depth * indent_len) + 'px',
+            showComment: false,
+            isLiked: false,
+            isDisliked: false,
+            likes: 0,
+            dislikes: 0,
+        }
+        this.like = this.like.bind(this);
+        this.dislike = this.dislike.bind(this);
+        this.expandComment = this.expandComment.bind(this);
     }
 
-    // dislike()
-    // {
-    //     if(this.state.isDisliked)
-    //     {
-    //         this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
+    expandComment()
+    {
+        this.setState({showComment: !this.state.showComment});
+    }
 
-    //     } else
-    //     {
-    //         if(this.state.isLiked)
-    //         {
-    //             this.setState({isLiked: false, likes: this.state.likes - 1})
-    //         }
-    //         this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
+    dislike()
+    {
+        if(this.state.isDisliked)
+        {
+            this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
 
-    //     }
-    // }
+        } else
+        {
+            if(this.state.isLiked)
+            {
+                this.setState({isLiked: false, likes: this.state.likes - 1})
+            }
+            this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
 
-    // like()
-    // {
-    //     if(this.state.isLiked)
-    //     {
-    //         this.setState({isLiked: false, likes: this.state.likes - 1});
+        }
+    }
 
-    //     } else
-    //     {
-    //         if(this.state.isDisliked)
-    //         {
-    //             this.setState({isDisliked: false, dislikes: this.state.dislikes - 1})
-    //         }
-    //         this.setState({isLiked: true, likes: this.state.likes + 1});
-    //     }
-    // }
+    like()
+    {
+        if(this.state.isLiked)
+        {
+            this.setState({isLiked: false, likes: this.state.likes - 1});
+
+        } else
+        {
+            if(this.state.isDisliked)
+            {
+                this.setState({isDisliked: false, dislikes: this.state.dislikes - 1})
+            }
+            this.setState({isLiked: true, likes: this.state.likes + 1});
+        }
+    }
 
     render()
     {
@@ -100,7 +112,7 @@ class CommentItem extends Component
 
         return (
             <React.Fragment>
-                <ListItem style={{paddingLeft: (this.props.depth * indent_len) + 'px'}} alignItems="flex-start">
+                <ListItem style={{paddingLeft: this.state.indent}} alignItems="flex-start">
                     <ListItemAvatar className={classes.chirpIcon} children={IconButton} >
                         <Avatar>
                             {/* TODO make this the user's profile picture  */}
@@ -126,10 +138,15 @@ class CommentItem extends Component
                                 <Typography component="span" color="textPrimary">
                                     {this.props.chirp.comment_text}
                                 </Typography>
-                                {/* <div className={classes.interactions}>
-
+                                <div className={classes.interactions}>
+                                    <IconButton className={classes.likeChrip} aria-label="Like"
+                                        onClick={this.expandComment}
+                                    >
+                                        <Comment className={classes.interactionIcon} />
+                                    </IconButton>
                                     <IconButton className={classes.likeChrip} aria-label="Like"
                                         onClick={this.like}
+                                        disabled
                                     >
                                         {this.state.isLiked ?
                                             <ThumbUp className={classes.interactionIcon} /> :
@@ -142,6 +159,7 @@ class CommentItem extends Component
                                     </IconButton>
                                     <IconButton className={classes.dislikeChirp} aria-label="Dislike"
                                         onClick={this.dislike}
+                                        disabled
                                     >
                                         {this.state.isDisliked ?
                                             <ThumbDown className={classes.interactionIcon} /> :
@@ -151,11 +169,14 @@ class CommentItem extends Component
                                             {this.state.dislikes}
                                         </Typography>
                                     </IconButton>
-                                </div> */}
+                                </div>
                             </React.Fragment>
                         }
                     />
                 </ListItem>
+                {this.state.showComment ?
+                    <SendChirpCommentItem chirp={this.props.chirp} updateHomepage={this.props.updateHomepage} indent={this.state.indent} showComment={this.props.showComment} />
+                    : null}
             </React.Fragment >
         );
 

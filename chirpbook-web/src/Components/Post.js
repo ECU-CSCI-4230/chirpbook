@@ -36,10 +36,14 @@ class Post extends Component
         };
         console.log(props);
         this.renderThread = this.renderThread.bind(this);
+        this.updateHomepage = this.updateHomepage.bind(this);
 
     }
-
     componentWillMount()
+    {
+        this.updateHomepage();
+    }
+    updateHomepage()
     {
         let get_post = `/posts/get/${this.props.match.params.postid}`;
         Auth.fetch(get_post, {method: 'GET'}).then((res) =>
@@ -64,7 +68,7 @@ class Post extends Component
                 {
                     if(comment_map[comment.parent_comment])
                     {
-                        comment_map[comment.parent_comment].push(comment);
+                        comment_map[comment.parent_comment].unshift(comment);
                     } else
                     {
                         comment_map[comment.parent_comment] = [comment];
@@ -84,7 +88,7 @@ class Post extends Component
             <React.Fragment>
                 {this.state.comments[parent_comment] ? this.state.comments[parent_comment].map((comment, index) =>
                     <React.Fragment>
-                        <CommentItem chirp={comment} depth={depth} key={'commentd' + depth + 'i' + index} />
+                        <CommentItem updateHomepage={this.updateHomepage} chirp={comment} depth={depth} key={'commentd' + depth + 'i' + index} />
                         {this.renderThread(comment.commentid, depth + 1)}
                     </React.Fragment>
                 ) : null}
@@ -99,7 +103,12 @@ class Post extends Component
         return (
             <List className={classes.root}>
                 {this.state.post ?
-                    <ChirpItem chirp={this.state.post} /> : null}
+                    <ChirpItem
+                        chirp={this.state.post}
+                        showComment
+                        history={this.props.history}
+                        updateHomepage={this.updateHomepage}
+                    /> : null}
                 {this.state.comments ?
                     this.renderThread(null, 1) : null}
             </List>

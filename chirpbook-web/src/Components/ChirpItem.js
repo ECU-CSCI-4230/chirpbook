@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 
 import {withStyles, ListItem, ListItemAvatar, ListItemText, Typography, IconButton} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import {AccountCircle, ThumbUp, ThumbDown, ThumbUpOutlined, ThumbDownOutlined} from '@material-ui/icons';
+import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined} from '@material-ui/icons';
+
+import SendChirpCommentItem from './SendCommentItem';
 
 const styles = theme => ({
     chirpSend: {
@@ -54,8 +56,8 @@ class ChirpItem extends Component
             isDisliked: props.chirp.isdisliked,
             likes: parseInt(props.chirp.likes),
             dislikes: parseInt(props.chirp.dislikes),
-
         }
+
         this.like = this.like.bind(this);
         this.dislike = this.dislike.bind(this);
     }
@@ -126,7 +128,12 @@ class ChirpItem extends Component
                                     {this.props.chirp.post_text}
                                 </Typography>
                                 <div className={classes.interactions}>
-
+                                    <IconButton className={classes.likeChrip} aria-label="Like"
+                                        onClick={() => this.props.history.replace(`/post/${this.props.chirp.postid}`)}
+                                        disabled={this.props.showComment}
+                                    >
+                                        <Comment className={classes.interactionIcon} />
+                                    </IconButton>
                                     <IconButton className={classes.likeChrip} aria-label="Like"
                                         onClick={this.like}
                                     >
@@ -155,6 +162,9 @@ class ChirpItem extends Component
                         }
                     />
                 </ListItem>
+                {this.props.showComment ?
+                    <SendChirpCommentItem chirp={this.props.chirp} history={this.props.history} updateHomepage={this.props.updateHomepage} indent={this.state.indent} />
+                    : null}
             </React.Fragment >
         );
 
