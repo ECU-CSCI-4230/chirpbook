@@ -7,6 +7,8 @@ import LoginPage from './Components/LoginPage'
 import TestApi from './Components/TestAPI'
 import FriendsPage from "./Components/FriendsPage";
 import FriendRequestPage from "./Components/FriendRequestPage";
+import Post from "./Components/Post";
+
 // import Loadable from "react-loadable";
 
 // function Loading()
@@ -26,9 +28,10 @@ class App extends React.Component
                     <Switch >
                         <Route exact path="/home" component={Homepage} />
                         <Route path="/login" component={LoginPage} />
-                        <Route path="/friends" component={FriendsPage}/>
+                        <Route path="/friends" component={FriendsPage} />
                         <Route path='/friend_requests' component={FriendRequestPage} />
                         <Route path="/test" component={TestApi} />
+                        <Route path='/post/:postid' component={Post} />
                     </Switch>
                 </React.Fragment >
             </Router>

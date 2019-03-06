@@ -39,6 +39,30 @@ router.get('/posts/get_homepage', function(req, res)
     })
 });
 
+router.get('/posts/get/:postid', function(req, res)
+{
+    var postid = req.params.postid
+    var email = jwt_decode(req.headers.authorization.split(' ')[1]).email;
+    console.log(email)
+    PostManagement.getPost(postid, email, function(result)
+    {
+        if(result && result.rowCount > 0)
+        {
+            res.status(200).json({
+                sucess: true,
+                err: null,
+                post: result.rows,
+            });
+        } else
+        {
+            res.status(404).json({
+                sucess: false,
+                err: 'Cannot get post'
+            })
+        }
+    })
+});
+
 router.post('/posts/add', function(req, res)
 {
     var postText = req.body.post_text;
