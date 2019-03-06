@@ -15,6 +15,19 @@ services:
     entrypoint: /main/start.sh
     command: [ "install", "prune", "dedupe", "start"]
 
+  cbook_admin:
+    container_name: cbook_admin
+    image: dpage/pgadmin4
+    ports:
+      - 9090:80
+    volumes:
+      - ./database/pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: email@email.com
+      PGADMIN_DEFAULT_PASSWORD : password
+    depends_on:
+      - cbook_database
+
   cbook_api:
     container_name: cbook_api
     image: node:latest
