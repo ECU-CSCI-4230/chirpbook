@@ -72,26 +72,29 @@ router.post('/auth/google', function(req, res)
 
         var gmail = payload.email
         var pictureLink = payload.picture
-
+        let display_name = payload.name
         UserManagement.getUser(payload.email, function(user_row)
         {
             if(user_row.length == 1)
             {
+                let name = display_name ? user_row[0].display_name : display_name;
                 UserManagement.updateProfilePicture(user_row[0].userid, pictureLink, function(picture_row)
                 {
-                    res.status(201).json({
-                        sucess: true,
-                        err: null,
-                        gmail: gmail,
-                        userid: user_row[0].userid,
-                        picture: pictureLink,
-                        token: req.body.idToken
-                    })
-                })
+                    UserManagement.setDisplayName(user_row[0].userid, name, function(result)
+                    {
+                        res.status(201).json({
+                            sucess: true,
+                            err: null,
+                            gmail: gmail,
+                            userid: user_row[0].userid,
+                            picture: pictureLink,
+                            token: req.body.idToken
+                        })
+                    });
+                });
 
             } else
             {
-                let display_name = payload.name;
                 UserManagement.createUser(gmail, pictureLink, display_name, function(newUser)
                 {
                     res.status(201).json({
