@@ -1,13 +1,26 @@
 import React, {Component} from 'react';
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
 import config from '../config.json';
-import {AppBar, withStyles, Toolbar, Button} from '@material-ui/core';
+import {AppBar, withStyles, Toolbar, Button, Typography, IconButton} from '@material-ui/core';
 import AuthHelpers from '../Auth/AuthHelpers.js'
+import logo from '../favicon.png';
+import {Group, GroupAdd} from '@material-ui/icons';
 
 const Auth = new AuthHelpers();
 
 const styles = theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    loginBotton: {
+        position: 'relative'
+    },
+    menuButton: {
+        marginLeft: -12,
+        marginRight: 20,
+        float: 'right'
 
+    },
 });
 
 class NavBar extends Component
@@ -30,7 +43,6 @@ class NavBar extends Component
 
     onFailure = (error) =>
     {
-        alert('error');
         console.log(this.state)
         console.log(error)
         console.log(config)
@@ -67,38 +79,52 @@ class NavBar extends Component
         this.props.history.replace('/friend_requests')
     }
 
+    openHomePage = () =>
+    {
+        this.props.history.replace('/home')
+    }
+
     render()
     {
         const {classes} = this.props;
         return (
-            <AppBar position="static"  >
-                <Toolbar>
+            <div className={classes.root}>
+                <AppBar position="static"  >
+                    <Toolbar>
 
-                    {
-                        !!this.state.isAuthenticated ?
+                        <div style={{padding: 5}} onClick={this.openHomePage}>
+                            <img src={logo} width="40" height="50"></img>
+                        </div>
+                        <Typography variant="h5" color="inherit" style={{flex: 1}}>ChirpBook</Typography>
 
-                            <Button variant="contained" color="secondary" onClick={this.logout}>
-                                Logout
-                            </Button>
-                            :
-                            <GoogleLogin
-                                clientId={config.GOOGLE_CLIENT_ID}
-                                buttonText="Login"
-                                onSuccess={this.googleResponse}
-                                onFailure={this.onFailure}
-                            />
-                    }
+                        <IconButton className={classes.menuButton} onClick={this.openFriendRequestPage}>
+                            <GroupAdd fontSize="large" />
+                        </IconButton>
 
-                    <Button variant="contained" color="primary" onClick={this.openFriendsPage}>
-                        Friends
-                    </Button>
+                        <IconButton className={classes.menuButton} onClick={this.openFriendsPage}>
+                            <Group fontSize="large" />
+                        </IconButton>
 
-                    <Button variant="contained" color="primary" onClick={this.openFriendRequestPage}>
-                        Friend Requests
-                    </Button>
+                        <div className={classes.menuButton}>
+                            {!!this.state.isAuthenticated ?
 
-                </Toolbar>
-            </AppBar>
+                                <Button variant="contained" color="secondary" onClick={this.logout}>
+                                    Logout
+                                </Button>
+                                :
+                                <GoogleLogin
+                                    clientId={config.GOOGLE_CLIENT_ID}
+                                    buttonText="Login"
+                                    onSuccess={this.googleResponse}
+                                    onFailure={this.onFailure}
+                                />
+                            }
+                        </div>
+
+
+                    </Toolbar>
+                </AppBar>
+            </div>
         );
 
     }
