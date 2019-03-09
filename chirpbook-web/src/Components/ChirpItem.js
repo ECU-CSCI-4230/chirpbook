@@ -59,7 +59,7 @@ class ChirpItem extends Component
             isDisliked: props.chirp.isdisliked,
             likes: parseInt(props.chirp.likes),
             dislikes: parseInt(props.chirp.dislikes),
-            profilePicute: props.chirp.profile_picture
+            profilePicutre: props.chirp.profile_picture
         }
 
         this.like = this.like.bind(this);
@@ -141,7 +141,7 @@ class ChirpItem extends Component
             <React.Fragment>
                 <ListItem alignItems="flex-start">
                     <ListItemAvatar className={classes.chirpIcon} children={IconButton} >
-                        <Avatar src={this.state.profilePicute}>
+                        <Avatar src={this.state.profilePicutre}>
                             {/* TODO make this the user's profile picture  */}
                             <AccountCircle />
                         </Avatar>

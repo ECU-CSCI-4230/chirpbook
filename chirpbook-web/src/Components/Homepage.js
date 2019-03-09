@@ -60,20 +60,17 @@ class Homepage extends Component
         return (
             <List className={classes.root}>
                 <SendChirpItem updateHomepage={this.updateHomepage} />
-                {this.state.posts.map((currChirp, key) =>
-                    <React.Fragment key={'chirpfrag' + key}>
-                        <li>
-                            <Divider variant="inset" />
-                        </li>
+                {this.state.posts.map((currChirp) =>
+                    <React.Fragment key={'chirpfrag' + currChirp.postid}>
+                        <Divider variant="inset" />
+
 
                         <ChirpItem
                             chirp={currChirp}
                             updateHomepage={this.updateHomepage}
                             showComment={false}
                             history={this.props.history}
-                            ey={'chirp' + key}
                         />
-
                     </React.Fragment>
                 )}
             </List>
