@@ -64,8 +64,6 @@ class FriendRequestPage extends Component
         let path = `/friends_requests/${this.state.userid}`
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {
-            console.log(res)
-
             this.setState({
                 incomingRequests: res.incoming_requests,
                 outgoingRequests: res.outgoing_requests
@@ -144,7 +142,6 @@ class FriendRequestPage extends Component
     render()
     {
         const {classes} = this.props;
-        console.log(this.state)
         return (
             <React.Fragment>
                 {this.state.incomingRequests.length == 0 ? null :
