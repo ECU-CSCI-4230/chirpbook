@@ -49,7 +49,7 @@ class FriendRequestPage extends Component
         this.state = {
             userid: Auth.getUser(),
             friends: [],
-            incomingRequests:[],
+            incomingRequests: [],
             outgoingRequests: []
         };
         this.getFriendRequests = this.getFriendRequests.bind(this);
@@ -60,18 +60,17 @@ class FriendRequestPage extends Component
 
     getFriendRequests()
     {
-        // TODO have loggedin user always be user 1 
+        // TODO have loggedin user always be user 1
         let path = `/friends_requests/${this.state.userid}`
-        console.log(path)
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {
             console.log(res)
-                
+
             this.setState({
                 incomingRequests: res.incoming_requests,
                 outgoingRequests: res.outgoing_requests
             });
-            
+
         }).catch((error) => console.log(error));
     }
 
@@ -85,19 +84,20 @@ class FriendRequestPage extends Component
     {
         var sender = this.state.incomingRequests[event.target.value].sender
         var receiver = this.state.incomingRequests[event.target.value].receiver
-        
+
         let path = `/friends_requests/reject/${sender}/${receiver}`
 
         var newIncoming = [...this.state.incomingRequests]
 
         newIncoming.splice(event.target.value, 1)
-        
+
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
-            if(res.success){
+            if(res.success)
+            {
                 this.setState({incomingRequests: newIncoming})
             }
-            
+
         })
     }
 
@@ -105,137 +105,138 @@ class FriendRequestPage extends Component
     {
         var sender = this.state.outgoingRequests[event.target.value].sender
         var receiver = this.state.outgoingRequests[event.target.value].receiver
-        
+
         let path = `/friends_requests/reject/${sender}/${receiver}`
 
         var newIncoming = [...this.state.outgoingRequests]
 
         newIncoming.splice(event.target.value, 1)
-        
+
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
-            if(res.success){
+            if(res.success)
+            {
                 this.setState({outgoingRequests: newIncoming})
             }
-            
+
         })
     }
 
-    acceptRequest(event){
+    acceptRequest(event)
+    {
         event.persist()
         var curRequest = this.state.incomingRequests[event.target.value]
         var user1 = curRequest.sender
         var user2 = curRequest.receiver
-        
+
         let path = `/friends/add/${user1}/${user2}`
 
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
-            if(res.success){
+            if(res.success)
+            {
                 this.deleteIncomingFriendRequest(event)
             }
-            
+
         })
     }
 
     render()
     {
         const {classes} = this.props;
-
+        console.log(this.state)
         return (
             <React.Fragment>
-            {this.state.incomingRequests.length == 0 ? null :
-                <div style={{padding: 15}}>
-                    <Typography variant='h4' align='center'>Incoming Friend Requests</Typography>
-                </div>
-            }
-            <List className={classes.root}>
-                {this.state.incomingRequests.map((curRequest, key) =>
-                    <React.Fragment key={'friend' + key}>
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar className={classes.icon} children={IconButton} >
-                                <Avatar>
-                                    {/* TODO make this the user's profile picture  */}
-                                    <AccountCircle />
-                                </Avatar>
-                            </ListItemAvatar>
-                        <ListItemText
-                            disableTypography
-                            primary={
-                                <React.Fragment>
-                                    <Typography inline className={classes.user} color="textPrimary" >
-                                        {curRequest.display_name}
-                                    </Typography>
-                                    <Typography component="span" inline color="textSecondary">
-                                        {curRequest.gmail}
-                                    </Typography>
-    
-                                </React.Fragment>
-                            }
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton onClick={this.acceptRequest} value={key}>
-                                <CheckCircleSharp fontSize="medium"/>
-                            </IconButton>
-                            <IconButton aria-label="Delete" onClick={this.deleteIncomingFriendRequest} value={key}>
-                                <DeleteIcon fontSize="medium"/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                        </ListItem>
-                        
-                        {this.state.incomingRequests.length - 1 == key ? null : 
-                            <li>
-                                <Divider variant="inset" />
-                            </li>
-                        }
-                    </React.Fragment>
-                )}
-            </List>
+                {this.state.incomingRequests.length == 0 ? null :
+                    <div style={{padding: 15}}>
+                        <Typography variant='h4' align='center'>Incoming Friend Requests</Typography>
+                    </div>
+                }
+                <List className={classes.root}>
+                    {this.state.incomingRequests.map((curRequest, key) =>
+                        <React.Fragment key={'friend' + key}>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar className={classes.icon} children={IconButton} >
+                                    <Avatar src={curRequest.profile_picture}>
+                                        <AccountCircle />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    disableTypography
+                                    primary={
+                                        <React.Fragment>
+                                            <Typography inline className={classes.user} color="textPrimary" >
+                                                {curRequest.display_name}
+                                            </Typography>
+                                            <Typography component="span" inline color="textSecondary">
+                                                {curRequest.gmail}
+                                            </Typography>
 
-            {this.state.outgoingRequests.length == 0 ? null :
-                <div style={{padding: 15}}>
-                    <Typography variant='h4' align='center'>Outgoing Friend Requests</Typography>
-                </div>
-            }
-            <List className={classes.root}>
-                {this.state.outgoingRequests.map((curRequest, key) =>
-                    <React.Fragment key={'friend' + key}>
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar className={classes.icon} children={IconButton} >
-                                <Avatar>
-                                    {/* TODO make this the user's profile picture  */}
-                                    <AccountCircle />
-                                </Avatar>
-                            </ListItemAvatar>
-                        <ListItemText
-                            disableTypography
-                            primary={
-                                <React.Fragment>
-                                    <Typography inline className={classes.user} color="textPrimary" >
-                                        {curRequest.display_name}
-                                    </Typography>
-                                    <Typography component="span" inline color="textSecondary">
-                                        {curRequest.gmail}
-                                    </Typography>
-    
-                                </React.Fragment>
+                                        </React.Fragment>
+                                    }
+                                />
+                                <ListItemSecondaryAction>
+                                    <IconButton onClick={this.acceptRequest} value={key}>
+                                        <CheckCircleSharp fontSize="medium" />
+                                    </IconButton>
+                                    <IconButton aria-label="Delete" onClick={this.deleteIncomingFriendRequest} value={key}>
+                                        <DeleteIcon fontSize="medium" />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+
+                            {this.state.incomingRequests.length - 1 == key ? null :
+                                <li>
+                                    <Divider variant="inset" />
+                                </li>
                             }
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton aria-label="Delete" onClick={this.deleteOutgoingFriendRequest} value={key}>
-                                <DeleteIcon fontSize="medium"/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                        </ListItem>
-                        
-                        {this.state.outgoingRequests.length - 1 == key ? null : 
-                            <li>
-                                <Divider variant="inset" />
-                            </li>
-                        }
-                    </React.Fragment>
-                )}
-            </List>
+                        </React.Fragment>
+                    )}
+                </List>
+
+                {this.state.outgoingRequests.length == 0 ? null :
+                    <div style={{padding: 15}}>
+                        <Typography variant='h4' align='center'>Outgoing Friend Requests</Typography>
+                    </div>
+                }
+                <List className={classes.root}>
+                    {this.state.outgoingRequests.map((curRequest, key) =>
+                        <React.Fragment key={'friend' + key}>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar className={classes.icon} children={IconButton} >
+                                    <Avatar src={curRequest.profile_picture}>
+                                        <AccountCircle />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    disableTypography
+                                    primary={
+                                        <React.Fragment>
+                                            <Typography inline className={classes.user} color="textPrimary" >
+                                                {curRequest.display_name}
+                                            </Typography>
+                                            <Typography component="span" inline color="textSecondary">
+                                                {curRequest.gmail}
+                                            </Typography>
+
+                                        </React.Fragment>
+                                    }
+                                />
+                                <ListItemSecondaryAction>
+                                    <IconButton aria-label="Delete" onClick={this.deleteOutgoingFriendRequest} value={key}>
+                                        <DeleteIcon fontSize="medium" />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+
+                            {this.state.outgoingRequests.length - 1 == key ? null :
+                                <li>
+                                    <Divider variant="inset" />
+                                </li>
+                            }
+                        </React.Fragment>
+                    )}
+                </List>
             </React.Fragment>
         );
 
