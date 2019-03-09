@@ -27,7 +27,7 @@ class NavBar extends Component
         this.setState({isAuthenticated: false, token: '', user: null})
         this.props.history.replace('/login')
     };
-    
+
     onFailure = (error) =>
     {
         alert('error');
@@ -56,18 +56,17 @@ class NavBar extends Component
 
     };
 
-    openTestPage = () => {
-        this.props.history.replace('/test')
-    }
 
-    openFriendsPage = () => {
+    openFriendsPage = () =>
+    {
         this.props.history.replace('/friends')
     }
 
-    openFriendRequestPage = () => {
+    openFriendRequestPage = () =>
+    {
         this.props.history.replace('/friend_requests')
     }
-    
+
     render()
     {
         const {classes} = this.props;
@@ -79,7 +78,7 @@ class NavBar extends Component
                         !!this.state.isAuthenticated ?
 
                             <Button variant="contained" color="secondary" onClick={this.logout}>
-                            Logout
+                                Logout
                             </Button>
                             :
                             <GoogleLogin
@@ -89,9 +88,6 @@ class NavBar extends Component
                                 onFailure={this.onFailure}
                             />
                     }
-                    <Button variant="contained" color="primary" onClick={this.openTestPage}>
-                            Open Test page
-                    </Button>
 
                     <Button variant="contained" color="primary" onClick={this.openFriendsPage}>
                         Friends
