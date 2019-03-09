@@ -31,7 +31,7 @@ class Homepage extends Component
     constructor(props)
     {
         super(props);
-        this.state = {posts: []};
+        this.state = {posts: [], profilePicture: ''};
         this.updateHomepage = this.updateHomepage.bind(this);
     }
 
@@ -57,7 +57,6 @@ class Homepage extends Component
     render()
     {
         const {classes} = this.props;
-
         return (
             <List className={classes.root}>
                 <SendChirpItem updateHomepage={this.updateHomepage} />

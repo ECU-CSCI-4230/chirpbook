@@ -56,6 +56,30 @@ router.post('/users/set_displayname/:userid', function(req, res)
 
 })
 
+router.get('/users/profile_picture/:userid', function(req, res)
+{
+    var userid = req.params.userid
+
+    UserManagement.getProfilePicture(userid, function(result)
+    {
+        if(result.length == 1)
+        {
+            res.status(201).json({
+                sucess: true,
+                err: null,
+                profile_picture: result[0].profile_picture
+            })
+        } else
+        {
+            res.status(404).json({
+                sucess: false,
+                err: 'User not found'
+            })
+        }
+    })
+
+})
+
 //creates or updates user and validates google token
 router.post('/auth/google', function(req, res)
 {

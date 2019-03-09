@@ -29,10 +29,11 @@ class SendChirpItem extends Component
     constructor(props)
     {
         super(props);
-        this.state = {post_text: ''};
+        this.state = {post_text: '', profilePicture: ''};
         this.post = this.post.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.getProfilePicture = this.getProfilePicture.bind(this)
     }
 
     handleKeyPress(event)
@@ -61,6 +62,26 @@ class SendChirpItem extends Component
         }).catch(err => console.log(err));
     }
 
+    getProfilePicture()
+    {
+        var userid = Auth.getUser()
+        let path = `/users/profile_picture/${userid}`
+        Auth.fetch(path, {method: 'GET'}).then((res) =>
+        {
+            if(res.sucess == true)
+            {
+                this.setState({
+                    profilePicture: res.profile_picture
+                });
+            }
+        }).catch((error) => console.log(error));
+    }
+
+    componentWillMount()
+    {
+        this.getProfilePicture();
+    }
+
     render()
     {
         const {classes} = this.props;
@@ -68,7 +89,7 @@ class SendChirpItem extends Component
         return (
             <ListItem >
                 <IconButton className={classes.chirpIcon}>
-                    <Avatar>
+                    <Avatar src={this.state.profilePicture}>
                         <AccountCircle />
                     </Avatar>
                 </IconButton>
