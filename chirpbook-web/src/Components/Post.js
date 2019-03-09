@@ -61,6 +61,7 @@ class Post extends Component
         let get_comments = `/comments/get/${this.props.match.params.postid}`;
         Auth.fetch(get_comments, {method: 'GET'}).then((res) =>
         {
+            console.log(res.comments)
             if(res.comments)
             {
                 let comment_map = {}

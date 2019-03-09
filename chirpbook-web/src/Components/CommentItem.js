@@ -114,7 +114,7 @@ class CommentItem extends Component
             <React.Fragment>
                 <ListItem style={{paddingLeft: this.state.indent}} alignItems="flex-start">
                     <ListItemAvatar className={classes.chirpIcon} children={IconButton} >
-                        <Avatar>
+                        <Avatar src={this.props.chirp.profile_picture}>
                             {/* TODO make this the user's profile picture  */}
                             <AccountCircle />
                         </Avatar>
