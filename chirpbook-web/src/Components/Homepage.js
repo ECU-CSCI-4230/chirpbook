@@ -31,7 +31,7 @@ class Homepage extends Component
     constructor(props)
     {
         super(props);
-        this.state = {posts: []};
+        this.state = {posts: [], profilePicture: ''};
         this.updateHomepage = this.updateHomepage.bind(this);
     }
 
@@ -57,18 +57,20 @@ class Homepage extends Component
     render()
     {
         const {classes} = this.props;
-
         return (
             <List className={classes.root}>
                 <SendChirpItem updateHomepage={this.updateHomepage} />
-                {this.state.posts.map((currChirp, key) =>
-                    <React.Fragment key={'chirpfrag' + key}>
-                        <li>
-                            <Divider variant="inset" />
-                        </li>
+                {this.state.posts.map((currChirp) =>
+                    <React.Fragment key={'chirpfrag' + currChirp.postid}>
+                        <Divider variant="inset" />
 
-                        <ChirpItem chirp={currChirp} key={'chirp' + key} />
 
+                        <ChirpItem
+                            chirp={currChirp}
+                            updateHomepage={this.updateHomepage}
+                            showComment={false}
+                            history={this.props.history}
+                        />
                     </React.Fragment>
                 )}
             </List>

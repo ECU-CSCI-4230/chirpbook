@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {withStyles, Grid, TextField, Button, ListItem, IconButton} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import {AccountCircle} from '@material-ui/icons';
+import {AccountCircle, Send} from '@material-ui/icons';
 import AuthHelpers from '../Auth/AuthHelpers.js'
 
 const Auth = new AuthHelpers();
@@ -52,9 +52,13 @@ class SendChirpItem extends Component
 
     post()
     {
-        Auth.fetch('/posts/add', {
+        Auth.fetch('/comments/add', {
             method: 'post',
-            body: JSON.stringify({post_text: this.state.post_text})
+            body: JSON.stringify({
+                comment_text: this.state.post_text,
+                parent_commentid: this.props.chirp.commentid ? this.props.chirp.commentid : null,
+                postid: this.props.chirp.postid
+            })
         }).then((res) =>
         {
             this.props.updateHomepage();
@@ -87,41 +91,36 @@ class SendChirpItem extends Component
         const {classes} = this.props;
 
         return (
-            <ListItem >
+            <ListItem style={{paddingLeft: this.props.indent}} >
                 <IconButton className={classes.chirpIcon}>
                     <Avatar src={this.state.profilePicture}>
                         <AccountCircle />
                     </Avatar>
                 </IconButton>
 
-                <Grid container>
-                    <Grid item xs={12}>
-                        <TextField
-                            ref='PostText'
-                            id="outlined-textarea"
-                            placeholder="Chirp here!"
-                            onKeyPress={this.handleKeyPress}
-                            value={this.state.post_text}
-                            onChange={this.handleChange}
-                            multiline
-                            fullWidth
-                            rows="2"
-                            rowsMax="8"
-                            className={classes.chirpSend}
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={12} >
-                        <Button variant="outlined" size="medium"
-                            color="primary"
-                            className={classes.chirpSendButton}
-                            onClick={this.post}
-                        >
-                            Chirp
-                        </Button>
-                    </Grid>
-                </Grid>
+                <TextField
+                    ref='PostText'
+                    id="outlined-textarea"
+                    placeholder="Chirp here!"
+                    onKeyPress={this.handleKeyPress}
+                    value={this.state.post_text}
+                    onChange={this.handleChange}
+                    multiline
+                    fullWidth
+                    autoFocus
+                    rows="1"
+                    rowsMax="8"
+                    className={classes.chirpSend}
+                    margin="normal"
+                    variant="standard"
+                />
+                <IconButton aria-label="SendComment"
+                    onClick={this.post}
+                    color="primary"
+
+                >
+                    <Send />
+                </IconButton>
             </ListItem >
         );
     }

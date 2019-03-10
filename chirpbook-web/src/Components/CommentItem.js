@@ -3,12 +3,9 @@ import React, {Component} from 'react';
 import {withStyles, ListItem, ListItemAvatar, ListItemText, Typography, IconButton} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined} from '@material-ui/icons';
-
+import {Grid, TextField, Button} from '@material-ui/core';
 import SendChirpCommentItem from './SendCommentItem';
-import AuthHelpers from '../Auth/AuthHelpers.js'
-
-const Auth = new AuthHelpers();
-
+const indent_len = 75;
 const styles = theme => ({
     chirpSend: {
         margin: '8px',
@@ -49,53 +46,47 @@ const styles = theme => ({
     }
 });
 
-class ChirpItem extends Component
+class CommentItem extends Component
 {
     constructor(props)
     {
         super(props);
         this.state = {
-            isLiked: props.chirp.isliked,
-            isDisliked: props.chirp.isdisliked,
-            likes: parseInt(props.chirp.likes),
-            dislikes: parseInt(props.chirp.dislikes),
-            profilePicutre: props.chirp.profile_picture
+            // isLiked: props.chirp.isliked,
+            // isDisliked: props.chirp.isdisliked,
+            // likes: parseInt(props.chirp.likes),
+            // dislikes: parseInt(props.chirp.dislikes),
+            indent: (props.depth * indent_len) + 'px',
+            showComment: false,
+            isLiked: false,
+            isDisliked: false,
+            likes: 0,
+            dislikes: 0,
         }
-
         this.like = this.like.bind(this);
         this.dislike = this.dislike.bind(this);
+        this.expandComment = this.expandComment.bind(this);
+    }
+
+    expandComment()
+    {
+        this.setState({showComment: !this.state.showComment});
     }
 
     dislike()
     {
         if(this.state.isDisliked)
         {
-            Auth.fetch('/like', {
-                method: 'delete',
-                body: JSON.stringify({
-                    postid: this.props.chirp.postid,
-                })
-            }).then((res) =>
-            {
-                this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
-            }).catch(err => console.log(err));
+            this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
+
         } else
         {
             if(this.state.isLiked)
             {
                 this.setState({isLiked: false, likes: this.state.likes - 1})
             }
+            this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
 
-            Auth.fetch('/like', {
-                method: 'post',
-                body: JSON.stringify({
-                    postid: this.props.chirp.postid,
-                    like_type: 0,
-                })
-            }).then((res) =>
-            {
-                this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
-            }).catch(err => console.log(err));
         }
     }
 
@@ -103,15 +94,7 @@ class ChirpItem extends Component
     {
         if(this.state.isLiked)
         {
-            Auth.fetch('/like', {
-                method: 'delete',
-                body: JSON.stringify({
-                    postid: this.props.chirp.postid,
-                })
-            }).then((res) =>
-            {
-                this.setState({isLiked: false, likes: this.state.likes - 1});
-            }).catch(err => console.log(err));
+            this.setState({isLiked: false, likes: this.state.likes - 1});
 
         } else
         {
@@ -119,17 +102,7 @@ class ChirpItem extends Component
             {
                 this.setState({isDisliked: false, dislikes: this.state.dislikes - 1})
             }
-            Auth.fetch('/like', {
-                method: 'post',
-                body: JSON.stringify({
-                    postid: this.props.chirp.postid,
-                    like_type: 1,
-                })
-            }).then((res) =>
-            {
-                this.setState({isLiked: true, likes: this.state.likes + 1});
-            }).catch(err => console.log(err));
-
+            this.setState({isLiked: true, likes: this.state.likes + 1});
         }
     }
 
@@ -139,9 +112,9 @@ class ChirpItem extends Component
 
         return (
             <React.Fragment>
-                <ListItem alignItems="flex-start">
+                <ListItem style={{paddingLeft: this.state.indent}} alignItems="flex-start">
                     <ListItemAvatar className={classes.chirpIcon} children={IconButton} >
-                        <Avatar src={this.state.profilePicutre}>
+                        <Avatar src={this.props.chirp.profile_picture}>
                             {/* TODO make this the user's profile picture  */}
                             <AccountCircle />
                         </Avatar>
@@ -163,17 +136,17 @@ class ChirpItem extends Component
                         secondary={
                             <React.Fragment>
                                 <Typography component="span" color="textPrimary">
-                                    {this.props.chirp.post_text}
+                                    {this.props.chirp.comment_text}
                                 </Typography>
                                 <div className={classes.interactions}>
                                     <IconButton className={classes.likeChrip} aria-label="Like"
-                                        onClick={() => this.props.history.replace(`/post/${this.props.chirp.postid}`)}
-                                        disabled={this.props.showComment}
+                                        onClick={this.expandComment}
                                     >
                                         <Comment className={classes.interactionIcon} />
                                     </IconButton>
                                     <IconButton className={classes.likeChrip} aria-label="Like"
                                         onClick={this.like}
+                                        disabled
                                     >
                                         {this.state.isLiked ?
                                             <ThumbUp className={classes.interactionIcon} /> :
@@ -186,6 +159,7 @@ class ChirpItem extends Component
                                     </IconButton>
                                     <IconButton className={classes.dislikeChirp} aria-label="Dislike"
                                         onClick={this.dislike}
+                                        disabled
                                     >
                                         {this.state.isDisliked ?
                                             <ThumbDown className={classes.interactionIcon} /> :
@@ -200,8 +174,8 @@ class ChirpItem extends Component
                         }
                     />
                 </ListItem>
-                {this.props.showComment ?
-                    <SendChirpCommentItem chirp={this.props.chirp} history={this.props.history} updateHomepage={this.props.updateHomepage} indent={this.state.indent} />
+                {this.state.showComment ?
+                    <SendChirpCommentItem chirp={this.props.chirp} updateHomepage={this.props.updateHomepage} indent={this.state.indent} showComment={this.props.showComment} />
                     : null}
             </React.Fragment >
         );
@@ -209,4 +183,4 @@ class ChirpItem extends Component
     }
 }
 
-export default withStyles(styles)(ChirpItem);
+export default withStyles(styles)(CommentItem);

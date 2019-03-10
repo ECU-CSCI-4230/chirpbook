@@ -65,7 +65,9 @@ class FriendRequestManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT * FROM public."Friend_Request" WHERE receiver = $1`, [userid],
+            client.query(`SELECT * FROM public."Friend_Request" full outer join public."User"
+                on sender = userid 
+                WHERE receiver = $1`, [userid],
                 function(err, result)
                 {
                     client.release()
@@ -92,7 +94,9 @@ class FriendRequestManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT * FROM public."Friend_Request" WHERE sender = $1`, [userid],
+            client.query(`SELECT * FROM public."Friend_Request" full outer join public."User" 
+                on receiver = userid
+                WHERE sender = $1`, [userid],
                 function(err, result)
                 {
                     client.release()

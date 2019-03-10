@@ -39,7 +39,6 @@ jspm_packages/
 .vscode/*
 !.vscode/settings.json
 .vs/
-sessions/
 
 # TypeScript v1 declaration files
 typings/
