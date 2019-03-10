@@ -6,7 +6,7 @@ import Homepage from './Components/Homepage';
 import LoginPage from './Components/LoginPage'
 import TestApi from './Components/TestAPI'
 import FriendsPage from "./Components/FriendsPage";
-
+import FindFriend from "./Components/FindFriend";
 // import Loadable from "react-loadable";
 
 // function Loading()
@@ -28,6 +28,7 @@ class App extends React.Component
                         <Route path="/login" component={LoginPage} />
                         <Route path="/friends" component={FriendsPage}/>
                         <Route path="/test" component={TestApi} />
+                        <Route path='/search' component={FindFriend} />
                     </Switch>
                 </React.Fragment >
             </Router>
