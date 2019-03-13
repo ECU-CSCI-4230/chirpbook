@@ -98,10 +98,10 @@ class FriendsPage extends Component
     }
 
 
-    deleteFriend(event)
+    deleteFriend(key)
     {
         var curUser = this.state.userid
-        var userToDelete = this.state.friends[event.target.value].user2
+        var userToDelete = this.state.friends[key].user2
 
         var path
         if(userToDelete < curUser)
@@ -114,7 +114,7 @@ class FriendsPage extends Component
 
         var newFriends = [...this.state.friends]
 
-        newFriends.splice(event.target.value, 1)
+        newFriends.splice(key, 1)
 
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
@@ -156,7 +156,7 @@ class FriendsPage extends Component
                                 }
                             />
                             <ListItemSecondaryAction>
-                                <IconButton aria-label="Delete" onClick={this.deleteFriend} value={key}>
+                                <IconButton aria-label="Delete" onClick={() => this.deleteFriend(key)} value={key}>
                                     <DeleteIcon fontSize="medium" />
                                 </IconButton>
                             </ListItemSecondaryAction>

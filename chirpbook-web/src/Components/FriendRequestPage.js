@@ -78,16 +78,16 @@ class FriendRequestPage extends Component
     }
 
 
-    deleteIncomingFriendRequest(event)
+    deleteIncomingFriendRequest(key)
     {
-        var sender = this.state.incomingRequests[event.target.value].sender
-        var receiver = this.state.incomingRequests[event.target.value].receiver
+        var sender = this.state.incomingRequests[key].sender
+        var receiver = this.state.incomingRequests[key].receiver
 
         let path = `/friends_requests/reject/${sender}/${receiver}`
 
         var newIncoming = [...this.state.incomingRequests]
 
-        newIncoming.splice(event.target.value, 1)
+        newIncoming.splice(key, 1)
 
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
@@ -99,16 +99,16 @@ class FriendRequestPage extends Component
         })
     }
 
-    deleteOutgoingFriendRequest(event)
+    deleteOutgoingFriendRequest(key)
     {
-        var sender = this.state.outgoingRequests[event.target.value].sender
-        var receiver = this.state.outgoingRequests[event.target.value].receiver
+        var sender = this.state.outgoingRequests[key].sender
+        var receiver = this.state.outgoingRequests[key].receiver
 
         let path = `/friends_requests/reject/${sender}/${receiver}`
 
         var newIncoming = [...this.state.outgoingRequests]
 
-        newIncoming.splice(event.target.value, 1)
+        newIncoming.splice(key, 1)
 
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
@@ -120,10 +120,9 @@ class FriendRequestPage extends Component
         })
     }
 
-    acceptRequest(event)
+    acceptRequest(key)
     {
-        event.persist()
-        var curRequest = this.state.incomingRequests[event.target.value]
+        var curRequest = this.state.incomingRequests[key]
         var user1 = curRequest.sender
         var user2 = curRequest.receiver
 
@@ -133,7 +132,7 @@ class FriendRequestPage extends Component
         {
             if(res.success)
             {
-                this.deleteIncomingFriendRequest(event)
+                this.deleteIncomingFriendRequest(key)
             }
 
         })
@@ -173,10 +172,10 @@ class FriendRequestPage extends Component
                                     }
                                 />
                                 <ListItemSecondaryAction>
-                                    <IconButton onClick={this.acceptRequest} value={key}>
+                                    <IconButton onClick={() => this.acceptRequest(key)} value={key}>
                                         <CheckCircleSharp fontSize="medium" />
                                     </IconButton>
-                                    <IconButton aria-label="Delete" onClick={this.deleteIncomingFriendRequest} value={key}>
+                                    <IconButton aria-label="Delete" onClick={() => this.deleteIncomingFriendRequest(key)} value={key}>
                                         <DeleteIcon fontSize="medium" />
                                     </IconButton>
                                 </ListItemSecondaryAction>
@@ -220,7 +219,7 @@ class FriendRequestPage extends Component
                                     }
                                 />
                                 <ListItemSecondaryAction>
-                                    <IconButton aria-label="Delete" onClick={this.deleteOutgoingFriendRequest} value={key}>
+                                    <IconButton aria-label="Delete" onClick={() => this.deleteOutgoingFriendRequest(key)} value={key}>
                                         <DeleteIcon fontSize="medium" />
                                     </IconButton>
                                 </ListItemSecondaryAction>
