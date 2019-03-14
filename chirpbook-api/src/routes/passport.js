@@ -79,7 +79,7 @@ passport.use('signup', new LocalStrategy({
                                         'provider': 'local'
                                     };
 
-                                    let token = jwt.sign({id: user.id, gmail: user.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
+                                    let token = jwt.sign({userid: user.userid, gmail: user.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
 
                                     req.res.status(200).json({
                                         sucess: true,
@@ -156,7 +156,7 @@ passport.use('login', new LocalStrategy(
 
                         if(User.pw_hash == hash.hash)
                         {
-                            let token = jwt.sign({id: User.id, gmail: User.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
+                            let token = jwt.sign({userid: User.userid, gmail: User.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
                             req.res.status(200).json({
                                 sucess: true,
                                 err: null,
