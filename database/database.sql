@@ -10,6 +10,8 @@ CREATE TABLE public."User"
     gmail text NOT NULL,
     display_name text,
     profile_picture text,
+    pw_hash character varying(128) NOT NULL,
+    salt character varying(128) NOT NULL,
     PRIMARY KEY (userid)
 )
 WITH (
@@ -171,8 +173,8 @@ ALTER TABLE public."Like_Dislike"
                         ALTER TABLE public."Friend_Request"
     OWNER to postgres;
 
-INSERT INTO public."User" (userid, gmail) VALUES (1000, 'TEST@gmail.com');
-INSERT INTO public."User" (userid, gmail) VALUES (1001, 'TOM@gmail.com');
-INSERT INTO public."User" (userid, gmail) VALUES (1002, 'TEST2@gmail.com');
+INSERT INTO public."User" (userid, gmail, pw_hash, salt) VALUES (1000, 'TEST@gmail.com', ' ', ' ');
+INSERT INTO public."User" (userid, gmail, pw_hash, salt) VALUES (1001, 'TOM@gmail.com', ' ', ' ');
+INSERT INTO public."User" (userid, gmail, pw_hash, salt) VALUES (1002, 'TEST2@gmail.com', ' ', ' ');
 INSERT INTO public."Friend_Request" (sender, receiver) VALUES(1000, 1001);
 INSERT INTO public."Post" (postid, userid, post_text) VALUES (1000, 1000, 'Hello World');
