@@ -171,8 +171,8 @@ ALTER TABLE public."Like_Dislike"
                         ALTER TABLE public."Friend_Request"
     OWNER to postgres;
 
-INSERT INTO public."User" (userid, gmail) VALUES (0, 'TEST@gmail.com');
-INSERT INTO public."User" (userid, gmail) VALUES (1, 'TOM@gmail.com');
-INSERT INTO public."User" (userid, gmail) VALUES (2, 'TEST2@gmail.com');
-INSERT INTO public."Friend_Request" (sender, receiver) VALUES(0, 1);
-INSERT INTO public."Post" (postid, userid, post_text) VALUES (0, 0, 'Hello World');
+INSERT INTO public."User" (userid, gmail) VALUES (1000, 'TEST@gmail.com');
+INSERT INTO public."User" (userid, gmail) VALUES (1001, 'TOM@gmail.com');
+INSERT INTO public."User" (userid, gmail) VALUES (1002, 'TEST2@gmail.com');
+INSERT INTO public."Friend_Request" (sender, receiver) VALUES(1000, 1001);
+INSERT INTO public."Post" (postid, userid, post_text) VALUES (1000, 1000, 'Hello World');
