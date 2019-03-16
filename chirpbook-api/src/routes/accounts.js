@@ -17,7 +17,7 @@ var log = require('console-log-level')({level: 'info'});
 
 //var GoogleTokenStrategy = require('passport-google-id-token');
 
-
+const auth = require('../config/auth');
 
 //-------------------------------------------------
 // 				Google Login
@@ -32,7 +32,7 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(config.client_id);
 
 
-router.post('/users/set_displayname/:userid', function(req, res)
+router.post('/users/set_displayname/:userid', auth.jwtMW, function(req, res)
 {
     var userid = req.params.userid
     var displayName = req.body.display_name
@@ -56,7 +56,36 @@ router.post('/users/set_displayname/:userid', function(req, res)
 
 })
 
-router.get('/users/profile_picture/:userid', function(req, res)
+router.get('/user/search', auth.jwtMW, function(req, res)
+{ // might need to change '/user'
+
+    // Need some variables here
+    var gmail = req.body.gmail
+
+    UserManagement.searchUser(gmail, function(result)
+    {
+
+        if(result.length > 0)
+        {
+            res.status(201).json({
+                success: true,
+                err: null,
+                users: result
+            })
+        } else
+        {
+            res.status(400).json({
+                success: false,
+                err: true
+            })
+        }
+
+    })
+
+
+})
+
+router.get('/users/profile_picture/:userid', auth.jwtMW, function(req, res)
 {
     var userid = req.params.userid
 
@@ -81,7 +110,9 @@ router.get('/users/profile_picture/:userid', function(req, res)
 })
 
 //creates or updates user and validates google token
-router.post('/auth/google', function(req, res)
+
+//this function will be removed with frontend local login is set up
+router.post('/auth/google', auth.jwtMW, function(req, res)
 {
     async function verify()
     {

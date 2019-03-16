@@ -1,17 +1,21 @@
 var common = require("./common");
 
-const { TIMEOUT_TIME } = common;
-function importTest(name, path) {
+const {TIMEOUT_TIME} = common;
+function importTest(name, path)
+{
 
-    describe(name, function () {
+    describe(name, function()
+    {
         require(path);
     });
 }
 
-describe("Database", function () {
+describe.skip("Database", function()
+{
     this.timeout(TIMEOUT_TIME);
 
-    beforeEach(function () {
+    beforeEach(function()
+    {
 
     });
 
@@ -22,27 +26,31 @@ describe("Database", function () {
     importTest("CommentManagement", './database/test-commentmanagement.js');
     importTest("FriendManagement", './database/test-friendmanagement.js');
 
-    after(function () {
+    after(function()
+    {
 
     });
 });
 
-describe("API", function () {
+describe("API", function()
+{
     this.timeout(TIMEOUT_TIME)
 
-    beforeEach(function () {
+    beforeEach(function()
+    {
 
     })
+    importTest("test-login", "./api/test-login")
+    //importTest("search-users", "./api/test-search-users") // Recently added: Brandon
+    //importTest("accounts", './api/test-accounts')
+    //importTest("posts", './api/test-getcomments')
+    //importTest("likes/dislikes", './api/test-likes-dislikes')
+    //importTest("friendrequests", './api/test-friendrequests')
+    //importTest("friends", './api/test-friends')
+    //importTest("comments", './api/test-comments')
 
-    importTest("search-users", "./api/test-search-users") // Recently added: Brandon
-    importTest("accounts", './api/test-accounts')
-    importTest("posts", './api/test-getcomments')
-    importTest("likes/dislikes", './api/test-likes-dislikes')
-    importTest("friendrequests", './api/test-friendrequests')
-    importTest("friends", './api/test-friends')
-    importTest("comments", './api/test-comments')
-
-    after(function () {
+    after(function()
+    {
 
     })
 })
