@@ -8,6 +8,8 @@ import {AccountCircle, CheckCircleSharp} from '@material-ui/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
+import FindFriend from './FindFriend'
+
 
 import AuthHelpers from '../Auth/AuthHelpers.js'
 import withAuth from '../Auth/withAuth';
@@ -143,6 +145,7 @@ class FriendRequestPage extends Component
         const {classes} = this.props;
         return (
             <React.Fragment>
+                <FindFriend />
                 {this.state.incomingRequests.length == 0 ? null :
                     <div style={{padding: 15}}>
                         <Typography variant='h4' align='center'>Incoming Friend Requests</Typography>
