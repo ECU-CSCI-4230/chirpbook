@@ -8,8 +8,8 @@ class UserManagement
     {
         db.connect(function(client)
         {
-            client.query(`INSERT INTO public."User" (gmail, display_name, profile_picture)
-								VALUES ($1, $2, $3) RETURNING userid`, [gmail, display_name, link],
+            client.query(`INSERT INTO public."User" (gmail, display_name, profile_picture, pw_hash, salt)
+								VALUES ($1, $2, $3, ' ', ' ') RETURNING userid`, [gmail, display_name, link],
                 function(err, result)
                 {
                     client.release()
