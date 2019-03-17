@@ -16,7 +16,6 @@ app.use(base_url, require('./routes/friendrequests'));
 app.use(base_url, require('./routes/posts'));
 app.use(base_url, require('./routes/comments'));
 app.use(base_url, require('./routes/friends'));
-app.use(base_url, require('./routes/search-users')) // Recently added: Brandon
 
 app.use(function(err, req, res, next)
 {

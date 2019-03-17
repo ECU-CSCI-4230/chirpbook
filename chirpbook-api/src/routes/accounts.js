@@ -56,11 +56,11 @@ router.post('/users/set_displayname/:userid', auth.jwtMW, function(req, res)
 
 })
 
-router.get('/user/search', auth.jwtMW, function(req, res)
+router.get('/users/search/:gmail', auth.jwtMW, function(req, res)
 { // might need to change '/user'
 
     // Need some variables here
-    var gmail = req.body.gmail
+    var gmail = req.params.gmail
 
     UserManagement.searchUser(gmail, function(result)
     {

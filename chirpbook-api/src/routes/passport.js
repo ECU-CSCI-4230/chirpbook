@@ -28,7 +28,6 @@ passport.use('signup', new LocalStrategy({
     function(req, gmail, password, done)
     {
         let display_name = req.body.display_name || gmail;
-        console.log(display_name)
         var rePattern = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         var arrMatches = gmail.match(rePattern);
 
@@ -80,11 +79,11 @@ passport.use('signup', new LocalStrategy({
                                     };
 
                                     let token = jwt.sign({userid: user.userid, gmail: user.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
-                                    console.log('should have worked')
                                     req.res.status(200).json({
                                         sucess: true,
                                         err: null,
                                         token,
+                                        userid: register[0].userid,
                                         msg: 'Account created'
                                     });
 
@@ -160,7 +159,8 @@ passport.use('login', new LocalStrategy(
                             req.res.status(200).json({
                                 sucess: true,
                                 err: null,
-                                token
+                                token,
+                                userid: User.userid
                             });
                             return done(null, User);
                         }
