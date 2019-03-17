@@ -62,7 +62,7 @@ class FindFriend extends Component
 
     search(user)
     {
-        let path = `/user/search/${user}`
+        let path = `/users/search/${user}`
 
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {
