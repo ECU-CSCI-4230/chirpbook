@@ -10,7 +10,7 @@ it('create user test user 1', function(done)
     const path = `http://${basepath}/signup`
 
     console.log(path)
-    reqBody = {gmail: 'email@email.com', password: 'password', display_name: 'test'}
+    reqBody = {gmail: 'email@email.com', 'password': 'password', display_name: 'test'}
     request.post(path, {
         headers: {'Content-Type': 'application/json'},
         url: path,

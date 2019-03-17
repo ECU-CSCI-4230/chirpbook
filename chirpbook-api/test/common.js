@@ -10,18 +10,18 @@ const PostManagement = require('../src/postmanagement');
 const CommentManagement = require('../src/commentmanagement.js');
 const FriendManagement = require('../src/friendmanagement.js');
 
-const basepath = process.env.API_BASE || 'localhost:8080/api/v1';
+const basepath = process.env.API_BASE || 'cbook_api:8080/api/v1';
 
 module.exports = {
-  db,
-  fs,
-  assert,
-  TIMEOUT_TIME,
-  UserManagement,
-  FriendRequestManagement,
-  LikeManagement,
-  PostManagement,
-  CommentManagement,
-  FriendManagement,
-  basepath
+    db,
+    fs,
+    assert,
+    TIMEOUT_TIME,
+    UserManagement,
+    FriendRequestManagement,
+    LikeManagement,
+    PostManagement,
+    CommentManagement,
+    FriendManagement,
+    basepath
 };
