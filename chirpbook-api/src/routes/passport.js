@@ -71,7 +71,7 @@ passport.use('signup', new LocalStrategy({
                                 }
                                 else
                                 {
-
+                                    console.log(res)
                                     user = {
                                         'displayName': display_name,
                                         'gmail': gmail,
@@ -83,7 +83,7 @@ passport.use('signup', new LocalStrategy({
                                         sucess: true,
                                         err: null,
                                         token,
-                                        userid: register[0].userid,
+                                        userid: res[0].userid,
                                         msg: 'Account created'
                                     });
 
