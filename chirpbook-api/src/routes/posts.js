@@ -17,9 +17,11 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 var log = require('console-log-level')({level: 'info'});
 
-router.get('/posts/get_homepage', function(req, res)
+const auth = require('../config/auth');
+
+router.get('/posts/get_homepage', auth.jwtMW, function(req, res)
 {
-    var email = jwt_decode(req.headers.authorization.split(' ')[1]).email;
+    var email = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
     PostManagement.getFriendPosts(email, function(result)
     {
         if(result)
@@ -39,11 +41,10 @@ router.get('/posts/get_homepage', function(req, res)
     })
 });
 
-router.get('/posts/get/:postid', function(req, res)
+router.get('/posts/get/:postid', auth.jwtMW, function(req, res)
 {
     var postid = req.params.postid
-    var email = jwt_decode(req.headers.authorization.split(' ')[1]).email;
-    console.log(email)
+    var email = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
     PostManagement.getPost(postid, email, function(result)
     {
         if(result && result.rowCount > 0)
@@ -63,10 +64,10 @@ router.get('/posts/get/:postid', function(req, res)
     })
 });
 
-router.post('/posts/add', function(req, res)
+router.post('/posts/add', auth.jwtMW, function(req, res)
 {
     var postText = req.body.post_text;
-    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).email;
+    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
     if(gmail && postText)
     {
         UserManagement.getUser(gmail, userRows =>
@@ -79,6 +80,7 @@ router.post('/posts/add', function(req, res)
                     {
                         res.status(201).json({
                             success: true,
+                            postid: post_res.rows[0].postid,
                             err: null
                         });
                     } else
