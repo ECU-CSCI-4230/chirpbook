@@ -41,7 +41,6 @@ describe("API", function()
 
     })
     importTest("test-login", "./api/test-login")
-    //importTest("search-users", "./api/test-search-users") // Recently added: Brandon
     importTest("accounts", './api/test-accounts')
     //importTest("posts", './api/test-getcomments')
     //importTest("likes/dislikes", './api/test-likes-dislikes')
