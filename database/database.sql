@@ -40,26 +40,26 @@ CREATE TABLE public."Post"
         ON
     UPDATE NO ACTION
         ON
-    DELETE NO ACTION
+    DELETE CASCADE
 )
-    WITH
-    (
+WITH
+(
     OIDS = FALSE
 );
 
-    ALTER TABLE public."Post"
+ALTER TABLE public."Post"
     OWNER to postgres;
 
-    CREATE TABLE public."Comment"
-    (
-        commentid bigserial NOT NULL,
-        postid bigint NOT NULL,
-        parent_comment bigint,
-        userid bigint NOT NULL,
-        comment_text character varying(512) COLLATE pg_catalog."default" NOT NULL,
+CREATE TABLE public."Comment"
+(
+    commentid bigserial NOT NULL,
+    postid bigint NOT NULL,
+    parent_comment bigint,
+    userid bigint NOT NULL,
+    comment_text character varying(512) COLLATE pg_catalog."default" NOT NULL,
     time_posted timestamp
-        with time zone NOT NULL DEFAULT now
-        (),
+    with time zone NOT NULL DEFAULT now
+    (),
     deleted boolean NOT NULL,
     CONSTRAINT "Comment_pkey" PRIMARY KEY
         (commentid),
@@ -70,7 +70,7 @@ CREATE TABLE public."Post"
         ON
         UPDATE NO ACTION
         ON
-        DELETE NO ACTION,
+        DELETE CASCADE,
     CONSTRAINT userid
         FOREIGN KEY
         (userid)
@@ -81,13 +81,13 @@ CREATE TABLE public."Post"
         ON
         DELETE NO ACTION
 )
-        WITH
-        (
+WITH
+(
     OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-        ALTER TABLE public."Comment"
+ALTER TABLE public."Comment"
     OWNER to postgres;
 
 CREATE TABLE public."Like_Dislike"
@@ -99,11 +99,11 @@ CREATE TABLE public."Like_Dislike"
     CONSTRAINT postid FOREIGN KEY (postid)
         REFERENCES public."Post" (postid) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     CONSTRAINT userid FOREIGN KEY (userid)
         REFERENCES public."User" (userid) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 )
 WITH (
     OIDS = FALSE
@@ -113,18 +113,18 @@ ALTER TABLE public."Like_Dislike"
     OWNER to postgres;
 
 
-                CREATE TABLE public."Friend"
-                (
-                    user1 bigint NOT NULL,
-                    user2 bigint NOT NULL,
-                    PRIMARY KEY (user1, user2),
-                    CONSTRAINT user1 FOREIGN KEY (user1)
+CREATE TABLE public."Friend"
+(
+    user1 bigint NOT NULL,
+    user2 bigint NOT NULL,
+    PRIMARY KEY (user1, user2),
+    CONSTRAINT user1 FOREIGN KEY (user1)
         REFERENCES public."User" (userid)
-                    MATCH SIMPLE
+             MATCH SIMPLE
         ON
-                    UPDATE NO ACTION
+            UPDATE NO ACTION
         ON
-                    DELETE NO ACTION,
+            DELETE CASCADE,
     CONSTRAINT user2
                     FOREIGN KEY
                     (user2)
@@ -133,37 +133,37 @@ ALTER TABLE public."Like_Dislike"
         ON
                     UPDATE NO ACTION
         ON
-                    DELETE NO ACTION
+                    DELETE CASCADE
 )
-                    WITH
-                    (
+WITH
+(
     OIDS = FALSE
 );
 
-                    ALTER TABLE public."Friend"
+ALTER TABLE public."Friend"
     OWNER to postgres;
 
-                    CREATE TABLE public."Friend_Request"
-                    (
-                        sender bigint NOT NULL,
-                        receiver bigint NOT NULL,
-                        PRIMARY KEY (sender, receiver),
-                        CONSTRAINT sender FOREIGN KEY (sender)
+CREATE TABLE public."Friend_Request"
+(
+    sender bigint NOT NULL,
+    receiver bigint NOT NULL,
+    PRIMARY KEY (sender, receiver),
+    CONSTRAINT sender FOREIGN KEY (sender)
         REFERENCES public."User" (userid)
-                        MATCH SIMPLE
+            MATCH SIMPLE
         ON
-                        UPDATE NO ACTION
+            UPDATE NO ACTION
         ON
-                        DELETE NO ACTION,
+            DELETE CASCADE,
     CONSTRAINT receiver
-                        FOREIGN KEY
-                        (receiver)
+        FOREIGN KEY
+            (receiver)
         REFERENCES public."User"
                         (userid) MATCH SIMPLE
         ON
                         UPDATE NO ACTION
         ON
-                        DELETE NO ACTION
+                        DELETE CASCADE
 )
                         WITH
                         (
