@@ -83,7 +83,7 @@ passport.use('signup', new LocalStrategy({
                                         sucess: true,
                                         err: null,
                                         token,
-                                        userid: res[0].userid,
+                                        userid: res.rows[0].userid,
                                         msg: 'Account created'
                                     });
 
