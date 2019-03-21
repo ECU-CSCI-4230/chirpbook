@@ -67,11 +67,11 @@ class PostManagement
         });
     }
 
-    static removePost(postid, cb)
+    static removePost(postid, userid, cb)
     {
         db.connect(function(client)
         {
-            client.query(`UPDATE public."Post" SET post_text = '[Redacted]', userid = 0 WHERE postid = $1`, [postid],
+            client.query(`UPDATE public."Post" SET post_text = '[Redacted]', userid = $2 WHERE postid = $1 RETURNING post_text`, [postid, userid],
                 function(err, result)
                 {
                     client.release();
@@ -82,11 +82,9 @@ class PostManagement
                     if(result)
                     {
                         log.info(result);
-                        cb(result.rowCount);
-                    } else
-                    {
-                        cb(0);
+                        
                     }
+                    cb(result);
                 });
         });
     }
