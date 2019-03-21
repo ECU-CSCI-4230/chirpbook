@@ -128,6 +128,9 @@ router.post('/auth/google', auth.jwtMW, function(req, res)
         var gmail = payload.email
         var pictureLink = payload.picture
         let display_name = payload.name
+
+        // Console.log("Result:\n")
+        // Console.log(res)
         UserManagement.getUser(payload.email, function(user_row)
         {
             if(user_row.length == 1)
@@ -164,6 +167,7 @@ router.post('/auth/google', auth.jwtMW, function(req, res)
             }
         })
     }
+    // console.log(res)
     verify().catch(console.error);
 
 });
