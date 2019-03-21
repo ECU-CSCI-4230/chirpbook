@@ -20,7 +20,7 @@ it('login user 1', function(done)
             let body = JSON.parse(res.body)
             token1 = 'Bearer ' + body.token
             uid = body.userid
-            assert.strictEqual(body.sucess, true)
+            assert.strictEqual(body.success, true)
             done()
         })
 })
@@ -42,7 +42,7 @@ it('change displayname', function(done)
     }, function(err, res)
         {
             var body = JSON.parse(res.body)
-            assert.strictEqual(true, body.sucess);
+            assert.strictEqual(true, body.success);
             done();
         });
 })

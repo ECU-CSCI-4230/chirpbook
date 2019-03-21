@@ -23,12 +23,12 @@ router.post('/post/comments/:postid', function(req, res){
         if(result.rowCount >= 0){
             res.status(201).json({
                 comments: result.rows,
-                sucess: true,
+                success: true,
                 err: null
             })
         }else{
             res.status(404).json({
-                sucess: false,
+                success: false,
                 err: 'Posts not found'
             })
         }

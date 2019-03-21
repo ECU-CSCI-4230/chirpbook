@@ -59,14 +59,14 @@ router.get('/comments/get/:postid', function(req, res)
         if(result)
         {
             res.status(200).json({
-                sucess: true,
+                success: true,
                 err: null,
                 comments: result.rows,
             });
         } else
         {
             res.status(404).json({
-                sucess: false,
+                success: false,
                 err: 'Cannot get comments'
             })
         }

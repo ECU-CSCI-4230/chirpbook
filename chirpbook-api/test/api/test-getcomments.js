@@ -28,7 +28,7 @@ it('get no comments on post', function(done){
         {
             var body = JSON.parse(res.body)
             console.log(body)
-            assert.strictEqual(true, body.sucess);
+            assert.strictEqual(true, body.success);
             assert.strictEqual(0, body.comments.length)
             done();
     });
@@ -54,7 +54,7 @@ it('get one comment on post', function(done){
         {
             var body = JSON.parse(res.body)
             console.log(body)
-            assert.strictEqual(true, body.sucess);
+            assert.strictEqual(true, body.success);
             assert.strictEqual(1, body.comments.length)
             done();
     });

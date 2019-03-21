@@ -34,7 +34,7 @@ passport.use('signup', new LocalStrategy({
         if(gmail.length == 0 || password.length == 0 || typeof req.body.gmail == 'undefined' || arrMatches === null)
         {
             req.res.status(401).json({
-                sucess: false,
+                success: false,
                 token: null,
                 err: 'Invalid gmail or password.',
             });
@@ -49,7 +49,7 @@ passport.use('signup', new LocalStrategy({
                     if(err)
                     {
                         req.res.status(401).json({
-                            sucess: false,
+                            success: false,
                             token: null,
                             err: 'User already exists.'
                         });
@@ -80,7 +80,7 @@ passport.use('signup', new LocalStrategy({
 
                                     let token = jwt.sign({userid: user.userid, gmail: user.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
                                     req.res.status(200).json({
-                                        sucess: true,
+                                        success: true,
                                         err: null,
                                         token,
                                         userid: res.rows[0].userid,
@@ -96,7 +96,7 @@ passport.use('signup', new LocalStrategy({
                         else
                         {
                             req.res.status(401).json({
-                                sucess: false,
+                                success: false,
                                 token: null,
                                 err: 'Account already exists.'
                             });
@@ -128,7 +128,7 @@ passport.use('login', new LocalStrategy(
         if(arrMatches === null)
         {
             req.res.status(401).json({
-                sucess: false,
+                success: false,
                 token: null,
                 err: 'Enter a valid gmail.'
             });
@@ -157,7 +157,7 @@ passport.use('login', new LocalStrategy(
                         {
                             let token = jwt.sign({userid: User.userid, gmail: User.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
                             req.res.status(200).json({
-                                sucess: true,
+                                success: true,
                                 err: null,
                                 token,
                                 userid: User.userid
@@ -167,7 +167,7 @@ passport.use('login', new LocalStrategy(
                         else
                         {
                             req.res.status(401).json({
-                                sucess: false,
+                                success: false,
                                 token: null,
                                 err: 'Username or password is incorrect'
                             });
@@ -177,7 +177,7 @@ passport.use('login', new LocalStrategy(
                     else
                     {
                         req.res.status(401).json({
-                            sucess: false,
+                            success: false,
                             token: null,
                             err: 'Username or password is incorrect'
                         });

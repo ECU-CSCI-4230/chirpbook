@@ -56,7 +56,7 @@ it('test login user 1', function(done)
         {
             let body = JSON.parse(res.body)
             token1 = 'Bearer ' + body.token
-            assert.strictEqual(body.sucess, true)
+            assert.strictEqual(body.success, true)
             done()
         })
 })
@@ -74,7 +74,7 @@ it('test login user 2', function(done)
         {
             let body = JSON.parse(res.body)
             token2 = 'Bearer ' + body.token
-            assert.strictEqual(body.sucess, true)
+            assert.strictEqual(body.success, true)
             done()
         })
 })

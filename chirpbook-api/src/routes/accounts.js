@@ -42,13 +42,13 @@ router.post('/users/set_displayname/:userid', auth.jwtMW, function(req, res)
         if(result.rowCount == 1)
         {
             res.status(201).json({
-                sucess: true,
+                success: true,
                 err: null
             })
         } else
         {
             res.status(404).json({
-                sucess: false,
+                success: false,
                 err: 'User not found'
             })
         }
@@ -94,14 +94,14 @@ router.get('/users/profile_picture/:userid', auth.jwtMW, function(req, res)
         if(result.length == 1)
         {
             res.status(201).json({
-                sucess: true,
+                success: true,
                 err: null,
                 profile_picture: result[0].profile_picture
             })
         } else
         {
             res.status(404).json({
-                sucess: false,
+                success: false,
                 err: 'User not found'
             })
         }
@@ -138,7 +138,7 @@ router.post('/auth/google', auth.jwtMW, function(req, res)
                     UserManagement.setDisplayName(user_row[0].userid, name, function(result)
                     {
                         res.status(201).json({
-                            sucess: true,
+                            success: true,
                             err: null,
                             gmail: gmail,
                             userid: user_row[0].userid,
@@ -153,7 +153,7 @@ router.post('/auth/google', auth.jwtMW, function(req, res)
                 UserManagement.createUser(gmail, pictureLink, display_name, function(newUser)
                 {
                     res.status(201).json({
-                        sucess: true,
+                        success: true,
                         err: null,
                         gmail: gmail,
                         userid: newUser.rows[0].userid,
