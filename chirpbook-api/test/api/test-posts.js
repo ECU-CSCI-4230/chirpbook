@@ -20,7 +20,7 @@ it('login user 1', function(done)
             let body = JSON.parse(res.body)
             token1 = 'Bearer ' + body.token
             uid = body.userid
-            assert.strictEqual(body.sucess, true)
+            assert.strictEqual(body.success, true)
             done()
         })
 })
@@ -63,7 +63,7 @@ it('get post', function(done)
     }, function(err, res)
         {
             var body = JSON.parse(res.body)
-            assert.strictEqual(true, body.sucess);
+            assert.strictEqual(true, body.success);
             assert.strictEqual(1, body.post.length)
             assert.strictEqual("Hi!", body.post[0].post_text)
             done();
@@ -84,8 +84,28 @@ it('get homepage', function(done)
     }, function(err, res)
         {
             var body = JSON.parse(res.body)
-            assert.strictEqual(true, body.sucess);
+            assert.strictEqual(true, body.success);
             assert.strictEqual(true, body.posts.length >= 1)
+            done();
+        });
+})
+
+it('remove post', function(done)
+{
+    const path = `http://${basepath}/posts/remove/${pid}`;
+
+    request.delete(path, {
+        url: path,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token1
+        },
+        body: JSON.stringify(reqBody),
+    }, function(err, res)
+        {
+            var body = JSON.parse(res.body)
+            assert.strictEqual(true, body.success);
+            assert.strictEqual(true, body.post_text == '[Redacted]')
             done();
         });
 })

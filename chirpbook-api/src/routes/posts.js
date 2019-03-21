@@ -27,14 +27,14 @@ router.get('/posts/get_homepage', auth.jwtMW, function(req, res)
         if(result)
         {
             res.status(200).json({
-                sucess: true,
+                success: true,
                 err: null,
                 posts: result.rows,
             });
         } else
         {
             res.status(404).json({
-                sucess: false,
+                success: false,
                 err: 'Cannot get posts'
             })
         }
@@ -50,14 +50,14 @@ router.get('/posts/get/:postid', auth.jwtMW, function(req, res)
         if(result && result.rowCount > 0)
         {
             res.status(200).json({
-                sucess: true,
+                success: true,
                 err: null,
                 post: result.rows,
             });
         } else
         {
             res.status(404).json({
-                sucess: false,
+                success: false,
                 err: 'Cannot get post'
             })
         }
@@ -100,6 +100,29 @@ router.post('/posts/add', auth.jwtMW, function(req, res)
             }
         });
     }
+})
+
+router.delete('/posts/remove/:postid', auth.jwtMW, function(req,res)
+{
+    var postid = req.params.postid
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid;
+    PostManagement.removePost(postid, userid, function(result)
+    {
+        if(result && result.rowCount > 0)
+        {
+            res.status(200).json({
+                success: true,
+                err: null,
+                post_text: result.rows[0].post_text
+            });
+        } else
+        {
+            res.status(404).json({
+                success: false,
+                err: 'Cannot get post'
+            })
+        }
+    })
 })
 
 
