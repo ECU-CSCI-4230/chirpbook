@@ -125,5 +125,27 @@ router.delete('/posts/remove/:postid', auth.jwtMW, function(req,res)
     })
 })
 
+router.get('/posts/get/user/:userid', function(req,res)
+{
+    var userid = req.params.userid;
+    PostManagement.getUserPosts(userid, function(result)
+    {
+        if(result)
+        {
+            res.status(200).json({
+            success: true,
+            err: null,
+            post: result.rows,
+            });
+        }
+        else
+        {
+            res.status(404).json({
+            success: false,
+            err: 'Cannot get posts from this user'
+            });
+        }
+    });
+})
 
 module.exports = router;

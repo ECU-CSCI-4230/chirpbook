@@ -187,11 +187,8 @@ class PostManagement
                     if(result)
                     {
                         log.info(result);
-                        cb(result);
-                    } else
-                    {
-                        cb({rows: [], rowCount: 0});
                     }
+                    cb(result);
                 });
         });
     }
