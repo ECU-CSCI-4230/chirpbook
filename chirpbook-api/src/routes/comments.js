@@ -15,12 +15,14 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 var log = require('console-log-level')({level: 'info'});
 
-router.post('/comments/add', function(req, res)
+const auth = require('../config/auth');
+
+router.post('/comments/add', auth.jwtMW, function(req, res)
 {
     var commentText = req.body.comment_text
     var postid = req.body.postid
     var parentCommentid = req.body.parent_commentid
-    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).email;
+    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
 
     if(gmail && commentText)
     {
@@ -50,7 +52,7 @@ router.post('/comments/add', function(req, res)
     }
 })
 
-router.get('/comments/get/:postid', function(req, res)
+router.get('/comments/get/:postid', auth.jwtMW, function(req, res)
 {
     var postid = req.params.postid
 
@@ -73,7 +75,7 @@ router.get('/comments/get/:postid', function(req, res)
     });
 });
 
-router.delete('/comments/delete/:commentid', function(req, res)
+router.delete('/comments/delete/:commentid', auth.jwtMW, function(req, res)
 {
     var commentid = req.params.commentid
 
@@ -94,8 +96,6 @@ router.delete('/comments/delete/:commentid', function(req, res)
         }
     })
 })
-
-
 
 
 
