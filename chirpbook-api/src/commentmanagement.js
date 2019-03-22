@@ -121,6 +121,38 @@ class commentmanagement
         });
     }
 
+    static deleteAllComments(userid, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(
+                `UPDATE public."Comment"
+                SET deleted = true, comment_text = '[Redacted]', userid = 0
+                WHERE userid = $1`,
+                [userid],
+
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        //console.log(result)
+                        //log.info(result)
+                        cb(result.rowCount);
+                    }
+                    else
+                    {
+                        // log.info(`no results`)
+                        cb(0);
+                    }
+                });
+        });
+    }
+
 }
 
 

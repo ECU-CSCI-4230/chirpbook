@@ -48,6 +48,7 @@ describe("API", function()
     importTest("likes/dislikes", './api/test-likes-dislikes')
     importTest("friendrequests", './api/test-friendrequests')
     importTest("friends", './api/test-friends')
+    importTest("delete-account", './api/test-delete-account')
 
     after(function()
     {
