@@ -102,7 +102,7 @@ router.post('/posts/add', auth.jwtMW, function(req, res)
     }
 })
 
-router.delete('/posts/remove/:postid', auth.jwtMW, function(req,res)
+router.delete('/posts/remove/:postid', auth.jwtMW, function(req, res)
 {
     var postid = req.params.postid
     var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid;
@@ -125,7 +125,7 @@ router.delete('/posts/remove/:postid', auth.jwtMW, function(req,res)
     })
 })
 
-router.get('/posts/get/user/:userid', function(req,res)
+router.get('/posts/get/user/:userid', auth.jwtMW, function(req, res)
 {
     var userid = req.params.userid;
     PostManagement.getUserPosts(userid, function(result)
@@ -133,16 +133,16 @@ router.get('/posts/get/user/:userid', function(req,res)
         if(result)
         {
             res.status(200).json({
-            success: true,
-            err: null,
-            post: result.rows,
+                success: true,
+                err: null,
+                post: result.rows,
             });
         }
         else
         {
             res.status(404).json({
-            success: false,
-            err: 'Cannot get posts from this user'
+                success: false,
+                err: 'Cannot get posts from this user'
             });
         }
     });
