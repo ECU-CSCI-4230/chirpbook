@@ -73,7 +73,7 @@ it('edit like', function(done)
 {
     const path = `http://${basepath}/like`;
 
-    var reqBody = {userid: uid, like_type: 1, postid: pid}
+    var reqBody = {userid: uid, like_type: 2, postid: pid}
 
     request.post(path, {
         url: path,
