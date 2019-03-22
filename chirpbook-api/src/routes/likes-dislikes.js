@@ -15,14 +15,16 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 var log = require('console-log-level')({level: 'info'});
 
-router.post('/like', function(req, res)
+const auth = require('../config/auth');
+
+router.post('/like', auth.jwtMW, function(req, res)
 {
     var like = req.body.like_type
     var pid = req.body.postid
 
     // console.log(req.body)
 
-    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).email;
+    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
 
     if(gmail)
     {
@@ -59,7 +61,7 @@ router.post('/like', function(req, res)
                             {
                                 res.status(400).json({
                                     success: false,
-                                    err: 'edit like error: u stupid'
+                                    err: 'edit like error'
                                 });
                             }
                         });
@@ -72,11 +74,11 @@ router.post('/like', function(req, res)
 
 });
 
-router.delete('/like', function(req, res)
+router.delete('/like', auth.jwtMW, function(req, res)
 {
     var pid = req.body.postid
 
-    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).email;
+    var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
 
     if(gmail)
     {
@@ -96,7 +98,7 @@ router.delete('/like', function(req, res)
                     {
                         res.status(400).json({
                             success: false,
-                            err: 'remove like error: u stupid'
+                            err: 'remove like error'
                         })
                     }
                 });
