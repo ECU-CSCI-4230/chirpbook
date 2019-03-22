@@ -14,43 +14,51 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 var log = require('console-log-level')({level: 'info'});
 
+const auth = require('../config/auth');
 
-router.get('/friends_requests/:userid', function(req, res){
+router.get('/friends_requests/:userid', auth.jwtMW, function(req, res)
+{
     var userid = req.params.userid
-    FriendRequestManagement.getIncomingFriendRequests(userid, function(IncomingRequests){
-        FriendRequestManagement.getOutgoingFriendRequests(userid, function(OutgoingRequests){
+    FriendRequestManagement.getIncomingFriendRequests(userid, function(IncomingRequests)
+    {
+        FriendRequestManagement.getOutgoingFriendRequests(userid, function(OutgoingRequests)
+        {
             //console.log(IncomingRequests)
             //console.log(OutgoingRequests)
             var friend_requests = IncomingRequests.rows.concat(OutgoingRequests.rows)
             res.status(201).json({
-                success : true,
-                errror : null,
+                success: true,
+                errror: null,
                 incoming_requests: IncomingRequests.rows,
                 outgoing_requests: OutgoingRequests.rows
             })
         })
     })
-    
+
 });
 
-router.post('/friends_requests/send/:sender/:receiver', function(req, res){
+router.post('/friends_requests/send/:sender/:receiver', auth.jwtMW, function(req, res)
+{
     var sender = req.params.sender
     var receiver = req.params.receiver
-    FriendRequestManagement.createFriendRequest(sender, receiver, function(newFriendRequest){
+    FriendRequestManagement.createFriendRequest(sender, receiver, function(newFriendRequest)
+    {
         res.status(201).json({
-            success : true,
-            error : null,
+            success: true,
+            error: null,
         })
     })
 });
 
-router.post('/friends_requests/reject/:sender/:receiver', function(req, res){
+router.post('/friends_requests/reject/:sender/:receiver', auth.jwtMW, function(req, res)
+{
     var sender = req.params.sender
     var receiver = req.params.receiver
-    FriendRequestManagement.deleteFriendRequest(sender, receiver, function(removedRequest){
+    FriendRequestManagement.deleteFriendRequest(sender, receiver, function(removedRequest)
+    {
         res.status(201).json({
-            success : true,
-            error : null,
+            success: true,
+            error: null,
         })
     })
 });

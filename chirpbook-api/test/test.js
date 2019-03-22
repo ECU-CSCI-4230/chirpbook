@@ -45,7 +45,7 @@ describe("API", function()
     importTest("posts", "./api/test-posts")
     importTest("comments", './api/test-comments')
     importTest("likes/dislikes", './api/test-likes-dislikes')
-    //importTest("friendrequests", './api/test-friendrequests')
+    importTest("friendrequests", './api/test-friendrequests')
     //importTest("friends", './api/test-friends')
 
     after(function()
