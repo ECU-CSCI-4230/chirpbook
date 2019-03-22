@@ -133,7 +133,6 @@ it('remove post', function(done)
         {
             var body = JSON.parse(res.body)
             assert.strictEqual(true, body.success);
-            assert.strictEqual(true, body.post_text == '[Redacted]')
             done();
         });
 })
