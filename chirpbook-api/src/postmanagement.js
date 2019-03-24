@@ -93,7 +93,7 @@ class PostManagement
     {
         db.connect(function(client)
         {
-            client.query(`UPDATE public."Post" SET post_text = '[Redacted]', userid = 0 WHERE userid = $1`, [userid],
+            client.query(`delete from public."Post" WHERE userid = $1`, [userid],
                 function(err, result)
                 {
                     client.release();

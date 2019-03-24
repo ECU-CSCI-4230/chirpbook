@@ -5,8 +5,9 @@ var userid2;
 
 it('test create user', function(done)
 {
-    UserManagement.createUser('test@gmail.com','http://hasthelargehadroncolliderdestroyedtheworldyet.com/', '', function(result)
+    UserManagement.createUser('test@gmail.com', 'http://hasthelargehadroncolliderdestroyedtheworldyet.com/', '', function(result)
     {
+        assert.strictEqual(result.rowCount, 1)
         userid = result.rows[0].userid
         done();
     });
@@ -14,8 +15,9 @@ it('test create user', function(done)
 
 it('test create user2', function(done)
 {
-    UserManagement.createUser('test2@gmail.com','http://hasthelargehadroncolliderdestroyedtheworldyet.com/', '', function(result)
+    UserManagement.createUser('test2@gmail.com', 'http://hasthelargehadroncolliderdestroyedtheworldyet.com/', '', function(result)
     {
+        assert.strictEqual(result.rowCount, 1)
         userid2 = result.rows[0].userid
         done();
     });
@@ -48,14 +50,20 @@ it('test delete friend', function(done)
     });
 });
 
-it('delete user', function(done){
-    UserManagement.deleteUser(userid, function(result){
+it('delete user', function(done)
+{
+    UserManagement.deleteUser(userid, function(result)
+    {
+        assert.strictEqual(result.rowCount, 1)
         done()
-    })  
+    })
 })
 
-it('delete user2', function(done){
-    UserManagement.deleteUser(userid2, function(result){
+it('delete user2', function(done)
+{
+    UserManagement.deleteUser(userid2, function(result)
+    {
+        assert.strictEqual(result.rowCount, 1)
         done()
-    })  
+    })
 })
