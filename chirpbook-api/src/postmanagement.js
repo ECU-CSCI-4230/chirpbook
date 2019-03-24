@@ -141,7 +141,9 @@ class PostManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT * FROM public."Comment" NATURAL JOIN public."User" WHERE postid = $1`, [postid],
+            client.query(`SELECT public."Comment".userid, gmail, display_name, profile_picture,
+                        commentid, parent_comment, comment_text, time_posted, deleted
+                        FROM public."Comment" NATURAL JOIN public."User" WHERE postid = $1`, [postid],
                 function(err, result)
                 {
                     client.release();

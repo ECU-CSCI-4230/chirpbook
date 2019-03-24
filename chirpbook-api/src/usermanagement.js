@@ -35,7 +35,7 @@ class UserManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT * FROM public."User" WHERE gmail = $1`, [gmail],
+            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE gmail = $1`, [gmail],
                 function(err, result)
                 {
                     client.release()
@@ -88,7 +88,7 @@ class UserManagement
         db.connect(function(client)
         {
             var mail = '%' + gmail + '%'
-            client.query(`SELECT * FROM public."User" WHERE gmail ILIKE $1`, [mail],
+            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE gmail ILIKE $1`, [mail],
                 function(err, result)
                 {
                     client.release()
