@@ -7,6 +7,7 @@ import LoginPage from './Components/LoginPage'
 import FriendsPage from "./Components/FriendsPage";
 import FriendRequestPage from "./Components/FriendRequestPage";
 import Post from "./Components/Post";
+import SettingsPage from "./Components/SettingsPage";
 
 // import Loadable from "react-loadable";
 
@@ -30,6 +31,7 @@ class App extends React.Component
                         <Route path="/friends" component={FriendsPage} />
                         <Route path='/friend_requests' component={FriendRequestPage} />
                         <Route path='/post/:postid' component={Post} />
+                        <Route path='/settings' component={SettingsPage} />
                     </Switch>
                 </React.Fragment >
             </Router>
