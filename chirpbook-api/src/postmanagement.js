@@ -67,11 +67,11 @@ class PostManagement
         });
     }
 
-    static removePost(postid, userid, cb)
+    static removePost(postid, cb)
     {
         db.connect(function(client)
         {
-            client.query(`UPDATE public."Post" SET post_text = '[Redacted]', userid = $2 WHERE postid = $1 RETURNING post_text`, [postid, userid],
+            client.query(`delete from public."Post" WHERE postid = $1`, [postid],
                 function(err, result)
                 {
                     client.release();
@@ -82,7 +82,7 @@ class PostManagement
                     if(result)
                     {
                         log.info(result);
-                        
+
                     }
                     cb(result);
                 });
@@ -93,7 +93,7 @@ class PostManagement
     {
         db.connect(function(client)
         {
-            client.query(`UPDATE public."Post" SET post_text = '[Redacted]', userid = 0 WHERE userid = $1`, [userid],
+            client.query(`delete from public."Post" WHERE userid = $1`, [userid],
                 function(err, result)
                 {
                     client.release();
@@ -141,7 +141,9 @@ class PostManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT * FROM public."Comment" NATURAL JOIN public."User" WHERE postid = $1`, [postid],
+            client.query(`SELECT public."Comment".userid, gmail, display_name, profile_picture,
+                        commentid, parent_comment, comment_text, time_posted, deleted
+                        FROM public."Comment" NATURAL JOIN public."User" WHERE postid = $1`, [postid],
                 function(err, result)
                 {
                     client.release();
@@ -187,11 +189,8 @@ class PostManagement
                     if(result)
                     {
                         log.info(result);
-                        cb(result);
-                    } else
-                    {
-                        cb({rows: [], rowCount: 0});
                     }
+                    cb(result);
                 });
         });
     }

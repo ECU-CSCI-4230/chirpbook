@@ -90,6 +90,25 @@ it('get homepage', function(done)
         });
 })
 
+it('get post from single user', function(done)
+{
+    const path = `http://${basepath}/posts/get/user/${uid}`;
+
+    request.get(path, {
+        url: path,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token1
+        },
+    }, function(err, res)
+        {
+            var body = JSON.parse(res.body)
+            assert.strictEqual(true, body.success);
+            assert.strictEqual(true, body.post.length >= 1)
+            done();
+        });
+})
+
 it('remove post', function(done)
 {
     const path = `http://${basepath}/posts/remove/${pid}`;
@@ -105,7 +124,6 @@ it('remove post', function(done)
         {
             var body = JSON.parse(res.body)
             assert.strictEqual(true, body.success);
-            assert.strictEqual(true, body.post_text == '[Redacted]')
             done();
         });
 })

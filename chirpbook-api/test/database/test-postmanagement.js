@@ -1,9 +1,10 @@
 const {PostManagement, UserManagement, LikeManagement, FriendManagement, CommentManagement, assert} = require("../common");
 
 var userid = null;
+var user1gmail = 'potato@gmail.com'
 it('create a test user', function(done)
 {
-    UserManagement.createUser('potato@gmail.com', '', 'potato', function(result)
+    UserManagement.createUser(user1gmail, '', 'potato', function(result)
     {
         assert.strictEqual(result.rowCount, 1);
         userid = result.rows[0].userid
@@ -125,7 +126,7 @@ it('test add dislike', function(done)
 
 it('check post was edited', function(done)
 {
-    PostManagement.getPost(userPosts[userPosts.length - 1].postid, function(result)
+    PostManagement.getPost(userPosts[userPosts.length - 1].postid, user1gmail, function(result)
     {
         assert.strictEqual(result.rows[0].post_text, 'this is the edited text');
         done();

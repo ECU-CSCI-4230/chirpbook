@@ -10,7 +10,7 @@ function importTest(name, path)
     });
 }
 
-describe.skip("Database", function()
+describe("Database", function()
 {
     this.timeout(TIMEOUT_TIME);
 
@@ -40,14 +40,15 @@ describe("API", function()
     {
 
     })
+
     importTest("test-login", "./api/test-login")
     importTest("accounts", './api/test-accounts')
     importTest("posts", "./api/test-posts")
-    //importTest("posts", './api/test-getcomments')
-    //importTest("likes/dislikes", './api/test-likes-dislikes')
-    //importTest("friendrequests", './api/test-friendrequests')
-    //importTest("friends", './api/test-friends')
-    //importTest("comments", './api/test-comments')
+    importTest("comments", './api/test-comments')
+    importTest("likes/dislikes", './api/test-likes-dislikes')
+    importTest("friendrequests", './api/test-friendrequests')
+    importTest("friends", './api/test-friends')
+    importTest("delete-account", './api/test-delete-account')
 
     after(function()
     {

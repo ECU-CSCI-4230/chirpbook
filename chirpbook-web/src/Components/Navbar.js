@@ -29,7 +29,7 @@ class NavBar extends Component
     constructor()
     {
         super();
-        this.state = {isAuthenticated: Auth.isLoggedIn(), user: null, token: ''};
+        this.state = {isAuthenticated: true, user: null, token: ''};
     }
     withStyles
 

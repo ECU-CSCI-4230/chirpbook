@@ -37,10 +37,12 @@ export default class AuthHelpers
         }
     }
 
+    // TODO: uncomment line below
     isLoggedIn()
     {
         const token = this.getToken()
-        return token != null && !this.isTokenExpired(token)
+        // return token != null && !this.isTokenExpired(token)
+        return true
     }
 
     saveUserid(userid)

@@ -37,7 +37,7 @@ class FriendRequestManagement
     {
         db.connect(function(client)
         {
-            client.query(`DELETE FROM public."Friend_Request" WHERE sender = $1 AND 
+            client.query(`DELETE FROM public."Friend_Request" WHERE sender = $1 AND
                             receiver = $2`, [init, reci],
                 function(err, result)
                 {
@@ -65,8 +65,9 @@ class FriendRequestManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT * FROM public."Friend_Request" full outer join public."User"
-                on sender = userid 
+            client.query(`SELECT userid, gmail, display_name, profile_picture, sender, receiver
+                FROM public."Friend_Request" full outer join public."User"
+                on sender = userid
                 WHERE receiver = $1`, [userid],
                 function(err, result)
                 {
@@ -94,7 +95,8 @@ class FriendRequestManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT * FROM public."Friend_Request" full outer join public."User" 
+            client.query(`SELECT userid, gmail, display_name, profile_picture, sender, receiver
+                FROM public."Friend_Request" full outer join public."User"
                 on receiver = userid
                 WHERE sender = $1`, [userid],
                 function(err, result)

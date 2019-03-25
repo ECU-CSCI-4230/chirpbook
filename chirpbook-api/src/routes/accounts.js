@@ -7,6 +7,8 @@ const app = express();
 const router = express.Router();
 
 const UserManagement = require('../usermanagement');
+const CommentManagement = require('../commentmanagement')
+
 const jwt = require('jsonwebtoken');
 
 const bodyParser = require('body-parser');
@@ -52,6 +54,32 @@ router.post('/users/set_displayname/:userid', auth.jwtMW, function(req, res)
                 err: 'User not found'
             })
         }
+    })
+
+})
+
+router.delete('/users/delete/:userid', auth.jwtMW, function(req, res)
+{
+    var userid = req.params.userid
+
+    CommentManagement.deleteAllComments(userid, function(result_delete_comments)
+    {
+        UserManagement.deleteUser(userid, function(delete_result)
+        {
+            if(delete_result.rowCount == 1)
+            {
+                res.status(201).json({
+                    success: true,
+                    err: null
+                })
+            } else
+            {
+                res.status(404).json({
+                    success: false,
+                    err: 'User not found'
+                })
+            }
+        })
     })
 
 })
@@ -128,6 +156,9 @@ router.post('/auth/google', auth.jwtMW, function(req, res)
         var gmail = payload.email
         var pictureLink = payload.picture
         let display_name = payload.name
+
+        // Console.log("Result:\n")
+        // Console.log(res)
         UserManagement.getUser(payload.email, function(user_row)
         {
             if(user_row.length == 1)
@@ -164,6 +195,7 @@ router.post('/auth/google', auth.jwtMW, function(req, res)
             }
         })
     }
+    // console.log(res)
     verify().catch(console.error);
 
 });
