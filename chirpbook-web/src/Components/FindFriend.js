@@ -85,7 +85,6 @@ class FindFriend extends Component
             if(res.success)
             {
                 console.log(res.users)
-                // this.setState({users: res.users})
             }
 
         }).catch((err) => console.log(err))
