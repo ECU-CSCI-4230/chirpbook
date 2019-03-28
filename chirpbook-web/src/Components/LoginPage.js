@@ -33,12 +33,18 @@ class LoginPage extends Component
             errmsg: ''
         };
         this.submit = this.submit.bind(this)
+        this.moveToRegister = this.moveToRegister.bind(this)
     }
 
     handleChange = name => event =>
     {
         this.setState({[name]: event.target.value});
     };
+
+    moveToRegister()
+    {
+        this.props.history.replace('/Register');
+    }
 
     submit()
     {
@@ -131,7 +137,12 @@ class LoginPage extends Component
                     </Grid>
                     <Grid item>
                         <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.margin}>
-                            Submit
+                            Log In
+                    </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button onClick={this.moveToRegister} variant="contained" size="medium" color="primary" className={classes.margin}>
+                            Sign Up
                     </Button>
                     </Grid>
                 </Grid>
