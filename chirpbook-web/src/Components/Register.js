@@ -29,6 +29,7 @@ class Register extends Component
         super(props);
         this.state = {
             email: '',
+            d_name: '',
             password: '',
             rpassword: '',
             errmsg: ''
@@ -53,7 +54,7 @@ class Register extends Component
             {
                 if(this.state.password.length >= 6)
                 {
-                    const b = JSON.stringify({'gmail': this.state.email, 'password': this.state.password})
+                    const b = JSON.stringify({'gmail': this.state.email, 'display_name': this.state.d_name, 'password': this.state.password})
                     const options = {
                         headers: {'Content-Type': 'application/json'},
                         method: 'POST',
@@ -130,6 +131,17 @@ class Register extends Component
 
                     <Grid item >
                         <TextField
+                            id="standard-name"
+                            label="Display Name"
+                            className={classes.textField}
+                            value={this.state.d_name}
+                            onChange={this.handleChange('d_name')}
+                            margin="normal"
+                        />
+                    </Grid>
+
+                    <Grid item >
+                        <TextField
                             id="standard-password-input"
                             label="Password"
                             className={classes.textField}
@@ -154,7 +166,7 @@ class Register extends Component
                     </Grid>
                     <Grid item>
                         <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.margin}>
-                            Submit
+                            Signup fool
                     </Button>
                     </Grid>
                 </Grid>
