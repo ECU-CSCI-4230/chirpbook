@@ -58,6 +58,7 @@ class FriendRequestPage extends Component
         this.deleteIncomingFriendRequest = this.deleteIncomingFriendRequest.bind(this)
         this.deleteOutgoingFriendRequest = this.deleteOutgoingFriendRequest.bind(this)
         this.acceptRequest = this.acceptRequest.bind(this)
+        this.addOutgoingFriendRequests = this.addOutgoingFriendRequests.bind(this)
     }
 
     getFriendRequests()
@@ -138,6 +139,10 @@ class FriendRequestPage extends Component
             }
 
         })
+    }
+
+    addOutgoingFriendRequests(user1, user2) {
+
     }
 
     render()
