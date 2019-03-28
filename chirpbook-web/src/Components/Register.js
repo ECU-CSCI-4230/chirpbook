@@ -13,7 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AuthHelpers from '../Auth/AuthHelpers.js'
 import withAuth from '../Auth/withAuth';
 
-// const Auth = new AuthHelpers();
+const Auth = new AuthHelpers();
 
 const styles = theme => ({
     root: {
@@ -48,13 +48,37 @@ class Register extends Component
 
         if(e.search('@') !== -1)
         {
-            if(this.state.password == this.state.rpassword)
+
+            if(this.state.password === this.state.rpassword)
             {
                 if(this.state.password.length >= 6)
                 {
-                    // TODO: Make API call
-                    // maybe API call is already in usermanagement.js
-
+                    const b = JSON.stringify({'gmail': this.state.email, 'password': this.state.password})
+                    const options = {
+                        headers: {'Content-Type': 'application/json'},
+                        method: 'POST',
+                        body: b
+                    };
+                    //const tokenH = r.headers.get('x-auth-token');
+                    fetch('http://localhost/api/v1/signup', options).then(r => r.json())
+                        .then(data =>
+                        {
+                            console.log(data)
+                            if(data.err === null)
+                            {
+                                Auth.login(data.token, data.userid)
+                                this.props.history.replace('/home')
+                            } else if(data.err === "Invalid gmail or password.")
+                            {
+                                this.setState({errmsg: 'Invalid gmail or password.'})
+                            } else if(data.err === "User already exists.")
+                            {
+                                this.setSate({errmsg: 'User already exists.'})
+                            } else if(data.err === "Account already exists.")
+                            {
+                                this.setState({errmsg: "Account already exists."})
+                            }
+                        });
                 }
 
             } else
