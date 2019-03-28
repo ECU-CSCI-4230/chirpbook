@@ -77,7 +77,7 @@ class LoginPage extends Component
                     } else if(data.err === 'Username or password is incorrect')
                     {
                         console.log('got u or pass');
-                        this.setSate({errmsg: 'Username or password is incorrect.'});
+                        this.setState({errmsg: 'Username or password is incorrect.'});
     
                     } else
                     {

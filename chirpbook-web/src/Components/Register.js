@@ -74,7 +74,7 @@ class Register extends Component
                                 this.setState({errmsg: 'Invalid gmail or password.'})
                             } else if(data.err === "User already exists.")
                             {
-                                this.setSate({errmsg: 'User already exists.'})
+                                this.setState({errmsg: 'User already exists.'})
                             } else if(data.err === "Account already exists.")
                             {
                                 this.setState({errmsg: "Account already exists."})
