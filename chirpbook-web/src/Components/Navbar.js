@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {GoogleLogin, GoogleLogout} from 'react-google-login';
 import config from '../config.json';
 import {AppBar, withStyles, Toolbar, Button, Typography, IconButton} from '@material-ui/core';
 import AuthHelpers from '../Auth/AuthHelpers.js'
@@ -48,27 +47,6 @@ class NavBar extends Component
         console.log(error)
         console.log(config)
     };
-
-
-    googleResponse = (response) =>
-    {
-        const token = JSON.stringify({'idToken': response.tokenId})
-        const options = {
-            headers: {'Content-Type': 'application/json'},
-            method: 'POST',
-            body: token,
-        };
-        //const tokenH = r.headers.get('x-auth-token');
-        fetch('http://localhost/api/v1/auth/google', options).then(r => r.json())
-            .then(data =>
-            {
-                Auth.login(data.token, data.userid)
-                this.setState({isAuthenticated: true, user: data.email, pictureLink: data.pictureLink})
-                this.props.history.replace('/home')
-            });
-
-    };
-
 
     openFriendsPage = () =>
     {
