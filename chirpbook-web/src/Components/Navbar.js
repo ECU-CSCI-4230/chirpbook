@@ -5,6 +5,7 @@ import {AppBar, withStyles, Toolbar, Button, Typography, IconButton} from '@mate
 import AuthHelpers from '../Auth/AuthHelpers.js'
 import logo from '../favicon.png';
 import {Group, GroupAdd} from '@material-ui/icons';
+import ProfileItem from './ProfileItem.js';
 
 const Auth = new AuthHelpers();
 
@@ -84,6 +85,18 @@ class NavBar extends Component
         this.props.history.replace('/home')
     }
 
+    userButton = () =>
+    {
+        if(Auth.isLoggedIn())
+        {
+            Auth.logout();
+            this.props.history.replace('/');
+        } else
+        {
+            this.props.history.replace('/login');
+        }
+    }
+
     render()
     {
         const {classes} = this.props;
@@ -97,27 +110,19 @@ class NavBar extends Component
                         </div>
                         <Typography variant="h5" color="inherit" style={{flex: 1}}>ChirpBook</Typography>
 
-                        <IconButton className={classes.menuButton} onClick={this.openFriendRequestPage}>
+                        <IconButton className={classes.menuButton} disabled={!this.state.isAuthenticated} onClick={this.openFriendRequestPage}>
                             <GroupAdd fontSize="large" />
                         </IconButton>
 
-                        <IconButton className={classes.menuButton} onClick={this.openFriendsPage}>
+                        <IconButton className={classes.menuButton} disabled={!this.state.isAuthenticated} onClick={this.openFriendsPage}>
                             <Group fontSize="large" />
                         </IconButton>
 
                         <div className={classes.menuButton}>
-                            {!!this.state.isAuthenticated ?
+                            {this.state.isAuthenticated ?
 
-                                <Button variant="contained" color="secondary" onClick={this.logout}>
-                                    Logout
-                                </Button>
-                                :
-                                <GoogleLogin
-                                    clientId={config.GOOGLE_CLIENT_ID}
-                                    buttonText="Login"
-                                    onSuccess={this.googleResponse}
-                                    onFailure={this.onFailure}
-                                />
+                                <ProfileItem history={this.props.history} user={Auth.getUser()} userButton={this.userButton.bind(this)} /> :
+                                <Button type="button" className="form-submit" onClick={() => this.userButton()}>Login</Button>
                             }
                         </div>
 
