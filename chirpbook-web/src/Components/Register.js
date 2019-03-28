@@ -80,6 +80,9 @@ class Register extends Component
                                 this.setState({errmsg: "Account already exists."})
                             }
                         });
+                } else
+                {
+                    this.setState({errmsg: 'Passsword should be six characters'})
                 }
 
             } else
