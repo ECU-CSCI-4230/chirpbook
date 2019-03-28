@@ -43,9 +43,9 @@ class Register extends Component
 
     submit()
     {
-        // console.log(this.state)
+
         var e = this.state.email
-        // TODO: improve this regex
+
         if(e.search('@') !== -1)
         {
             if(this.state.password == this.state.rpassword)
@@ -53,6 +53,8 @@ class Register extends Component
                 if(this.state.password.length >= 6)
                 {
                     // TODO: Make API call
+                    // maybe API call is already in usermanagement.js
+
                 }
 
             } else
