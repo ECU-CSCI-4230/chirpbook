@@ -104,7 +104,7 @@ it('get post from single user', function(done)
         {
             var body = JSON.parse(res.body)
             assert.strictEqual(true, body.success);
-            assert.strictEqual(true, body.post.length >= 1)
+            assert.strictEqual(true, body.posts.length >= 1)
             done();
         });
 })
