@@ -90,7 +90,7 @@ class ProfileMenuItem extends React.Component
                     open={open}
                     onClose={this.handleClose}
                 >
-                    <MenuItem onClick={() => {this.props.history.replace('/profile/' + this.props.user_id); this.handleClose()}}>My Profile</MenuItem>
+                    <MenuItem onClick={() => {this.props.history.replace('/profile/' + this.props.userid); this.handleClose()}}>My Profile</MenuItem>
                     <MenuItem onClick={() => {this.props.history.replace('/settings'); this.handleClose()}}>User Settings</MenuItem>
                     <MenuItem onClick={() => {this.props.userButton(); this.handleClose()}}>Logout</MenuItem>
                 </Menu>

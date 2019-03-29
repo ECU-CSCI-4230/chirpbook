@@ -29,10 +29,29 @@ class NavBar extends Component
     constructor()
     {
         super();
-        this.state = {isAuthenticated: true, user: null, token: ''};
+        this.state = {isAuthenticated: false, user: null, token: ''};
     }
-    withStyles
 
+    componentWillMount()
+    {
+        this.updateAuth();
+    }
+
+    componentDidUpdate()
+    {
+        this.updateAuth();
+    }
+
+    updateAuth = () =>
+    {
+        const loginStatus = Auth.isLoggedIn();
+
+        // Without this check this will loop infinitely
+        if(this.state.isAuthenticated !== loginStatus)
+        {
+            this.setState({isAuthenticated: loginStatus});
+        }
+    }
 
     logout = () =>
     {
@@ -99,7 +118,7 @@ class NavBar extends Component
                         <div className={classes.menuButton}>
                             {this.state.isAuthenticated ?
 
-                                <ProfileItem history={this.props.history} user={Auth.getUser()} userButton={this.userButton.bind(this)} /> :
+                                <ProfileItem history={this.props.history} userid={Auth.getUser()} userButton={this.userButton.bind(this)} /> :
                                 <Button type="button" className="form-submit" onClick={() => this.userButton()}>Login</Button>
                             }
                         </div>

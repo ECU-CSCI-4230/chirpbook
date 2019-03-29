@@ -31,13 +31,27 @@ class Homepage extends Component
     constructor(props)
     {
         super(props);
-        this.state = {posts: [], profilePicture: ''};
+        this.state = {posts: [], profilePicture: '', profileID: null};
         this.updateHomepage = this.updateHomepage.bind(this);
+
     }
 
-    updateHomepage()
+    componentWillReceiveProps(nextProps)
+    {
+        if(this.props.match.params.userid !== nextProps.match.params.userid)
+        {
+            this.updateHomepage(nextProps.match.params.userid);
+        }
+    }
+
+    updateHomepage(userid)
     {
         let path = `/posts/get_homepage`
+        if(userid)
+        {
+            path = '/posts/get/user/' + userid;
+        }
+
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {
             if(res.posts)
@@ -49,9 +63,10 @@ class Homepage extends Component
         }).catch((error) => console.log(error));
     }
 
+
     componentWillMount()
     {
-        this.updateHomepage();
+        this.updateHomepage(this.props.match.params.userid);
     }
 
     render()
