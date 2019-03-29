@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 
 import {withStyles, ListItem, ListItemAvatar, ListItemText, Typography, IconButton} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined} from '@material-ui/icons';
+import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined, Delete} from '@material-ui/icons';
 import {Grid, TextField, Button} from '@material-ui/core';
 import SendChirpCommentItem from './SendCommentItem';
+import AuthHelpers from '../Auth/AuthHelpers';
+
+const Auth = new AuthHelpers();
+
 const indent_len = 75;
 const styles = theme => ({
     chirpSend: {
@@ -66,6 +70,21 @@ class CommentItem extends Component
         this.like = this.like.bind(this);
         this.dislike = this.dislike.bind(this);
         this.expandComment = this.expandComment.bind(this);
+        this.deleteComment = this.deleteComment.bind(this);
+
+    }
+
+    deleteComment = () =>
+    {
+        let path = `/comments/delete/${this.props.chirp.commentid}`;
+
+        Auth.fetch(path, {method: 'DELETE'}).then((res) =>
+        {
+            if(res.success)
+            {
+                this.props.updateHomepage();
+            }
+        }).catch((error) => console.log(error));
     }
 
     expandComment()
@@ -139,7 +158,14 @@ class CommentItem extends Component
                                     {this.props.chirp.comment_text}
                                 </Typography>
                                 <div className={classes.interactions}>
-                                    <IconButton className={classes.likeChrip} aria-label="Like"
+                                    {this.props.chirp.userid == Auth.getUser() ?
+                                        <IconButton className={classes.likeChrip} aria-label="Delete"
+                                            onClick={this.deleteComment}
+                                        >
+                                            <Delete className={classes.interactionIcon} />
+                                        </IconButton>
+                                        : null}
+                                    <IconButton className={classes.likeChrip} aria-label="Comment"
                                         onClick={this.expandComment}
                                     >
                                         <Comment className={classes.interactionIcon} />
