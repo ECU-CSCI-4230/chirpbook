@@ -147,6 +147,26 @@ class ChirpItem extends Component
         }
     }
 
+    getTimeSincePost = (time_posted) =>
+    {
+        let minutes = parseInt(((new Date().getTime() - new Date(time_posted).getTime()) / (1000 * 60)));
+
+        if(minutes < 60)
+        {
+            return minutes + 'min ago';
+        } else if(minutes < 1440)
+        {
+            return parseInt(minutes / 60) + 'hr ago';
+        } else if(minutes < 2880)
+        {
+            return '1 day ago';
+        } else
+        {
+            return parseInt(minutes / 1440) + ' days ago';
+
+        }
+    }
+
     render()
     {
         const {classes} = this.props;
@@ -169,7 +189,7 @@ class ChirpItem extends Component
                                 </Typography>
                                 <Typography component="span" inline color="textSecondary">
                                     {this.props.chirp.gmail}
-                                    {' · ' + parseInt(((new Date().getTime() - new Date(this.props.chirp.time_posted).getTime()) / (1000 * 60))) + 'min ago'}
+                                    {' · ' + this.getTimeSincePost(this.props.chirp.time_posted)}
                                 </Typography>
 
                             </React.Fragment>
