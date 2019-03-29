@@ -134,7 +134,7 @@ router.get('/posts/get/user/:userid', auth.jwtMW, function(req, res)
             res.status(200).json({
                 success: true,
                 err: null,
-                post: result.rows,
+                posts: result.rows,
             });
         }
         else

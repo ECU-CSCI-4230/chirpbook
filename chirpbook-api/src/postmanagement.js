@@ -167,17 +167,21 @@ class PostManagement
     {
         db.connect(function(client)
         {
-            client.query(`SELECT public."Post".userid, public."Post".postid, post_text, time_posted, COALESCE(likes, 0) as likes, COALESCE(dislikes,0) as dislikes
-            FROM public."Post" NATURAL LEFT JOIN
-            (SELECT count(liketype) as likes, postid FROM public."Like_Dislike"
-              WHERE postid in (SELECT postid FROM public."Post") and liketype = 1
-              GROUP BY postid
-            ) as likeQuery NATURAL LEFT JOIN
-            (SELECT count(liketype) as dislikes, postid FROM public."Like_Dislike"
-              WHERE postid in (SELECT postid FROM public."Post") and liketype = 0
-              GROUP BY postid
-            ) as dislikeQuery
-              WHERE userid=$1
+            client.query(`SELECT display_name, profile_picture, public."Post".userid, public."Post".postid, post_text, time_posted, COALESCE(likes, 0) as likes, COALESCE(dislikes,0) as dislikes, gmail, COALESCE(isLiked, false) as isLiked,COALESCE(isDisliked, false) as isDisliked
+                FROM public."Post" NATURAL LEFT JOIN
+                (SELECT count(liketype) as likes, postid FROM public."Like_Dislike"
+                WHERE postid in (SELECT postid FROM public."Post") and liketype = 1
+                GROUP BY postid
+                ) as likeQuery NATURAL LEFT JOIN
+                (SELECT count(liketype) as dislikes, postid FROM public."Like_Dislike"
+                WHERE postid in (SELECT postid FROM public."Post") and liketype = 0
+                GROUP BY postid
+                ) as dislikeQuery
+                NATURAL LEFT JOIN (SELECT postid, CASE liketype WHEN 0 THEN true END AS isDisliked FROM public."Like_Dislike" NATURAL JOIN public."User" WHERE userid = $1 ) as getIsLiked
+                NATURAL LEFT JOIN (SELECT postid, CASE liketype WHEN 1 THEN true END AS isLiked FROM public."Like_Dislike" NATURAL JOIN public."User" WHERE userid = $1 ) as getIsDisliked
+                NATURAL JOIN public."User"
+                WHERE userid = $1
+                ORDER BY time_posted DESC
              `, [userid],
                 function(err, result)
                 {
