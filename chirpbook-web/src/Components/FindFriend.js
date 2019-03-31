@@ -68,7 +68,6 @@ class FindFriend extends Component
         {
             if(res.success)
             {
-                console.log(res.users)
                 this.setState({users: res.users})
             }
 
@@ -78,13 +77,14 @@ class FindFriend extends Component
     addFriend(key)
     {
         var myfriend = this.state.users[key]
+
         let path = `/friends_requests/send/${Auth.getUser()}/${myfriend.userid}`
 
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
             if(res.success)
             {
-                console.log(res.users)
+                this.props.getFriendRequests()
             }
 
         }).catch((err) => console.log(err))
