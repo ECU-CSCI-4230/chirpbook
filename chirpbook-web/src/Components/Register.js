@@ -64,10 +64,9 @@ class Register extends Component
                     fetch('http://localhost/api/v1/signup', options).then(r => r.json())
                         .then(data =>
                         {
-                            console.log(data)
                             if(data.err === null)
                             {
-                                Auth.login(data.token, data.userid)
+                                Auth.login(data.token)
                                 this.props.history.replace('/home')
                             } else if(data.err === "Invalid gmail or password.")
                             {
@@ -169,7 +168,7 @@ class Register extends Component
                     </Grid>
                     <Grid item>
                         <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.margin}>
-                            Signup fool
+                            Signup
                     </Button>
                     </Grid>
                 </Grid>

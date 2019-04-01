@@ -53,8 +53,8 @@ class LoginPage extends Component
 
         if(e.search('@') !== -1)
         {
-            
-            
+
+
             const b = JSON.stringify({'gmail': this.state.email, 'password': this.state.password})
             const options = {
                 headers: {'Content-Type': 'application/json'},
@@ -65,30 +65,25 @@ class LoginPage extends Component
             fetch('http://localhost/api/v1/login', options).then(r => r.json())
                 .then(data =>
                 {
-                    console.log(data)
                     if(data.err === null)
                     {
-                        Auth.login(data.token, data.userid)
+                        Auth.login(data.token)
                         this.props.history.replace('/home')
                     } else if(data.err === 'Enter a valid gmail.')
                     {
                         this.setState({errmsg: 'Enter a valid email.'});
-                        console.log("got invalid email");
                     } else if(data.err === 'Username or password is incorrect')
                     {
-                        console.log('got u or pass');
                         this.setState({errmsg: 'Username or password is incorrect.'});
-    
+
                     } else
                     {
-                        console.log("got here");
                         this.setState({errmsg: 'Something went wrong.'});
 
                     }
                 })
         } else
         {
-            console.log('got not valid email')
             this.setState({errmsg: 'Not a Valid Email'})
         }
     }

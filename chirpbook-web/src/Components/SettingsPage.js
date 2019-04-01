@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { withStyles, Grid } from '@material-ui/core/';
+import {withStyles, Grid} from '@material-ui/core/';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AuthHelpers from '../Auth/AuthHelpers.js'
 import withAuth from '../Auth/withAuth';
 import logo from '../favicon.png';
 import Navbar from './Navbar.js';
-
 
 const Auth = new AuthHelpers();
 
@@ -33,8 +32,10 @@ const styles = theme => ({
     },
 });
 
-class SettingsPage extends Component {
-    constructor(props) {
+class SettingsPage extends Component
+{
+    constructor(props)
+    {
         super(props)
         this.state = {
             userid: Auth.getUser(),
@@ -45,7 +46,12 @@ class SettingsPage extends Component {
         this.setDisplayName = this.setDisplayName.bind(this);
     }
 
+<<<<<<< HEAD
     deleteUser() {
+=======
+    deleteUser()
+    {
+>>>>>>> 9f9b7f423af6dd21c839b8df186fb86951c83b3d
         var userid = Auth.getUser()
         let path = `/users/delete/${userid}`
 
@@ -102,4 +108,4 @@ class SettingsPage extends Component {
     }
 }
 
-export default SettingsPage;
+export default withAuth(SettingsPage);

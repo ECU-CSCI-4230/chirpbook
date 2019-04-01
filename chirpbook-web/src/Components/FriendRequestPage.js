@@ -58,7 +58,6 @@ class FriendRequestPage extends Component
         this.deleteIncomingFriendRequest = this.deleteIncomingFriendRequest.bind(this)
         this.deleteOutgoingFriendRequest = this.deleteOutgoingFriendRequest.bind(this)
         this.acceptRequest = this.acceptRequest.bind(this)
-        this.addOutgoingFriendRequests = this.addOutgoingFriendRequests.bind(this)
     }
 
     getFriendRequests()
@@ -108,16 +107,16 @@ class FriendRequestPage extends Component
         var receiver = this.state.outgoingRequests[key].receiver
 
         let path = `/friends_requests/reject/${sender}/${receiver}`
+        console.log(path)
+        var newOutgoing = [...this.state.outgoingRequests]
 
-        var newIncoming = [...this.state.outgoingRequests]
-
-        newIncoming.splice(key, 1)
+        newOutgoing.splice(key, 1)
 
         Auth.fetch(path, {method: 'POST'}).then((res) =>
         {
             if(res.success)
             {
-                this.setState({outgoingRequests: newIncoming})
+                this.setState({outgoingRequests: newOutgoing})
             }
 
         })
@@ -141,16 +140,12 @@ class FriendRequestPage extends Component
         })
     }
 
-    addOutgoingFriendRequests(user1, user2) {
-
-    }
-
     render()
     {
         const {classes} = this.props;
         return (
             <React.Fragment>
-                <FindFriend />
+                <FindFriend getFriendRequests={this.getFriendRequests} />
                 {this.state.incomingRequests.length == 0 ? null :
                     <div style={{padding: 15}}>
                         <Typography variant='h4' align='center'>Incoming Friend Requests</Typography>

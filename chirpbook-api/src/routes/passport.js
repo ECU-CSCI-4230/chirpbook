@@ -75,7 +75,8 @@ passport.use('signup', new LocalStrategy({
                                     user = {
                                         'displayName': display_name,
                                         'gmail': gmail,
-                                        'provider': 'local'
+                                        'provider': 'local',
+                                        'userid': res.rows[0].userid
                                     };
 
                                     let token = jwt.sign({userid: user.userid, gmail: user.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
