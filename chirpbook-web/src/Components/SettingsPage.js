@@ -46,12 +46,7 @@ class SettingsPage extends Component
         this.setDisplayName = this.setDisplayName.bind(this);
     }
 
-<<<<<<< HEAD
     deleteUser() {
-=======
-    deleteUser()
-    {
->>>>>>> 9f9b7f423af6dd21c839b8df186fb86951c83b3d
         var userid = Auth.getUser()
         let path = `/users/delete/${userid}`
 
