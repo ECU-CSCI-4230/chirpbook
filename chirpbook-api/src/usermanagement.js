@@ -88,7 +88,7 @@ class UserManagement
         db.connect(function(client)
         {
             var mail = '%' + gmail + '%'
-            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE gmail ILIKE $1`, [mail],
+            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE gmail ILIKE $1 and userid != 0`, [mail],
                 function(err, result)
                 {
                     client.release()
