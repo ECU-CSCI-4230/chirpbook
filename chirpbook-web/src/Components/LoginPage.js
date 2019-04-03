@@ -53,33 +53,35 @@ class LoginPage extends Component
 
         if(e.search('@') !== -1)
         {
-            
-            if(this.state.password.length >= 6)
-            {
-                const b = JSON.stringify({'gmail': this.state.email, 'password': this.state.password})
-                const options = {
-                    headers: {'Content-Type': 'application/json'},
-                    method: 'POST',
-                    body: b
-                };
-                //const tokenH = r.headers.get('x-auth-token');
-                fetch('http://localhost/api/v1/login', options).then(r => r.json())
-                    .then(data =>
+
+
+            const b = JSON.stringify({'gmail': this.state.email, 'password': this.state.password})
+            const options = {
+                headers: {'Content-Type': 'application/json'},
+                method: 'POST',
+                body: b
+            };
+            //const tokenH = r.headers.get('x-auth-token');
+            fetch('http://localhost/api/v1/login', options).then(r => r.json())
+                .then(data =>
+                {
+                    if(data.err === null)
                     {
-                        console.log(data)
-                        if(data.err === null)
-                        {
-                            Auth.login(data.token, data.userid)
-                            this.props.history.replace('/home')
-                        } else if(data.err === "Enter a valid gmail.")
-                        {
-                            this.setState({errmsg: 'Enter a valid email.'})
-                        } else if(data.err === "Username or password is incorrect.")
-                        {
-                            this.setSate({errmsg: 'Username or password is incorrect.'})
-                        } 
-                    });
-            }
+                        Auth.login(data.token)
+                        this.props.history.replace('/home')
+                    } else if(data.err === 'Enter a valid gmail.')
+                    {
+                        this.setState({errmsg: 'Enter a valid email.'});
+                    } else if(data.err === 'Username or password is incorrect')
+                    {
+                        this.setState({errmsg: 'Username or password is incorrect.'});
+
+                    } else
+                    {
+                        this.setState({errmsg: 'Something went wrong.'});
+
+                    }
+                })
         } else
         {
             this.setState({errmsg: 'Not a Valid Email'})
@@ -102,7 +104,7 @@ class LoginPage extends Component
                     <Grid item >
 
 
-                        {this.state.errmsg === "" ? null :
+                        {this.state.errmsg === '' ? null :
                             <Typography variant="h4" color="error">
 
                                 {this.state.errmsg}

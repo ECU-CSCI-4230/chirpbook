@@ -28,6 +28,7 @@ class App extends React.Component
                     <Route component={NavBar} />
                     <Switch >
                         <Route exact path="/home" component={Homepage} />
+                        <Route path="/profile/:userid" component={Homepage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/friends" component={FriendsPage} />
                         <Route path='/friend_requests' component={FriendRequestPage} />

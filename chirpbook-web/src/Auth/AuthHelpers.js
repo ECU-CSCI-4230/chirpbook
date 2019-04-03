@@ -13,10 +13,10 @@ export default class AuthHelpers
 
     }
 
-    login(token, userid)
+    login(token)
     {
-        this.saveToken(token)
-        this.saveUserid(userid)
+        this.saveToken(token);
+        this.saveUserid(decode(token).userid);
     }
 
     isTokenExpired(token)
@@ -46,7 +46,7 @@ export default class AuthHelpers
 
     saveUserid(userid)
     {
-        localStorage.setItem('user_id', userid)
+        localStorage.setItem('userid', userid)
     }
 
     saveToken(idToken)
@@ -61,13 +61,13 @@ export default class AuthHelpers
 
     getUser()
     {
-        return localStorage.getItem('user_id')
+        return localStorage.getItem('userid')
     }
 
     logout()
     {
         localStorage.removeItem('id_token');
-        localStorage.removeItem('user_id')
+        localStorage.removeItem('userid')
     }
 
     fetch(url, options)

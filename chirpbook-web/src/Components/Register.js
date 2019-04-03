@@ -64,17 +64,16 @@ class Register extends Component
                     fetch('http://localhost/api/v1/signup', options).then(r => r.json())
                         .then(data =>
                         {
-                            console.log(data)
                             if(data.err === null)
                             {
-                                Auth.login(data.token, data.userid)
+                                Auth.login(data.token)
                                 this.props.history.replace('/home')
                             } else if(data.err === "Invalid gmail or password.")
                             {
                                 this.setState({errmsg: 'Invalid gmail or password.'})
                             } else if(data.err === "User already exists.")
                             {
-                                this.setSate({errmsg: 'User already exists.'})
+                                this.setState({errmsg: 'User already exists.'})
                             } else if(data.err === "Account already exists.")
                             {
                                 this.setState({errmsg: "Account already exists."})
@@ -169,7 +168,7 @@ class Register extends Component
                     </Grid>
                     <Grid item>
                         <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.margin}>
-                            Signup fool
+                            Signup
                     </Button>
                     </Grid>
                 </Grid>
