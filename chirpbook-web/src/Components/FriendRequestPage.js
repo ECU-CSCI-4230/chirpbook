@@ -141,8 +141,25 @@ class FriendRequestPage extends Component
         })
     }
 
-    addOutgoingFriendRequests(user1, user2) {
+    addOutgoingFriendRequests(sender, receiver)
+    {
+        var d_name = receiver.display_name
+        var gmail = receiver.gmail
+        var profile_picture = receiver.profile_picture
 
+        var newOutgoing = [...this.state.outgoingRequests]
+        newOutgoing.push(receiver)
+
+        // api call
+        const path = `/friends_requests/send/${sender}/${receiver.userid}`
+        Auth.fetch(path, {method: 'POST'}).then((res) =>
+        {
+            if(res.success)
+            {
+                this.setState({outgoingRequests: newOutgoing})
+            }
+
+        })
     }
 
     render()
