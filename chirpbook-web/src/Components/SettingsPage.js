@@ -38,52 +38,60 @@ class SettingsPage extends Component
     {
         super(props)
         this.state = {
-            userid: Auth.getUser()
+            userid: Auth.getUser(),
+            displayName: Auth.getUser().displayName
         };
         this.deleteUser = this.deleteUser.bind(this);
         // this.updateProfilePicture = this.updateProfilePicture.bind(this);
-        // this.setDisplayName = this.setDisplayName.bind(this);
+        this.setDisplayName = this.setDisplayName.bind(this);
     }
 
-    deleteUser()
-    {
+    deleteUser() {
         var userid = Auth.getUser()
         let path = `/users/delete/${userid}`
 
-        Auth.fetch(path, {method: 'DELETE'}).then((res) =>
-        {
-            if(res.success)
-            {
+        Auth.fetch(path, { method: 'DELETE' }).then((res) => {
+            if (res.success) {
                 Auth.logout()
-                this.setState({isAuthenticated: false, token: '', user: null})
+                this.setState({ isAuthenticated: false, token: '', user: null })
                 this.props.history.replace('/login')
             }
 
         })
     }
 
-    render()
-    {
-        const {classes} = this.props;
+    setDisplayName(newDisplayName) {
+        var userid = Auth.getUser()
+        let path = `/users/set_displayname/${userid}`
+
+        Auth.fetch(path, { method: 'UPDATE' }).then((res) => {
+            if (res.success) {
+                this.state.displayName = newDisplayName
+            }
+        })
+    }
+
+    render() {
+        const { classes } = this.props;
 
         return (
             <React.Fragment>
                 <div>
-                    <Grid container direction="column" justify="center" alignItems="center" style={{padding: 10}}>
+                    <Grid container direction="column" justify="center" alignItems="center" style={{ padding: 10 }}>
                         <Grid item="userProfilePicture">
                             <img src={logo} width="500" height="500"></img>
                         </Grid>
                         <Grid item="userDisplayName">
                             This is the Users display name
                         </Grid>
-                        <Grid container direction="row" justify="center" alignItems="center" style={{padding: 10}}>
-                            <Grid item="setDiplayNameBtn" style={{padding: 10}}>
+                        <Grid container direction="row" justify="center" alignItems="center" style={{ padding: 10 }}>
+                            <Grid item="setDiplayNameBtn" style={{ padding: 10 }} onClick={() => this.setDisplayName('Value')}>
                                 <Button variant="contained" color="primary">Set Display Name</Button>
                             </Grid>
-                            <Grid item="updateProfileBtn" style={{padding: 10}}>
+                            <Grid item="updateProfileBtn" style={{ padding: 10 }}>
                                 <Button variant="contained" color="primary">Update Profile Picture</Button>
                             </Grid>
-                            <Grid item="deleteAccountBtn" style={{padding: 10}} onClick={this.deleteUser}>
+                            <Grid item="deleteAccountBtn" style={{ padding: 10 }} onClick={this.deleteUser}>
                                 <Button variant="contained" color="primary">Delete Account</Button>
                             </Grid>
                         </Grid>

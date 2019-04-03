@@ -109,7 +109,6 @@ class commentmanagement
                     }
                     if(result)
                     {
-                        //console.log(result)
                         log.info(result)
                         cb(result.rowCount);
                     }
