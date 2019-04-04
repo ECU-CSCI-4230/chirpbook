@@ -112,6 +112,28 @@ WITH (
 ALTER TABLE public."Like_Dislike"
     OWNER to postgres;
 
+CREATE TABLE public."Comments_Like_Dislike"
+(
+    commentid bigint NOT NULL,
+    userid bigint NOT NULL,
+    liketype smallint NOT NULL,
+    PRIMARY KEY (commentid, userid),
+    CONSTRAINT postid FOREIGN KEY (commentid)
+        REFERENCES public."Comment" (commentid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT userid FOREIGN KEY (userid)
+        REFERENCES public."User" (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."Comments_Like_Dislike"
+    OWNER to postgres;
+
 
 CREATE TABLE public."Friend"
 (

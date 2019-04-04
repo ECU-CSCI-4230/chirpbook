@@ -54,6 +54,33 @@ it('test edit comment', function(done)
     });
 });
 
+it('test like comment', function(done)
+{
+    CommentManagement.addCommentLike(comid, userid, 0, function(result)
+    {
+        assert.strictEqual(result, 1)
+        done();
+    });
+});
+
+it('test edit like comment', function(done)
+{
+    CommentManagement.editCommentLike(comid, userid, 1, function(result)
+    {
+        assert.strictEqual(result, 1)
+        done();
+    });
+});
+
+it('test delete like comment', function(done)
+{
+    CommentManagement.removeCommentLike(comid, userid, function(result)
+    {
+        assert.strictEqual(result, 1)
+        done();
+    });
+});
+
 // test deleting a comment
 it('test delete comment', function(done)
 {
