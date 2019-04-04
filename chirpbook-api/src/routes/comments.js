@@ -32,7 +32,7 @@ router.post('/comments/add', auth.jwtMW, function(req, res)
             {
                 commentmanagement.createComment(postid, parentCommentid, userRows[0].userid, commentText, function(comment_rows)
                 {
-                    if(comment_rows.rowCount == 1)
+                    if(comment_rows && comment_rows.rowCount == 1)
                     {
                         res.status(201).json({
                             commentid: comment_rows.rows[0].commentid,
