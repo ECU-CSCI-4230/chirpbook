@@ -138,7 +138,7 @@ router.get('/users/:userid', auth.jwtMW, function(req, res)
 {
     var userid = req.params.userid
 
-    UserManagement.getUser(userid, function(result)
+    UserManagement.getUserDetails(userid, function(result)
     {
         if(result.length == 1)
         {

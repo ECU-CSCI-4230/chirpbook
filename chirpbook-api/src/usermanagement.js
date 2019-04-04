@@ -57,7 +57,7 @@ class UserManagement
         });
     }
 
-    static getUser(userid, cb)
+    static getUserDetails(userid, cb)
     {
         db.connect(function(client)
         {
