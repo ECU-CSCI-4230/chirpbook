@@ -90,6 +90,33 @@ TABLESPACE pg_default;
 ALTER TABLE public."Comment"
     OWNER to postgres;
 
+
+CREATE TABLE public."Tag"
+(
+    postid bigint NOT NULL,
+    tag text NOT NULL,
+    time_tagged timestamp
+    with time zone NOT NULL DEFAULT now
+    (),
+    CONSTRAINT "Tag_pkey" PRIMARY KEY
+        (postid, tag),
+    CONSTRAINT postid FOREIGN KEY
+        (postid)
+        REFERENCES public."Post"
+        (postid) MATCH SIMPLE
+        ON
+        UPDATE NO ACTION
+        ON
+        DELETE CASCADE
+)
+WITH
+(
+    OIDS = FALSE
+);
+
+ALTER TABLE public."Tag"
+    OWNER to postgres;
+
 CREATE TABLE public."Like_Dislike"
 (
     postid bigint NOT NULL,
