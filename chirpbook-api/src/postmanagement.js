@@ -240,6 +240,82 @@ class PostManagement
         });
     }
 
+    static createTag(postid, tag_text, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`INSERT INTO public."Tag" (postid, tag)
+                            VALUES ($1, $2)`, [postid, tag_text],
+                function(err, result)
+                {
+                    client.release();
+                    if(err)
+                    {
+                        log.error(err);
+                    }
+                    if(result)
+                    {
+                        log.info(result);
+                        cb(result.rowCount);
+                    } else
+                    {
+                        cb(0);
+                    }
+                });
+        });
+    }
+
+    static removeTags(postid, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`delete from public."Tag" WHERE postid = $1`, [postid],
+                function(err, result)
+                {
+                    client.release();
+                    if(err)
+                    {
+                        log.error(err);
+                    }
+                    if(result)
+                    {
+                        log.info(result);
+
+                    }
+                    cb(result);
+                });
+        });
+    }
+
+    static searchTag(tag_text, cb)
+    {
+        db.connect(function(client)
+        {
+            var tag = '%' + tag_text + '%'
+            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE gmail ILIKE $1 and userid != 0`, [mail],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        cb(result.rows)
+                    }
+                    else
+                    {
+                        log.info(`no results`)
+                        cb([])
+                    }
+                });
+        });
+    }
+
+
+
 }
 
 module.exports = PostManagement;
