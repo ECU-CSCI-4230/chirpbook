@@ -47,7 +47,6 @@ router.get('/posts/tags/:tag', auth.jwtMW, function(req, res)
     var tag = req.params.tag
     PostManagement.getPostsWithTag(userid, tag, function(result)
     {
-        console.log(result)
         if(result)
         {
             res.status(200).json({

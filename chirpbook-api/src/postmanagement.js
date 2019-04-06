@@ -279,7 +279,7 @@ class PostManagement
                 {
                     if(err)
                     {
-                        console.log(err);
+                        log.error(err);
                     }
                     else
                     {

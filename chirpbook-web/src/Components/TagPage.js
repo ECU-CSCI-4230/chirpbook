@@ -35,24 +35,13 @@ class TagPage extends Component
 
     }
 
-    /*componentWillReceiveProps(nextProps)
-    {
-        if(this.props.match.params.userid !== nextProps.match.params.userid)
-        {
-            this.updateHomepage(nextProps.match.params.userid);
-        }
-    }*/
-
     updateHomepage()
     {
         let path = `/posts/tags/${this.props.match.params.tag}`
-        console.log(path)
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {
-            console.log(res)
             if(res.posts)
             {
-                console.log(res.posts)
                 this.setState({
                     posts: res.posts
                 });

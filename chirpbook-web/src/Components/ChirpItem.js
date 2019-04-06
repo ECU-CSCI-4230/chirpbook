@@ -172,51 +172,25 @@ class ChirpItem extends Component
     renderPostText = (postText) =>
     {
         let tokens = postText.split(/\s+/)
-        console.log(tokens)
         return (
             <React.Fragment>
                 {tokens.map(t =>
                     <React.Fragment>
-                        {console.log(t)}
                         {t.charAt(0) === '#' ?
                             <React.Fragment>
-                            <a href={`/posts/${t.slice(1)}`} onlyActiveOnIndex={false}>{t.slice(1)}</a>
-                            <span> </span>
+                                <a href={`/posts/${t.slice(1)}`}>{t.slice(1)}</a>
+                                <span> </span>
                             </React.Fragment>
                             :
                             <React.Fragment>
-                            <span>{t}</span>
-                            <span> </span>
+                                <span>{t}</span>
+                                <span> </span>
                             </React.Fragment>
                         }
                     </React.Fragment>
                 )}
             </React.Fragment>
         )
-
-        /*console.log(postText)
-        var tokens = postText.split(/\s+/)
-        var postSplit = []
-        for(var i = 0; i < tokens.length; i++)
-        {
-            if(tokens[i].charAt(0) === '#' && tokens[i].length >= 2)
-            {
-                //var tagLink = '<a href=\"' + 'localhost/posts/' + tokens[i].slice(1) + '\">' + tokens[i].slice(1) + '</a>'
-                //console.log(tagLink)
-                //postSplit.push(tagLink)
-                var link = <a href={"localhost/posts/" + tokens[i].slice(1)}> {tokens[i].slice(1)} </a>
-                return link
-                //postSplit.push(link)
-            }
-            else
-            {
-                return tokens[i]
-                //postSplit.push(tokens[i])
-            }
-        }
-
-        var newText = postSplit.join(' ')
-        return newText*/
     }
 
     render()
