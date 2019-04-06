@@ -45,7 +45,7 @@ class TagPage extends Component
 
     updateHomepage()
     {
-        let path = `/posts/get/${this.props.match.params.tag}`
+        let path = `/posts/tags/${this.props.match.params.tag}`
         console.log(path)
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {

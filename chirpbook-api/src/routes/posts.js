@@ -41,7 +41,7 @@ router.get('/posts/get_homepage', auth.jwtMW, function(req, res)
     })
 });
 
-router.get('/posts/get/:tag', auth.jwtMW, function(req, res)
+router.get('/posts/tags/:tag', auth.jwtMW, function(req, res)
 {
     var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid;
     var tag = req.params.tag

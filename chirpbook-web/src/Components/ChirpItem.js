@@ -4,6 +4,8 @@ import {withStyles, ListItem, ListItemAvatar, ListItemText, Typography, IconButt
 import Avatar from '@material-ui/core/Avatar';
 import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined, Delete} from '@material-ui/icons';
 
+import Link from 'react-router-dom/Link';
+
 import SendChirpCommentItem from './SendCommentItem';
 import AuthHelpers from '../Auth/AuthHelpers.js'
 
@@ -167,6 +169,56 @@ class ChirpItem extends Component
         }
     }
 
+    renderPostText = (postText) =>
+    {
+        let tokens = postText.split(/\s+/)
+        console.log(tokens)
+        return (
+            <React.Fragment>
+                {tokens.map(t =>
+                    <React.Fragment>
+                        {console.log(t)}
+                        {t.charAt(0) === '#' ?
+                            <React.Fragment>
+                            <a href={`/posts/${t.slice(1)}`} onlyActiveOnIndex={false}>{t.slice(1)}</a>
+                            <span> </span>
+                            </React.Fragment>
+                            :
+                            <React.Fragment>
+                            <span>{t}</span>
+                            <span> </span>
+                            </React.Fragment>
+                        }
+                    </React.Fragment>
+                )}
+            </React.Fragment>
+        )
+
+        /*console.log(postText)
+        var tokens = postText.split(/\s+/)
+        var postSplit = []
+        for(var i = 0; i < tokens.length; i++)
+        {
+            if(tokens[i].charAt(0) === '#' && tokens[i].length >= 2)
+            {
+                //var tagLink = '<a href=\"' + 'localhost/posts/' + tokens[i].slice(1) + '\">' + tokens[i].slice(1) + '</a>'
+                //console.log(tagLink)
+                //postSplit.push(tagLink)
+                var link = <a href={"localhost/posts/" + tokens[i].slice(1)}> {tokens[i].slice(1)} </a>
+                return link
+                //postSplit.push(link)
+            }
+            else
+            {
+                return tokens[i]
+                //postSplit.push(tokens[i])
+            }
+        }
+
+        var newText = postSplit.join(' ')
+        return newText*/
+    }
+
     render()
     {
         const {classes} = this.props;
@@ -178,8 +230,8 @@ class ChirpItem extends Component
                         <Avatar src={this.state.profilePicutre}>
                             {/* TODO make this the user's profile picture  */}
                             <AccountCircle />
-                        </Avatar>
-                    </ListItemAvatar>
+                        </Avatar >
+                    </ListItemAvatar >
                     <ListItemText
                         disableTypography
                         primary={
@@ -197,7 +249,7 @@ class ChirpItem extends Component
                         secondary={
                             <React.Fragment>
                                 <Typography component="span" color="textPrimary">
-                                    {this.props.chirp.post_text}
+                                    {this.renderPostText(this.props.chirp.post_text)}
                                 </Typography>
                                 <div className={classes.interactions}>
                                     {this.props.chirp.userid == Auth.getUser() ?
@@ -240,10 +292,12 @@ class ChirpItem extends Component
                             </React.Fragment>
                         }
                     />
-                </ListItem>
-                {this.props.showComment ?
-                    <SendChirpCommentItem chirp={this.props.chirp} history={this.props.history} updateHomepage={this.props.updateHomepage} indent={this.state.indent} />
-                    : null}
+                </ListItem >
+                {
+                    this.props.showComment ?
+                        <SendChirpCommentItem chirp={this.props.chirp} history={this.props.history} updateHomepage={this.props.updateHomepage} indent={this.state.indent} />
+                        : null
+                }
             </React.Fragment >
         );
 
