@@ -287,12 +287,71 @@ class PostManagement
         });
     }
 
-    static searchTag(tag_text, cb)
+    //userid is the logged in users id
+    //only posts with a tag of tag_text will be retreived
+    static getPostsWithTag(userid, tag_text, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`SELECT display_name, profile_picture, public."Post".userid, public."Post".postid, post_text, tag, time_posted, COALESCE(likes, 0) as likes, COALESCE(dislikes,0) as dislikes, gmail, COALESCE(isLiked, false) as isLiked,COALESCE(isDisliked, false) as isDisliked
+                FROM public."Post" NATURAL LEFT JOIN
+                (SELECT count(liketype) as likes, postid FROM public."Like_Dislike"
+                WHERE postid in (SELECT postid FROM public."Post") and liketype = 1
+                GROUP BY postid
+                ) as likeQuery NATURAL LEFT JOIN
+                (SELECT count(liketype) as dislikes, postid FROM public."Like_Dislike"
+                WHERE postid in (SELECT postid FROM public."Post") and liketype = 0
+                GROUP BY postid
+                ) as dislikeQuery
+                NATURAL LEFT JOIN (SELECT postid, CASE liketype WHEN 0 THEN true END AS isDisliked FROM public."Like_Dislike" NATURAL JOIN public."User" WHERE userid = $1 ) as getIsLiked
+                NATURAL LEFT JOIN (SELECT postid, CASE liketype WHEN 1 THEN true END AS isLiked FROM public."Like_Dislike" NATURAL JOIN public."User" WHERE userid = $1 ) as getIsDisliked
+                NATURAL LEFT JOIN public."Tag"
+                NATURAL JOIN public."User"
+                WHERE tag = $2
+                ORDER BY time_posted DESC`, [userid, tag_text],
+                function(err, result)
+                {
+                    client.release();
+                    if(err)
+                    {
+                        log.error(err);
+                    }
+                    if(result)
+                    {
+                        log.info(result.rows);
+                        cb(result.rows)
+                    }
+                    else
+                    {
+                        log.info(`no results`)
+                        cb([])
+                    }
+                });
+        });
+    }
+
+    //gets all posts with tag like tag_text
+    static searchTag(userid, tag_text, cb)
     {
         db.connect(function(client)
         {
             var tag = '%' + tag_text + '%'
-            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE gmail ILIKE $1 and userid != 0`, [mail],
+            client.query(`SELECT display_name, profile_picture, public."Post".userid, public."Post".postid, post_text, tag, time_posted, COALESCE(likes, 0) as likes, COALESCE(dislikes,0) as dislikes, gmail, COALESCE(isLiked, false) as isLiked,COALESCE(isDisliked, false) as isDisliked
+            FROM public."Post" NATURAL LEFT JOIN
+            (SELECT count(liketype) as likes, postid FROM public."Like_Dislike"
+            WHERE postid in (SELECT postid FROM public."Post") and liketype = 1
+            GROUP BY postid
+            ) as likeQuery NATURAL LEFT JOIN
+            (SELECT count(liketype) as dislikes, postid FROM public."Like_Dislike"
+            WHERE postid in (SELECT postid FROM public."Post") and liketype = 0
+            GROUP BY postid
+            ) as dislikeQuery
+            NATURAL LEFT JOIN (SELECT postid, CASE liketype WHEN 0 THEN true END AS isDisliked FROM public."Like_Dislike" NATURAL JOIN public."User" WHERE userid = $1 ) as getIsLiked
+            NATURAL LEFT JOIN (SELECT postid, CASE liketype WHEN 1 THEN true END AS isLiked FROM public."Like_Dislike" NATURAL JOIN public."User" WHERE userid = $1 ) as getIsDisliked
+            NATURAL LEFT JOIN public."Tag"
+            NATURAL JOIN public."User"
+            WHERE tag ILIKE $2
+            ORDER BY time_posted DESC`, [userid, tag],
                 function(err, result)
                 {
                     client.release()

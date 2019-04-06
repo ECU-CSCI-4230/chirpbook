@@ -55,6 +55,24 @@ it('test create tag', function(done)
     });
 });
 
+it('test get post with tag', function(done)
+{
+    PostManagement.getPostsWithTag(userid, 'test', function(result)
+    {
+        assert.strictEqual(result.length, 1)
+        done();
+    });
+});
+
+it('test search tag', function(done)
+{
+    PostManagement.searchTag(userid, 'tes', function(result)
+    {
+        assert.strictEqual(result.length, 1)
+        done();
+    });
+});
+
 it('test delete tag', function(done)
 {
     PostManagement.removeTags(post1, function(result)
