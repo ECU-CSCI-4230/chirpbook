@@ -41,6 +41,30 @@ router.get('/posts/get_homepage', auth.jwtMW, function(req, res)
     })
 });
 
+router.get('/posts/get/:tag', auth.jwtMW, function(req, res)
+{
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid;
+    var tag = req.params.tag
+    PostManagement.getPostsWithTag(userid, tag, function(result)
+    {
+        console.log(result)
+        if(result)
+        {
+            res.status(200).json({
+                success: true,
+                err: null,
+                posts: result,
+            });
+        } else
+        {
+            res.status(404).json({
+                success: false,
+                err: 'Cannot get posts'
+            })
+        }
+    })
+});
+
 router.get('/posts/get/:postid', auth.jwtMW, function(req, res)
 {
     var postid = req.params.postid
