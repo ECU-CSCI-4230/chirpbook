@@ -68,6 +68,7 @@ router.post('/posts/add', auth.jwtMW, function(req, res)
 {
     var postText = req.body.post_text;
     var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
+
     if(gmail && postText)
     {
         UserManagement.getUser(gmail, userRows =>
@@ -78,11 +79,36 @@ router.post('/posts/add', auth.jwtMW, function(req, res)
                 {
                     if(post_res.rowCount == 1)
                     {
-                        res.status(201).json({
-                            success: true,
-                            postid: post_res.rows[0].postid,
-                            err: null
-                        });
+                        var tokens = postText.split(/\s+/)
+                        var tags = []
+                        for(var i = 0; i < tokens.length; i++)
+                        {
+                            if(tokens[i].charAt(0) === '#' && tokens[i].length >= 2)
+                            {
+                                tags.push(tokens[i].slice(1))
+                            }
+                        }
+
+                        PostManagement.createTags(post_res.rows[0].postid, tags, function(tagRes)
+                        {
+                            if(tagRes == true)
+                            {
+                                res.status(201).json({
+                                    success: true,
+                                    postid: post_res.rows[0].postid,
+                                    err: null
+                                });
+                            }
+                            else
+                            {
+                                res.status(401).json({
+                                    success: false,
+                                    err: "tags failed to post"
+                                });
+                            }
+                        })
+
+
                     } else
                     {
                         res.status(404).json({

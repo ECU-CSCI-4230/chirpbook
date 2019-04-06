@@ -265,6 +265,45 @@ class PostManagement
         });
     }
 
+    static createTags(postid, tagArray, cb)
+    {
+        if(tagArray.length == 0)
+        {
+            cb(true)
+        }
+        else
+        {
+            db.connect(function(client)
+            {
+                client.query("BEGIN", function(err, res)
+                {
+                    if(err)
+                    {
+                        console.log(err);
+                    }
+                    else
+                    {
+                        for(var i = 0; i < tagArray.length; ++i)
+                        {
+                            client.query(`INSERT INTO public."Tag" (postid, tag)
+                                            VALUES ($1, $2)`, [postid, tagArray[i]]);
+                        }
+                    }
+                    client.query("COMMIT");
+                    client.release();
+                    if(err)
+                    {
+                        cb(false);
+                    }
+                    else
+                    {
+                        cb(true)
+                    }
+                });
+            });
+        }
+    }
+
     static removeTags(postid, cb)
     {
         db.connect(function(client)
