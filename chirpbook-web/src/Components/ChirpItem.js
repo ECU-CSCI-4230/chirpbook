@@ -3,8 +3,7 @@ import React, {Component} from 'react';
 import {withStyles, ListItem, ListItemAvatar, ListItemText, Typography, IconButton} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import {AccountCircle, ThumbUp, ThumbDown, Comment, ThumbUpOutlined, ThumbDownOutlined, Delete} from '@material-ui/icons';
-
-import Link from 'react-router-dom/Link';
+import Link from '@material-ui/core/Link';
 
 import SendChirpCommentItem from './SendCommentItem';
 import AuthHelpers from '../Auth/AuthHelpers.js'
@@ -211,7 +210,9 @@ class ChirpItem extends Component
                         primary={
                             <React.Fragment>
                                 <Typography component="span" inline className={classes.user} color="textPrimary" >
-                                    {this.props.chirp.display_name}
+                                    <Link href={'/profile/' + this.props.chirp.userid}>
+                                        {this.props.chirp.display_name}
+                                    </Link>
                                 </Typography>
                                 <Typography component="span" inline color="textSecondary">
                                     {this.props.chirp.gmail}

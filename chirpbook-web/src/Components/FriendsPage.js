@@ -7,7 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import {AccountCircle} from '@material-ui/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-
+import Link from '@material-ui/core/Link';
 
 import AuthHelpers from '../Auth/AuthHelpers.js'
 import withAuth from '../Auth/withAuth';
@@ -146,7 +146,9 @@ class FriendsPage extends Component
                                 primary={
                                     <React.Fragment>
                                         <Typography inline className={classes.user} color="textPrimary" >
-                                            {curFriend.display_name2}
+                                        <Link href={'/profile/' + curFriend.user2}>
+                                        {curFriend.display_name2}
+                                        </Link>
                                         </Typography>
                                         <Typography component="span" inline color="textSecondary">
                                             {curFriend.gmail2}

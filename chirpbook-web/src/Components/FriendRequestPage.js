@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import {AccountCircle, CheckCircleSharp} from '@material-ui/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Link from '@material-ui/core/Link';
 
 import FindFriend from './FindFriend'
 
@@ -165,7 +166,9 @@ class FriendRequestPage extends Component
                                     primary={
                                         <React.Fragment>
                                             <Typography inline className={classes.user} color="textPrimary" >
-                                                {curRequest.display_name}
+                                                <Link href={'/profile/' + curRequest.userid}>
+                                                    {curRequest.display_name}
+                                                </Link>
                                             </Typography>
                                             <Typography component="span" inline color="textSecondary">
                                                 {curRequest.gmail}
@@ -212,7 +215,9 @@ class FriendRequestPage extends Component
                                     primary={
                                         <React.Fragment>
                                             <Typography inline className={classes.user} color="textPrimary" >
-                                                {curRequest.display_name}
+                                                <Link href={'/profile/' + curRequest.userid}>
+                                                    {curRequest.display_name}
+                                                </Link>
                                             </Typography>
                                             <Typography component="span" inline color="textSecondary">
                                                 {curRequest.gmail}
