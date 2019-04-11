@@ -222,4 +222,4 @@ CREATE TABLE public."Friend_Request"
                         ALTER TABLE public."Friend_Request"
     OWNER to postgres;
 
-INSERT INTO public."User" (userid, gmail, pw_hash, salt) VALUES (0, 'redacted@redacted.com', ' ', ' ');
+INSERT INTO public."User" (userid, gmail, pw_hash, salt) VALUES (0, 'redacted@redacted.com', 'e6dc7335e0ffa0d0a18261b01629701b3d310f5997f5adc73a4d921d3c7085c600d330bb412838770c09d243e90e981121eee16ba540e6c44b08680c72c70f8e', '1028b506be59d2ec9ebdccbdfbecf9a2');

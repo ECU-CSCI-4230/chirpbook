@@ -8,6 +8,7 @@ const router = express.Router();
 const auth = require('../config/auth');
 const db = require('../config/database');
 const jwt = require('jsonwebtoken');
+const friendManagement = require('../friendmanagement');
 
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -80,14 +81,15 @@ passport.use('signup', new LocalStrategy({
                                     };
 
                                     let token = jwt.sign({userid: user.userid, gmail: user.gmail}, auth.jwtSecret, {expiresIn: auth.jwtExpiration}); // Sigining the token
-                                    req.res.status(200).json({
-                                        success: true,
-                                        err: null,
-                                        token,
-                                        userid: res.rows[0].userid,
-                                        msg: 'Account created'
-                                    });
-
+                                    friendManagement.createFriend(user.userid, 0, function(result){
+                                        req.res.status(200).json({
+                                            success: true,
+                                            err: null,
+                                            token,
+                                            userid: res.rows[0].userid,
+                                            msg: 'Account created'
+                                        });
+                                    })
                                     done(null, user);
                                 }
 
