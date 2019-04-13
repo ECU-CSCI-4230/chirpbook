@@ -80,7 +80,7 @@ it('get all friends', function(done)
         {
             var body = JSON.parse(res.body)
             assert.strictEqual(true, body.success);
-            assert.strictEqual(true, body.friends_list.length == 1);
+            assert.strictEqual(true, body.friends_list.length == 2);
             done();
         });
 })
@@ -117,7 +117,7 @@ it('get all friends', function(done)
         {
             var body = JSON.parse(res.body)
             assert.strictEqual(true, body.success);
-            assert.strictEqual(true, body.friends_list.length == 0);
+            assert.strictEqual(true, body.friends_list.length == 1);
             done();
         });
 })
