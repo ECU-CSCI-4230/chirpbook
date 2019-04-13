@@ -34,10 +34,48 @@ it('create another test user', function(done)
     });
 });
 
+var post1
 
 it('create post from user 1', function(done)
 {
     PostManagement.createPost(userid, 'a fake post', function(result)
+    {
+        post1 = result.rows[0].postid
+        assert.strictEqual(result.rowCount, 1)
+        done();
+    });
+});
+
+it('test create tag', function(done)
+{
+    PostManagement.createTag(post1, 'test', function(result)
+    {
+        assert.strictEqual(result, 1)
+        done();
+    });
+});
+
+it('test get post with tag', function(done)
+{
+    PostManagement.getPostsWithTag(userid, 'test', function(result)
+    {
+        assert.strictEqual(result.length, 1)
+        done();
+    });
+});
+
+it('test search tag', function(done)
+{
+    PostManagement.searchTag(userid, 'tes', function(result)
+    {
+        assert.strictEqual(result.length, 1)
+        done();
+    });
+});
+
+it('test delete tag', function(done)
+{
+    PostManagement.removeTags(post1, function(result)
     {
         assert.strictEqual(result.rowCount, 1)
         done();

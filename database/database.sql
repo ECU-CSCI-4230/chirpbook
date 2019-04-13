@@ -92,23 +92,20 @@ TABLESPACE pg_default;
         ALTER TABLE public."Comment"
     OWNER to postgres;
 
-        CREATE TABLE public."Like_Dislike"
+
+        CREATE TABLE public."Tag"
         (
             postid bigint NOT NULL,
-            userid bigint NOT NULL,
-            liketype smallint NOT NULL,
-            PRIMARY KEY (postid, userid),
-            CONSTRAINT postid FOREIGN KEY (postid)
-        REFERENCES public."Post" (postid)
-            MATCH SIMPLE
-        ON
-            UPDATE NO ACTION
-        ON
-            DELETE CASCADE,
-    CONSTRAINT userid FOREIGN KEY
-            (userid)
-        REFERENCES public."User"
-            (userid) MATCH SIMPLE
+            tag text NOT NULL,
+            time_tagged timestamp
+            with time zone NOT NULL DEFAULT now
+            (),
+    CONSTRAINT "Tag_pkey" PRIMARY KEY
+            (postid, tag),
+    CONSTRAINT postid FOREIGN KEY
+            (postid)
+        REFERENCES public."Post"
+            (postid) MATCH SIMPLE
         ON
             UPDATE NO ACTION
         ON
@@ -119,25 +116,24 @@ TABLESPACE pg_default;
     OIDS = FALSE
 );
 
-            ALTER TABLE public."Like_Dislike"
+            ALTER TABLE public."Tag"
     OWNER to postgres;
 
-
-            CREATE TABLE public."Friend"
+            CREATE TABLE public."Like_Dislike"
             (
-                user1 bigint NOT NULL,
-                user2 bigint NOT NULL,
-                PRIMARY KEY (user1, user2),
-                CONSTRAINT user1 FOREIGN KEY (user1)
-        REFERENCES public."User" (userid)
+                postid bigint NOT NULL,
+                userid bigint NOT NULL,
+                liketype smallint NOT NULL,
+                PRIMARY KEY (postid, userid),
+                CONSTRAINT postid FOREIGN KEY (postid)
+        REFERENCES public."Post" (postid)
                 MATCH SIMPLE
         ON
                 UPDATE NO ACTION
         ON
                 DELETE CASCADE,
-    CONSTRAINT user2
-                    FOREIGN KEY
-                (user2)
+    CONSTRAINT userid FOREIGN KEY
+                (userid)
         REFERENCES public."User"
                 (userid) MATCH SIMPLE
         ON
@@ -150,24 +146,24 @@ TABLESPACE pg_default;
     OIDS = FALSE
 );
 
-                ALTER TABLE public."Friend"
+                ALTER TABLE public."Like_Dislike"
     OWNER to postgres;
 
-                CREATE TABLE public."Friend_Request"
+                CREATE TABLE public."Comments_Like_Dislike"
                 (
-                    sender bigint NOT NULL,
-                    receiver bigint NOT NULL,
-                    PRIMARY KEY (sender, receiver),
-                    CONSTRAINT sender FOREIGN KEY (sender)
-        REFERENCES public."User" (userid)
+                    commentid bigint NOT NULL,
+                    userid bigint NOT NULL,
+                    liketype smallint NOT NULL,
+                    PRIMARY KEY (commentid, userid),
+                    CONSTRAINT postid FOREIGN KEY (commentid)
+        REFERENCES public."Comment" (commentid)
                     MATCH SIMPLE
         ON
                     UPDATE NO ACTION
         ON
                     DELETE CASCADE,
-    CONSTRAINT receiver
-        FOREIGN KEY
-                    (receiver)
+    CONSTRAINT userid FOREIGN KEY
+                    (userid)
         REFERENCES public."User"
                     (userid) MATCH SIMPLE
         ON
@@ -180,10 +176,71 @@ TABLESPACE pg_default;
     OIDS = FALSE
 );
 
-                    ALTER TABLE public."Friend_Request"
+                    ALTER TABLE public."Comments_Like_Dislike"
     OWNER to postgres;
 
-                    INSERT INTO public."User"
-                        (userid, gmail, pw_hash, salt)
-                    VALUES
-                        (0, 'redacted@redacted.com', ' ', ' ');
+
+                    CREATE TABLE public."Friend"
+                    (
+                        user1 bigint NOT NULL,
+                        user2 bigint NOT NULL,
+                        PRIMARY KEY (user1, user2),
+                        CONSTRAINT user1 FOREIGN KEY (user1)
+        REFERENCES public."User" (userid)
+                        MATCH SIMPLE
+        ON
+                        UPDATE NO ACTION
+        ON
+                        DELETE CASCADE,
+    CONSTRAINT user2
+                    FOREIGN KEY
+                        (user2)
+        REFERENCES public."User"
+                        (userid) MATCH SIMPLE
+        ON
+                        UPDATE NO ACTION
+        ON
+                        DELETE CASCADE
+)
+                        WITH
+                        (
+    OIDS = FALSE
+);
+
+                        ALTER TABLE public."Friend"
+    OWNER to postgres;
+
+                        CREATE TABLE public."Friend_Request"
+                        (
+                            sender bigint NOT NULL,
+                            receiver bigint NOT NULL,
+                            PRIMARY KEY (sender, receiver),
+                            CONSTRAINT sender FOREIGN KEY (sender)
+        REFERENCES public."User" (userid)
+                            MATCH SIMPLE
+        ON
+                            UPDATE NO ACTION
+        ON
+                            DELETE CASCADE,
+    CONSTRAINT receiver
+        FOREIGN KEY
+                            (receiver)
+        REFERENCES public."User"
+                            (userid) MATCH SIMPLE
+        ON
+                            UPDATE NO ACTION
+        ON
+                            DELETE CASCADE
+)
+                            WITH
+                            (
+    OIDS = FALSE
+);
+
+                            ALTER TABLE public."Friend_Request"
+    OWNER to postgres;
+
+                            INSERT INTO public."User"
+                                (userid, gmail, pw_hash, salt)
+                            VALUES
+                                (0, 'redacted@redacted.com', 'e6dc7335e0ffa0d0a18261b01629701b3d310f5997f5adc73a4d921d3c7085c600d330bb412838770c09d243e90e981121eee16ba540e6c44b08680c72c70f8e', '1028b506be59d2ec9ebdccbdfbecf9a2');

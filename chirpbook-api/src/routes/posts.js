@@ -41,6 +41,29 @@ router.get('/posts/get_homepage', auth.jwtMW, function(req, res)
     })
 });
 
+router.get('/posts/tags/:tag', auth.jwtMW, function(req, res)
+{
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid;
+    var tag = req.params.tag
+    PostManagement.getPostsWithTag(userid, tag, function(result)
+    {
+        if(result)
+        {
+            res.status(200).json({
+                success: true,
+                err: null,
+                posts: result,
+            });
+        } else
+        {
+            res.status(404).json({
+                success: false,
+                err: 'Cannot get posts'
+            })
+        }
+    })
+});
+
 router.get('/posts/get/:postid', auth.jwtMW, function(req, res)
 {
     var postid = req.params.postid
@@ -68,6 +91,7 @@ router.post('/posts/add', auth.jwtMW, function(req, res)
 {
     var postText = req.body.post_text;
     var gmail = jwt_decode(req.headers.authorization.split(' ')[1]).gmail;
+
     if(gmail && postText)
     {
         UserManagement.getUser(gmail, userRows =>
@@ -78,11 +102,36 @@ router.post('/posts/add', auth.jwtMW, function(req, res)
                 {
                     if(post_res.rowCount == 1)
                     {
-                        res.status(201).json({
-                            success: true,
-                            postid: post_res.rows[0].postid,
-                            err: null
-                        });
+                        var tokens = postText.split(/\s+/)
+                        var tags = []
+                        for(var i = 0; i < tokens.length; i++)
+                        {
+                            if(tokens[i].charAt(0) === '#' && tokens[i].length >= 2)
+                            {
+                                tags.push(tokens[i].slice(1))
+                            }
+                        }
+
+                        PostManagement.createTags(post_res.rows[0].postid, tags, function(tagRes)
+                        {
+                            if(tagRes == true)
+                            {
+                                res.status(201).json({
+                                    success: true,
+                                    postid: post_res.rows[0].postid,
+                                    err: null
+                                });
+                            }
+                            else
+                            {
+                                res.status(401).json({
+                                    success: false,
+                                    err: "tags failed to post"
+                                });
+                            }
+                        })
+
+
                     } else
                     {
                         res.status(404).json({

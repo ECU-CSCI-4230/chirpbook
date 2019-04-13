@@ -153,6 +153,90 @@ class commentmanagement
         });
     }
 
+    static addCommentLike(commentid, userid, liketype, callback)
+    {
+        db.connect(function(client)
+        {
+            client.query(`INSERT INTO public."Comments_Like_Dislike" (commentid, userid, liketype)
+								VALUES ($1, $2, $3)`, [commentid, userid, liketype],
+                function(err, result)
+                {
+
+                    //console.log(result)
+
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        callback(result.rowCount)
+                    } else
+                    {
+                        callback(0);
+                    }
+                });
+        });
+    }
+
+
+
+    static removeCommentLike(commentid, userid, callback)
+    {
+        db.connect(function(client)
+        {
+            client.query(`DELETE FROM public."Comments_Like_Dislike" WHERE commentid = $1 AND userid = $2`,
+                [commentid, userid],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        callback(result.rowCount)
+                    } else
+                    {
+                        callback(0);
+                    }
+                });
+        });
+    }
+
+    static editCommentLike(commentid, userid, liketype, callback)
+    {
+        db.connect(function(client)
+        {
+            client.query(`UPDATE public."Comments_Like_Dislike"
+            SET liketype = $3
+            WHERE commentid = $1 and userid = $2`,
+                [commentid, userid, liketype],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        callback(result.rowCount)
+                    } else
+                    {
+                        callback(0);
+                    }
+                });
+        });
+
+    }
+
+
 }
 
 

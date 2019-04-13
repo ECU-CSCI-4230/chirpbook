@@ -99,6 +99,46 @@ it("get comment", function(done)
         });
 })
 
+it("like comment", function(done)
+{
+    const path = `http://${basepath}/comments/like`;
+
+    var reqBody = {commentid: commentid, userid: uid, like_type: 1}
+    request.post(path, {
+        url: path,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token1
+        },
+        body: JSON.stringify(reqBody),
+    }, function(err, res)
+        {
+            var body = JSON.parse(res.body)
+            assert.strictEqual(true, body.success);
+            done();
+        });
+})
+
+it("delete like on comment", function(done)
+{
+    const path = `http://${basepath}/comments/like`;
+
+    var reqBody = {commentid: commentid, userid: uid}
+    request.delete(path, {
+        url: path,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token1
+        },
+        body: JSON.stringify(reqBody),
+    }, function(err, res)
+        {
+            var body = JSON.parse(res.body)
+            assert.strictEqual(true, body.success);
+            done();
+        });
+})
+
 it("delete comment", function(done)
 {
     const path = `http://${basepath}/comments/delete/${commentid}`;

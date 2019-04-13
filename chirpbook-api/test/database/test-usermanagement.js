@@ -22,6 +22,16 @@ it('get user', function(done)
     })
 })
 
+it('serch user', function(done)
+{
+    UserManagement.searchUser('est4', function(result)
+    {
+        console.log(result)
+        assert.strictEqual(result.length, 1)
+        done();
+    })
+})
+
 it('set link', function(done)
 {
     UserManagement.updateProfilePicture(userid, 'hi', function(result)
@@ -39,6 +49,7 @@ it('get link', function(done)
         done()
     })
 })
+
 
 it('delete user', function(done)
 {

@@ -96,16 +96,32 @@ class CommentItem extends Component
     {
         if(this.state.isDisliked)
         {
-            this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
-
+            Auth.fetch('/comments/like', {
+                method: 'delete',
+                body: JSON.stringify({
+                    commentid: this.props.chirp.commentid,
+                })
+            }).then((res) =>
+            {
+                this.setState({isDisliked: false, dislikes: this.state.dislikes - 1});
+            }).catch(err => console.log(err));
         } else
         {
             if(this.state.isLiked)
             {
                 this.setState({isLiked: false, likes: this.state.likes - 1})
             }
-            this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
 
+            Auth.fetch('/comments/like', {
+                method: 'post',
+                body: JSON.stringify({
+                    commentid: this.props.chirp.commentid,
+                    like_type: 0,
+                })
+            }).then((res) =>
+            {
+                this.setState({isDisliked: true, dislikes: this.state.dislikes + 1});
+            }).catch(err => console.log(err));
         }
     }
 
@@ -113,7 +129,15 @@ class CommentItem extends Component
     {
         if(this.state.isLiked)
         {
-            this.setState({isLiked: false, likes: this.state.likes - 1});
+            Auth.fetch('/comments/like', {
+                method: 'delete',
+                body: JSON.stringify({
+                    commentid: this.props.chirp.commentid,
+                })
+            }).then((res) =>
+            {
+                this.setState({isLiked: false, likes: this.state.likes - 1});
+            }).catch(err => console.log(err));
 
         } else
         {
@@ -121,7 +145,17 @@ class CommentItem extends Component
             {
                 this.setState({isDisliked: false, dislikes: this.state.dislikes - 1})
             }
-            this.setState({isLiked: true, likes: this.state.likes + 1});
+            Auth.fetch('/comments/like', {
+                method: 'post',
+                body: JSON.stringify({
+                    commentid: this.props.chirp.commentid,
+                    like_type: 1,
+                })
+            }).then((res) =>
+            {
+                this.setState({isLiked: true, likes: this.state.likes + 1});
+            }).catch(err => console.log(err));
+
         }
     }
 
@@ -192,7 +226,6 @@ class CommentItem extends Component
                                     </IconButton>
                                     <IconButton className={classes.likeChrip} aria-label="Like"
                                         onClick={this.like}
-                                        disabled
                                     >
                                         {this.state.isLiked ?
                                             <ThumbUp className={classes.interactionIcon} /> :
@@ -205,7 +238,6 @@ class CommentItem extends Component
                                     </IconButton>
                                     <IconButton className={classes.dislikeChirp} aria-label="Dislike"
                                         onClick={this.dislike}
-                                        disabled
                                     >
                                         {this.state.isDisliked ?
                                             <ThumbDown className={classes.interactionIcon} /> :

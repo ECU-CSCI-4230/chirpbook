@@ -38,7 +38,7 @@ router.post('/users/set_displayname/:userid', auth.jwtMW, function(req, res)
 {
     var userid = req.params.userid
     var displayName = req.body.display_name
-
+    
     UserManagement.setDisplayName(userid, displayName, function(result)
     {
         if(result.rowCount == 1)
@@ -109,8 +109,6 @@ router.get('/users/search/:gmail', auth.jwtMW, function(req, res)
         }
 
     })
-
-
 })
 
 router.get('/users/profile_picture/:userid', auth.jwtMW, function(req, res)
@@ -134,8 +132,34 @@ router.get('/users/profile_picture/:userid', auth.jwtMW, function(req, res)
             })
         }
     })
-
 })
+
+router.get('/users/:userid', auth.jwtMW, function(req, res)
+{
+    var userid = req.params.userid
+
+    UserManagement.getUserDetails(userid, function(result)
+    {
+        if(result.length == 1)
+        {
+            res.status(201).json({
+                success: true,
+                err: null,
+                profile_picture: result[0].profile_picture,
+                display_name: result[0].display_name,
+                email: result[0].gmail
+            })
+        } else
+        {
+            res.status(404).json({
+                success: false,
+                err: 'User not found'
+            })
+        }
+    })
+})
+
+
 
 //creates or updates user and validates google token
 

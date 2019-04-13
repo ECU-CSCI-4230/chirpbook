@@ -57,6 +57,32 @@ class UserManagement
         });
     }
 
+    static getUserDetails(userid, cb)
+    {
+        db.connect(function(client)
+        {
+            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE userid = $1`, [userid],
+                function(err, result)
+                {
+                    client.release()
+                    if(err)
+                    {
+                        log.error(err)
+                    }
+                    if(result)
+                    {
+                        log.info(result)
+                        cb(result.rows)
+                    }
+                    else
+                    {
+                        log.info(`no results`)
+                        cb([])
+                    }
+                });
+        });
+    }
+
     static getProfilePicture(userid, cb)
     {
         db.connect(function(client)
