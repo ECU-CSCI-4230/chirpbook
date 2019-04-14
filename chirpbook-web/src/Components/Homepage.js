@@ -33,7 +33,6 @@ class Homepage extends Component
         super(props);
         this.state = {posts: [], profilePicture: '', profileID: null};
         this.updateHomepage = this.updateHomepage.bind(this);
-
     }
 
     componentWillReceiveProps(nextProps)
