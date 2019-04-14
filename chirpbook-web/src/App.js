@@ -10,6 +10,7 @@ import Post from "./Components/Post";
 import SettingsPage from "./Components/SettingsPage";
 import Register from "./Components/Register"
 import TagPage from "./Components/TagPage";
+import UploadPicture from "./Components/UploadPicture";
 
 // import Loadable from "react-loadable";
 
@@ -37,6 +38,7 @@ class App extends React.Component
                         <Route path='/settings' component={SettingsPage} />
                         <Route path="/register" component={Register} />
                         <Route path="/posts/:tag" component={TagPage} />
+                        <Route path="/upload_picture" component={UploadPicture} />
                     </Switch>
                 </React.Fragment >
             </Router>
