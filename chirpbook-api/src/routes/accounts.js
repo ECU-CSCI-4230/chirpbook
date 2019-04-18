@@ -10,6 +10,7 @@ const UserManagement = require('../usermanagement');
 const CommentManagement = require('../commentmanagement')
 
 const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
@@ -38,8 +39,32 @@ router.post('/users/set_displayname/:userid', auth.jwtMW, function(req, res)
 {
     var userid = req.params.userid
     var displayName = req.body.display_name
-    
+
     UserManagement.setDisplayName(userid, displayName, function(result)
+    {
+        if(result.rowCount == 1)
+        {
+            res.status(201).json({
+                success: true,
+                err: null
+            })
+        } else
+        {
+            res.status(404).json({
+                success: false,
+                err: 'User not found'
+            })
+        }
+    })
+
+})
+
+router.post('/users/set_profile_picture', auth.jwtMW, function(req, res)
+{
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid;
+    var pic = req.body.picture
+
+    UserManagement.updateProfilePicture(userid, pic, function(result)
     {
         if(result.rowCount == 1)
         {
