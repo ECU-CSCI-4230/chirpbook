@@ -87,7 +87,7 @@ class NavBar extends Component
         if(Auth.isLoggedIn())
         {
             Auth.logout();
-            this.props.history.replace('/');
+            this.props.history.replace('/login');
         } else
         {
             this.props.history.replace('/login');
