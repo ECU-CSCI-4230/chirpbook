@@ -2,7 +2,8 @@ const db = require('./config/database')
 
 var log = require('console-log-level')({level: 'warn'})
 
-class FriendManagement{
+class FriendManagement
+{
 
     //Creates a new friendship between 2 users and
     //adds it to the Friend table
@@ -38,7 +39,7 @@ class FriendManagement{
     {
         db.connect(function(client)
         {
-            client.query(`Select user1, user2, User1.gmail as gmail1, User1.display_name as display_name1, 
+            client.query(`Select user1, user2, User1.gmail as gmail1, User1.display_name as display_name1,
                 User1.profile_picture as profile_picture1,
                 User2.gmail as gmail2, User2.display_name as display_name2, User2.profile_picture as profile_picture2
                 From public."Friend" full outer join public."User" as User1
@@ -72,9 +73,9 @@ class FriendManagement{
     {
         db.connect(function(client)
         {
-            client.query(`DELETE FROM public."Friend" 
+            client.query(`DELETE FROM public."Friend"
                             WHERE user1 = $1 AND user2 = $2`, [user1, user2],
-                            
+
                 function(err, result)
                 {
                     client.release()
