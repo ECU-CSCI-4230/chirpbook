@@ -6,6 +6,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Avatar from '@material-ui/core/Avatar';
+import AuthHelpers from '../Auth/AuthHelpers.js'
+
+const Auth = new AuthHelpers();
 
 const styles = {
     root: {
@@ -39,7 +42,17 @@ class ProfileMenuItem extends React.Component
 
     getProfilePicture = () =>
     {
-        this.setState({profilePicture: null});
+        var userid = Auth.getUser()
+        let path = `/users/profile_picture/${userid}`
+        Auth.fetch(path, {method: 'GET'}).then((res) =>
+        {
+            if(res.success == true)
+            {
+                this.setState({
+                    profilePicture: res.profile_picture
+                });
+            }
+        }).catch((error) => console.log(error));
     }
 
     handleChange = event =>
