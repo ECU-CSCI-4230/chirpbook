@@ -59,8 +59,6 @@ class Register extends Component
                         method: 'POST',
                         body: b
                     };
-                    console.log(Auth.domain)
-                    console.log(Auth.getDomain())
 
                     //const tokenH = r.headers.get('x-auth-token');
                     fetch(`${Auth.domain}/signup`, options).then(r => r.json())
