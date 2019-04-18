@@ -11,6 +11,7 @@ import SettingsPage from "./Components/SettingsPage";
 import Register from "./Components/Register"
 import TagPage from "./Components/TagPage";
 import UploadPicture from "./Components/UploadPicture";
+import ProfilePage from "./Components/ProfilePage"
 
 // import Loadable from "react-loadable";
 
@@ -31,7 +32,7 @@ class App extends React.Component
                     <Switch >
                         <Route exact path="/" component={Homepage} />
                         <Route path="/home" component={Homepage} />
-                        <Route path="/profile/:userid" component={Homepage} />
+                        <Route path="/profile/:userid" component={ProfilePage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/friends" component={FriendsPage} />
                         <Route path='/friend_requests' component={FriendRequestPage} />
