@@ -52,7 +52,6 @@ class SendChirpItem extends Component
         event.persist();
         this.setState({
             post_text: event.target.value,
-            profilePicture: null,
         });
     }
 
