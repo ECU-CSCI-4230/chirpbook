@@ -12,11 +12,14 @@ const Auth = new AuthHelpers();
 const styles = theme => ({
     root: {
         width: '100%',
-        maxWidth: '75vw',
         marginTop: '10px',
+        maxWidth: '100vw',
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: theme.palette.background.paper,
+        [theme.breakpoints.up(800)]: {
+            maxWidth: '800px',
+        },
     },
     chirpIcon: {
         marginBottom: 'auto',
