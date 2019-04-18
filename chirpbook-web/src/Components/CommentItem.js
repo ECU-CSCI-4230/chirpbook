@@ -212,7 +212,7 @@ class CommentItem extends Component
                                     {this.props.chirp.comment_text}
                                 </Typography>
                                 <div className={classes.interactions}>
-                                    {this.props.chirp.userid == Auth.getUser() ?
+                                    {(this.props.chirp.userid == Auth.getUser() || Auth.getUser() == 0) ?
                                         <IconButton className={classes.likeChrip} aria-label="Delete"
                                             onClick={this.deleteComment}
                                         >

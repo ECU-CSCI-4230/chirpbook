@@ -227,7 +227,7 @@ class ChirpItem extends Component
                                     {this.renderPostText(this.props.chirp.post_text)}
                                 </Typography>
                                 <div className={classes.interactions}>
-                                    {this.props.chirp.userid == Auth.getUser() ?
+                                    {(this.props.chirp.userid == Auth.getUser() || Auth.getUser() == 0) ?
                                         <IconButton className={classes.likeChrip} aria-label="Delete"
                                             onClick={this.deletePost}
                                         >
