@@ -141,14 +141,17 @@ class SettingsPage extends Component
                                     Update Profile Picture
                                 </Button>
                             </Grid>
+
+                            <Grid style={{padding: 10}}>
+                                <TextField id="newDisplayName" label="New display name" variant="outlined" onChange={this.handleChange('newDisplayName')} />
+                            </Grid>
+
                             <Grid item="setDiplayNameBtn" style={{padding: 10}} onClick={() => this.setDisplayName()}>
                                 <Button variant="contained" color="primary" >Set Display Name</Button>
                             </Grid>
-                            <Grid style={{padding: 10}}>
-                                <TextField id="newDisplayName" variant="outlined" onChange={this.handleChange('newDisplayName')} />
-                            </Grid>
+
                             <Grid item="deleteAccountBtn" style={{padding: 10}} onClick={this.deleteUser}>
-                                <Button variant="contained" color="primary">Delete Account</Button>
+                                <Button variant="contained" color="secondary">Delete Account</Button>
                             </Grid>
                         </Grid>
                     </Grid>
