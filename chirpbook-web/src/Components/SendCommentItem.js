@@ -72,7 +72,7 @@ class SendChirpItem extends Component
         let path = `/users/profile_picture/${userid}`
         Auth.fetch(path, {method: 'GET'}).then((res) =>
         {
-            if(res.sucess == true)
+            if(res.success == true)
             {
                 this.setState({
                     profilePicture: res.profile_picture
