@@ -11,7 +11,6 @@ import AddIcon from '@material-ui/icons/Add';
 
 
 import AuthHelpers from '../Auth/AuthHelpers.js'
-import withAuth from '../Auth/withAuth';
 
 const Auth = new AuthHelpers();
 
@@ -60,8 +59,11 @@ class Register extends Component
                         method: 'POST',
                         body: b
                     };
+                    console.log(Auth.domain)
+                    console.log(Auth.getDomain())
+
                     //const tokenH = r.headers.get('x-auth-token');
-                    fetch('http://localhost/api/v1/signup', options).then(r => r.json())
+                    fetch(`${Auth.domain}/signup`, options).then(r => r.json())
                         .then(data =>
                         {
                             if(data.err === null)

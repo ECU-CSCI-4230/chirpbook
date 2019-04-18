@@ -62,7 +62,7 @@ class LoginPage extends Component
                 body: b
             };
             //const tokenH = r.headers.get('x-auth-token');
-            fetch('http://localhost/api/v1/login', options).then(r => r.json())
+            fetch(`${Auth.domain}/login`, options).then(r => r.json())
                 .then(data =>
                 {
                     if(data.err === null)
