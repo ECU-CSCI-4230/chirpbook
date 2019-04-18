@@ -112,10 +112,11 @@ router.delete('/users/delete/:userid', auth.jwtMW, function(req, res)
 router.get('/users/search/:gmail', auth.jwtMW, function(req, res)
 { // might need to change '/user'
 
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid;
     // Need some variables here
     var gmail = req.params.gmail
 
-    UserManagement.searchUser(gmail, function(result)
+    UserManagement.searchUser(gmail, userid, function(result)
     {
 
         if(result.length > 0)
