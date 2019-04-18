@@ -1,6 +1,6 @@
 # Chirpbook™: The next best thing since MySpace... sorry Tom
 
-![image] (5 petabytes.jpg)
+![image] (https://github.com/ECU-CSCI-4230/chirpbook/blob/master/5%20petabytes.jpg)
 
 ### How to spin up Docker
 You may have to run these commands with sudo.
