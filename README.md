@@ -1,5 +1,6 @@
 # Chirpbook™: The next best thing since MySpace... sorry Tom
 
+![alt text] ("5 petabytes.jpg")
 
 ### How to spin up Docker
 You may have to run these commands with sudo.
