@@ -109,12 +109,13 @@ class UserManagement
         });
     }
 
-    static searchUser(gmail, cb)
+    static searchUser(gmail, userid, cb)
     {
         db.connect(function(client)
         {
             var mail = '%' + gmail + '%'
-            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User" WHERE gmail ILIKE $1 and userid != 0`, [mail],
+            client.query(`SELECT userid, gmail, display_name, profile_picture FROM public."User"
+                WHERE gmail ILIKE $1 and userid != 0 and userid != $2`, [mail, userid],
                 function(err, result)
                 {
                     client.release()
