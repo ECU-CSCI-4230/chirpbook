@@ -132,9 +132,7 @@ class SettingsPage extends Component
                         <Grid item="userProfilePicture">
                             <img src={logo} width="500" height="500"></img>
                         </Grid>
-                        <Grid item="userDisplayName">
-                            <Typography>{this.state.displayName}</Typography>
-                        </Grid>
+
                         <Grid container direction="column" justify="center" alignItems="center" style={{padding: 10}}>
                             <Grid item="updateProfileBtn" style={{padding: 10}}>
                                 <Button variant="contained" color="primary" onClick={this.openUploadProfilePic}>
@@ -143,7 +141,19 @@ class SettingsPage extends Component
                             </Grid>
 
                             <Grid style={{padding: 10}}>
-                                <TextField id="newDisplayName" label="New display name" variant="outlined" onChange={this.handleChange('newDisplayName')} />
+                                {/* <TextField id="newDisplayName" label="Change display name" placeholder={this.state.displayName} margin="normal"
+                                    onChange={this.handleChange('newDisplayName')} /> */}
+                                <TextField
+                                    id="standard-full-width"
+                                    label="Change Display Name"
+                                    style={{margin: 8}}
+                                    placeholder={this.state.displayName}
+                                    fullWidth
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
                             </Grid>
 
                             <Grid item="setDiplayNameBtn" style={{padding: 10}} onClick={() => this.setDisplayName()}>
