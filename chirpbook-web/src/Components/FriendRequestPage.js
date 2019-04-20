@@ -20,10 +20,14 @@ const Auth = new AuthHelpers();
 const styles = theme => ({
     root: {
         width: '100%',
-        maxWidth: '50vw',
+        maxWidth: '100vw',
         marginTop: '10px',
         marginLeft: 'auto',
         marginRight: 'auto',
+        backgroundColor: theme.palette.background.paper,
+        [theme.breakpoints.up(800)]: {
+            maxWidth: '800px',
+        },
         backgroundColor: theme.palette.background.paper,
     },
     friendText: {
@@ -146,7 +150,7 @@ class FriendRequestPage extends Component
         const {classes} = this.props;
         return (
             <React.Fragment>
-                <FindFriend getFriendRequests={this.getFriendRequests} />
+                <FindFriend className={classes.root} getFriendRequests={this.getFriendRequests} />
                 {this.state.incomingRequests.length == 0 ? null :
                     <div style={{padding: 15}}>
                         <Typography variant='h4' align='center'>Incoming Friend Requests</Typography>

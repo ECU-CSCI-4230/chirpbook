@@ -16,9 +16,19 @@ const Auth = new AuthHelpers();
 
 const styles = theme => ({
     root: {
-        backgroundColor: theme.palette.background.paper
+        width: '100%',
+        maxWidth: '100vw',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        [theme.breakpoints.up(400)]: {
+            maxWidth: '400px',
+        },
+    },
+    child: {
+        width: '100%'
     }
-
 });
 
 class Register extends Component
@@ -99,19 +109,20 @@ class Register extends Component
         const {classes} = this.props;
 
         return (
-            <React.Fragment>
+            <div className={classes.root} >
                 <Grid
                     container
                     spacing={16}
+                    className={classes.root}
                     alignItems='center'
                     alignContent='center'
                     direction='column'
                 >
-                    <Grid item >
+                    <Grid item className={classes.child}>
 
 
                         {this.state.errmsg === "" ? null :
-                            <Typography variant="h4" color="error">
+                            <Typography variant="h5" color="error">
 
                                 {this.state.errmsg}
 
@@ -120,60 +131,66 @@ class Register extends Component
 
                         }
                     </Grid>
-                    <Grid item >
+                    <Grid item className={classes.child}>
+
+
+                        <Grid item className={classes.child}>
+                            <TextField
+                                id="display-name"
+                                label="Display Name"
+                                autoComplete="none"
+                                className={classes.textField}
+                                value={this.state.d_name}
+                                onChange={this.handleChange('d_name')}
+                                margin="normal"
+                                fullWidth
+                            />
+                        </Grid>
                         <TextField
-                            id="standard-name"
+                            id="email"
                             label="Email"
                             className={classes.textField}
                             value={this.state.email}
+                            autoComplete="email"
                             onChange={this.handleChange('email')}
                             margin="normal"
+                            fullWidth
                         />
                     </Grid>
-
-                    <Grid item >
+                    <Grid item className={classes.child}>
                         <TextField
-                            id="standard-name"
-                            label="Display Name"
-                            className={classes.textField}
-                            value={this.state.d_name}
-                            onChange={this.handleChange('d_name')}
-                            margin="normal"
-                        />
-                    </Grid>
-
-                    <Grid item >
-                        <TextField
-                            id="standard-password-input"
+                            id="new-password-input"
                             label="Password"
                             className={classes.textField}
                             type="password"
-                            autoComplete="current-password"
-                            margin="dense"
+                            autoComplete="new-password"
+                            margin="normal"
                             value={this.state.password}
                             onChange={this.handleChange('password')}
+                            fullWidth
                         />
                     </Grid>
-                    <Grid item >
+                    <Grid item className={classes.child}>
                         <TextField
-                            id="standard-password-input"
+                            id="confirm-password-input"
                             label="Re-enter Password"
                             className={classes.textField}
                             type="password"
-                            autoComplete="current-password"
-                            margin="dense"
+                            autoComplete="new-password"
+                            margin="normal"
                             value={this.state.rpassword}
                             onChange={this.handleChange('rpassword')}
+                            fullWidth
                         />
                     </Grid>
-                    <Grid item>
-                        <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.margin}>
+                    <Grid item className={classes.child}>
+                        <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.child}>
                             Signup
                     </Button>
                     </Grid>
                 </Grid>
 
-            </React.Fragment>
+            </div>
 
         )
     }

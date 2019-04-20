@@ -17,7 +17,19 @@ const Auth = new AuthHelpers();
 
 const styles = theme => ({
     root: {
-        backgroundColor: theme.palette.background.paper
+        width: '100%',
+        maxWidth: '100vw',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        [theme.breakpoints.up(400)]: {
+            maxWidth: '400px',
+        },
+
+    },
+    child: {
+        width: '100%'
     }
 
 });
@@ -93,19 +105,20 @@ class LoginPage extends Component
         const {classes} = this.props;
 
         return (
-            <React.Fragment>
+            <div className={classes.root} >
                 <Grid
+                    className={classes.root}
                     container
                     spacing={16}
                     alignItems='center'
                     alignContent='center'
                     direction='column'
                 >
-                    <Grid item >
+                    <Grid item className={classes.child}>
 
 
                         {this.state.errmsg === '' ? null :
-                            <Typography variant="h4" color="error">
+                            <Typography variant="h5" color="error">
 
                                 {this.state.errmsg}
 
@@ -114,7 +127,8 @@ class LoginPage extends Component
 
                         }
                     </Grid>
-                    <Grid item >
+                    <Grid item className={classes.child}
+                    >
                         <TextField
                             id="standard-name"
                             label="Email"
@@ -122,10 +136,11 @@ class LoginPage extends Component
                             value={this.state.email}
                             onChange={this.handleChange('email')}
                             margin="normal"
+                            fullWidth
                         />
                     </Grid>
 
-                    <Grid item >
+                    <Grid item className={classes.child}>
                         <TextField
                             id="standard-password-input"
                             label="Password"
@@ -135,21 +150,21 @@ class LoginPage extends Component
                             margin="dense"
                             value={this.state.password}
                             onChange={this.handleChange('password')}
+                            fullWidth
                         />
                     </Grid>
-                    <Grid item>
-                        <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.margin}>
+                    <Grid item className={classes.child}>
+                        <Button onClick={this.submit} variant="contained" size="medium" color="primary" className={classes.child}>
                             Log In
                     </Button>
                     </Grid>
-                    <Grid item>
-                        <Button onClick={this.moveToRegister} variant="contained" size="medium" color="primary" className={classes.margin}>
+                    <Grid item className={classes.child}>
+                        <Button onClick={this.moveToRegister} variant="contained" size="medium" color="primary" className={classes.child}>
                             Sign Up
                     </Button>
                     </Grid>
                 </Grid>
-
-            </React.Fragment>
+            </ div>
 
         )
     }

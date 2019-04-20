@@ -17,10 +17,14 @@ const Auth = new AuthHelpers();
 const styles = theme => ({
     root: {
         width: '100%',
-        maxWidth: '50vw',
+        maxWidth: '100vw',
         marginTop: '10px',
         marginLeft: 'auto',
         marginRight: 'auto',
+        backgroundColor: theme.palette.background.paper,
+        [theme.breakpoints.up(800)]: {
+            maxWidth: '800px',
+        },
         backgroundColor: theme.palette.background.paper,
     },
     friendText: {
