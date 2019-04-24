@@ -154,8 +154,8 @@ router.post('/posts/add', auth.jwtMW, function(req, res)
 router.delete('/posts/remove/:postid', auth.jwtMW, function(req, res)
 {
     var postid = req.params.postid
-
-    PostManagement.removePost(postid, function(result)
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid
+    PostManagement.removePost(postid, userid, function(result)
     {
         if(result && result.rowCount > 0)
         {

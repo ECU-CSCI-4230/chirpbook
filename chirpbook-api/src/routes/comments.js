@@ -78,8 +78,9 @@ router.get('/comments/get/:postid', auth.jwtMW, function(req, res)
 router.delete('/comments/delete/:commentid', auth.jwtMW, function(req, res)
 {
     var commentid = req.params.commentid
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid
 
-    commentmanagement.deleteComment(commentid, function(delete_comment_rows)
+    commentmanagement.deleteComment(commentid, userid, function(delete_comment_rows)
     {
         if(delete_comment_rows == 1)
         {

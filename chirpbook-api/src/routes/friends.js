@@ -7,6 +7,8 @@ const router = express.Router();
 
 const FriendManagement = require('../friendmanagement');
 const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
+
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
@@ -49,20 +51,30 @@ router.post('/friends/remove/:userid/:userid2', auth.jwtMW, function(req, res)
 {
     var userid = req.params.userid
     var userid2 = req.params.userid2
+    var loggedInUser = jwt_decode(req.headers.authorization.split(' ')[1]).userid
 
-    FriendManagement.deleteFriend(userid, userid2, function(removeFriendship)
+    if(userid == loggedInUser || userid2 == loggedInUser)
     {
-        res.status(201).json({
-            success: true,
-            error: null
+        FriendManagement.deleteFriend(userid, userid2, function(removeFriendship)
+        {
+            res.status(201).json({
+                success: true,
+                error: null
+            })
         })
-    })
+    } else
+    {
+        res.status(401).json({
+            success: false,
+            error: "Failed to delete freind request"
+        })
+    }
 });
 
 // Request for getting all current friends for the given user id.
 router.get('/friends/:userid', auth.jwtMW, function(req, res)
 {
-    var userid = req.params.userid
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid
 
     FriendManagement.getAllFriends(userid, function(currentFriends)
     {

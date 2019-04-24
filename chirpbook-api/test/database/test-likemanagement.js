@@ -44,7 +44,7 @@ it('test remove like', function(done)
 
 it('delete posts', function(done)
 {
-    PostManagement.removePost(pid, function(result)
+    PostManagement.removePost(pid, userid, function(result)
     {
         assert.strictEqual(result.rowCount, 1);
         done()

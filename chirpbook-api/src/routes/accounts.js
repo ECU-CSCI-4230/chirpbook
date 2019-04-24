@@ -37,8 +37,9 @@ const client = new OAuth2Client(config.client_id);
 
 router.post('/users/set_displayname/:userid', auth.jwtMW, function(req, res)
 {
-    var userid = req.params.userid
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid
     var displayName = req.body.display_name
+    console.log(displayName)
 
     UserManagement.setDisplayName(userid, displayName, function(result)
     {
@@ -85,7 +86,7 @@ router.post('/users/set_profile_picture', auth.jwtMW, function(req, res)
 
 router.delete('/users/delete/:userid', auth.jwtMW, function(req, res)
 {
-    var userid = req.params.userid
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid
 
     CommentManagement.deleteAllComments(userid, function(result_delete_comments)
     {
@@ -184,71 +185,5 @@ router.get('/users/:userid', auth.jwtMW, function(req, res)
         }
     })
 })
-
-
-
-//creates or updates user and validates google token
-
-//this function will be removed with frontend local login is set up
-router.post('/auth/google', auth.jwtMW, function(req, res)
-{
-    async function verify()
-    {
-        const ticket = await client.verifyIdToken({
-            idToken: req.body.idToken,
-            audience: config.client_id,
-        });
-
-        const payload = ticket.getPayload();
-
-        const userid = payload['sub'];
-
-        var gmail = payload.email
-        var pictureLink = payload.picture
-        let display_name = payload.name
-
-        // Console.log("Result:\n")
-        // Console.log(res)
-        UserManagement.getUser(payload.email, function(user_row)
-        {
-            if(user_row.length == 1)
-            {
-                let name = display_name ? user_row[0].display_name : display_name;
-                UserManagement.updateProfilePicture(user_row[0].userid, pictureLink, function(picture_row)
-                {
-                    UserManagement.setDisplayName(user_row[0].userid, name, function(result)
-                    {
-                        res.status(201).json({
-                            success: true,
-                            err: null,
-                            gmail: gmail,
-                            userid: user_row[0].userid,
-                            picture: pictureLink,
-                            token: req.body.idToken
-                        })
-                    });
-                });
-
-            } else
-            {
-                UserManagement.createUser(gmail, pictureLink, display_name, function(newUser)
-                {
-                    res.status(201).json({
-                        success: true,
-                        err: null,
-                        gmail: gmail,
-                        userid: newUser.rows[0].userid,
-                        picture: pictureLink,
-                        token: req.body.idToken
-                    })
-                })
-            }
-        })
-    }
-    // console.log(res)
-    verify().catch(console.error);
-
-});
-
 
 module.exports = router;

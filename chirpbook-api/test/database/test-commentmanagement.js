@@ -84,7 +84,7 @@ it('test delete like comment', function(done)
 // test deleting a comment
 it('test delete comment', function(done)
 {
-    CommentManagement.deleteComment(comid, function(result)
+    CommentManagement.deleteComment(comid, userid, function(result)
     {
         //console.log(result)
         assert.strictEqual(result, 1) // might need to change this assert
@@ -94,7 +94,7 @@ it('test delete comment', function(done)
 
 it('delete post', function(done)
 {
-    PostManagement.removePost(pid, function(result)
+    PostManagement.removePost(pid, userid, function(result)
     {
         assert.strictEqual(result.rowCount, 1);
         done()

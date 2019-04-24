@@ -123,8 +123,6 @@ class SettingsPage extends Component
     {
         const {classes} = this.props;
 
-        console.log(this.state.displayName + " " + this.state.newDisplayName)
-
         return (
             <React.Fragment>
                 <div>
@@ -149,6 +147,7 @@ class SettingsPage extends Component
                                     style={{margin: 8}}
                                     placeholder={this.state.displayName}
                                     fullWidth
+                                    onChange={this.handleChange('newDisplayName')}
                                     margin="normal"
                                     InputLabelProps={{
                                         shrink: true,

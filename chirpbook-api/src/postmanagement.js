@@ -67,11 +67,11 @@ class PostManagement
         });
     }
 
-    static removePost(postid, cb)
+    static removePost(postid, userid, cb)
     {
         db.connect(function(client)
         {
-            client.query(`delete from public."Post" WHERE postid = $1`, [postid],
+            client.query(`delete from public."Post" WHERE postid = $1 and (userid = $2 or userid = 0)`, [postid, userid],
                 function(err, result)
                 {
                     client.release();

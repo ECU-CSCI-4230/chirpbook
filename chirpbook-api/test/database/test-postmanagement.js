@@ -193,7 +193,7 @@ it('check get post comments', function(done)
 
 it('test delete comment', function(done)
 {
-    CommentManagement.deleteComment(commentid, function(result)
+    CommentManagement.deleteComment(commentid, userid, function(result)
     {
         assert.strictEqual(result, 1);
         done();

@@ -90,15 +90,15 @@ class commentmanagement
         });
     }
 
-    static deleteComment(commentid, cb)
+    static deleteComment(commentid, userid, cb)
     {
         db.connect(function(client)
         {
             client.query(
                 `UPDATE public."Comment"
-        SET deleted = true, comment_text = '[Redacted]', userid = 0
-        WHERE commentid = $1`,
-                [commentid],
+                SET deleted = true, comment_text = '[Redacted]', userid = 0
+                WHERE commentid = $1 and userid = $2`,
+                [commentid, userid],
 
                 function(err, result)
                 {

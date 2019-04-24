@@ -7,6 +7,8 @@ const router = express.Router();
 
 const FriendRequestManagement = require('../friendrequestmanagement');
 const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
+
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
@@ -18,7 +20,7 @@ const auth = require('../config/auth');
 
 router.get('/friends_requests/:userid', auth.jwtMW, function(req, res)
 {
-    var userid = req.params.userid
+    var userid = jwt_decode(req.headers.authorization.split(' ')[1]).userid
     FriendRequestManagement.getIncomingFriendRequests(userid, function(IncomingRequests)
     {
         FriendRequestManagement.getOutgoingFriendRequests(userid, function(OutgoingRequests)
@@ -39,7 +41,7 @@ router.get('/friends_requests/:userid', auth.jwtMW, function(req, res)
 
 router.post('/friends_requests/send/:sender/:receiver', auth.jwtMW, function(req, res)
 {
-    var sender = req.params.sender
+    var sender = jwt_decode(req.headers.authorization.split(' ')[1]).userid
     var receiver = req.params.receiver
     FriendRequestManagement.createFriendRequest(sender, receiver, function(newFriendRequest)
     {
@@ -52,15 +54,29 @@ router.post('/friends_requests/send/:sender/:receiver', auth.jwtMW, function(req
 
 router.post('/friends_requests/reject/:sender/:receiver', auth.jwtMW, function(req, res)
 {
+    var loggedInUser = jwt_decode(req.headers.authorization.split(' ')[1]).userid
+
     var sender = req.params.sender
     var receiver = req.params.receiver
-    FriendRequestManagement.deleteFriendRequest(sender, receiver, function(removedRequest)
+
+    if(loggedInUser === sender || loggedInUser == receiver)
     {
-        res.status(201).json({
-            success: true,
-            error: null,
+        FriendRequestManagement.deleteFriendRequest(sender, receiver, function(removedRequest)
+        {
+            res.status(201).json({
+                success: true,
+                error: null,
+            })
         })
-    })
+    } else
+    {
+        res.status(401).json({
+            success: false,
+            error: "Failed to reject freind request"
+        })
+    }
+
+
 });
 
 module.exports = router;
