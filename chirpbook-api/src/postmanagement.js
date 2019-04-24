@@ -277,16 +277,18 @@ class PostManagement
             {
                 client.query("BEGIN", function(err, res)
                 {
+                    let tagSet = [...new Set(tagArray)]
+                    let unqTags = Array.from(tagSet)
                     if(err)
                     {
                         log.error(err);
                     }
                     else
                     {
-                        for(var i = 0; i < tagArray.length; ++i)
+                        for(var i = 0; i < unqTags.length; ++i)
                         {
                             client.query(`INSERT INTO public."Tag" (postid, tag)
-                                            VALUES ($1, $2)`, [postid, tagArray[i]]);
+                                            VALUES ($1, $2)`, [postid, unqTags[i]]);
                         }
                     }
                     client.query("COMMIT");
