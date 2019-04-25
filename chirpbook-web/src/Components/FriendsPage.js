@@ -38,8 +38,6 @@ const styles = theme => ({
     user: {
         fontWeight: 'bold',
         marginRight: '.5rem',
-        paddingTop: '100px',
-
     },
 });
 
